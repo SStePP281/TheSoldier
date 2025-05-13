@@ -1,6 +1,7 @@
 #include "Resources.h"
 #include <thread>
 
+sf::Image Resources::gameIcon{};
 sf::Texture Resources::textures{};
 sf::Texture Resources::dialogBackground{};
 sf::Texture Resources::tradeBackground{};
@@ -53,6 +54,7 @@ void Resources::loadGun(std::string baseName, int index)
 void Resources::initResources()
 {
 	if (!textureImage.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
+	if (!gameIcon.loadFromFile("Texture/gameIcon.png")) throw "TextureLoadError!";
 	if (!dialogBackground.loadFromFile("Texture/dialogBackground.png")) throw "TextureLoadError!";
 	if (!tradeBackground.loadFromFile("Texture/tradeBackground.png")) throw "TextureLoadError!";
 	if (!menuBackground.loadFromFile("Texture/menuBackground.png")) throw "TextureLoadError!";

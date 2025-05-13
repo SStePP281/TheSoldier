@@ -8,17 +8,21 @@ enum class State{Editor, Game};
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game");
+	Resources::initResources();
+
+	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game"/*, sf::Style::Fullscreen*/);
+	window.setIcon(Resources::gameIcon.getSize().x, Resources::gameIcon.getSize().y, Resources::gameIcon.getPixelsPtr());
 	window.setFramerateLimit(60);
 	window.setMouseCursorVisible(false);
 
+#ifdef DEBUG
 	sf::RenderWindow editorWindow(sf::VideoMode(450,500), "Editor");
 	editorWindow.setPosition(sf::Vector2i(0, 0));
 	editorWindow.setActive(false);
 	editorWindow.setVisible(false);
+#endif // DEBUG
 
 	State state = State::Game;
-	Resources::initResources();
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("RESET_GAME", [&](const int NON) {
 		sfe::Movie movie;
@@ -30,6 +34,15 @@ int main()
 
 		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
 		{
+			sf::Event event;
+			while (window.pollEvent(event)) 
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					return;
+				}
+			}
 			window.clear();	
 			movie.update();
 			window.draw(movie);
@@ -49,6 +62,15 @@ int main()
 
 		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
 		{
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					return;
+				}
+			}
 			window.clear();
 			movie.update();
 			window.draw(movie);
@@ -61,8 +83,10 @@ int main()
 	std::unique_ptr<MapManager> mapManager = std::make_unique<MapManager>(&window);
 	mapManager->load();
 
+#ifdef DEBUG
 	std::unique_ptr<Editor> editor = std::make_unique<Editor>();
 	editor->init(&window, &editorWindow, mapManager.get());
+#endif // DEBUG
 
 	std::unique_ptr<Game> game = std::make_unique<Game>(&window, mapManager.get());
 
@@ -71,6 +95,7 @@ int main()
 
 	while (window.isOpen())
 	{
+#ifdef DEBUG
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -138,7 +163,22 @@ int main()
 			
 			editorWindow.display();
 		}
+#endif // DEBUG
+#ifndef DEBUG
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
 
+			game->getInput(event, deltaTime);
+		}
+
+		window.clear();
+		game->makeCycle(deltaTime);
+#endif // !DEBUG
 		window.display();
 		window.setTitle("SOLDIER " + std::to_string(1.0f / deltaTime));
 		deltaTime = gameClock.getElapsedTime().asSeconds();

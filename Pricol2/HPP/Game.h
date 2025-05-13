@@ -21,6 +21,8 @@
 #include "RenderState.h"
 #include "Menu.h"
 
+#define DEBUG
+
 class Game
 {
 public:

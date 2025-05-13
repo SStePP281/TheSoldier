@@ -138,13 +138,13 @@ void Game::getInput(sf::Event event, float deltaTime)
 		{
 			player->heal();
 		}
-
+#ifdef DEBUG
 		if (event.key.code == sf::Keyboard::P)
 		{
 			auto& event = EventSystem::getInstance();
 			event.trigger<int>("SWAPLOC", BASE_N);
 		}
-
+#endif // DEBUG
 		if (event.key.code == sf::Keyboard::Escape)
 		{
 			menu->initGameMenu();

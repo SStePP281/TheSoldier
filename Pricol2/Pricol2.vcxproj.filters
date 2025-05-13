@@ -161,6 +161,9 @@
     <ClInclude Include="HPP\Quest.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="HPP\resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\KeyData.txt">
@@ -172,5 +175,15 @@
     <Text Include="Data\КЛЮЧИ.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Texture\gameIcon.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Pricol2.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

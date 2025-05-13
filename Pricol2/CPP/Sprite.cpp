@@ -280,7 +280,6 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 Converter::Converter(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id) :
 	Enemy(spDef, spMap, enemyDef, id), cDef{ cDef }
 {
-	nowSpawnCount = (int)(cDef.maxSpawnCount * spMap.nowHealPoint / enemyDef.maxHealpoint);
 	textSize = texture->getSize().y / 2;
 	Animation<int> stay({ {0.0f, 0} });
 	Animation<int> attack({ {0.0f, 0}, {enemyDef.timeBettwenAtack, 0 }, {enemyDef.timeBettwenAtack, 0 } });
@@ -705,7 +704,7 @@ void TravelerNpc::init()
 		}
 		else
 		{
-			maxSize = std::max(levelN / 3, 4);
+			maxSize = std::min(levelN / 3, 4);
 		}
 
 		for (int i = 1; i < maxSize; i++)

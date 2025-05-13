@@ -12,25 +12,21 @@ constexpr int MIN_LEAF_SIZE = 10, MAX_LEAF_SIZE = 20;
 class Leaf
 {
 private:
-	bool chooseRoom(Leaf*, Leaf*);
 	std::vector<Leaf*> allChild;
 public:
 	sf::IntRect leafData;
 	bool isRoom;
-	bool isHorRez;
-	std::vector<sf::IntRect> halls;
 	Leaf* leftChild;
 	Leaf* rightChild;
-	
+
 	Leaf(sf::Vector2i, sf::Vector2i);
 	Leaf() = default;
 	~Leaf();
 
+	std::vector<Leaf*> getRoom();
 	bool split();
-	void creatRooms();
+	void findRoom();
 	std::vector<Leaf*> getAllChild();
-	Leaf* getRoom();
-	void createHall(sf::Vector2i point);
 };
 
 #endif // !LEAF

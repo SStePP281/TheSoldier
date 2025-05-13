@@ -267,7 +267,14 @@ void SpriteManager::update(float deltaTime)
 
 		if (enemy->spMap.nowHealPoint <= 0.0f)
 		{
-			killEnemy(enemy);
+			if (enemy->spDef.type == SpriteType::Boss)
+			{
+				enemy->changeState(Dead);
+			}
+			else
+			{
+				killEnemy(enemy);
+			}
 		}
 	}
 
@@ -360,9 +367,7 @@ void SpriteManager::spawnPortal(const sf::Vector2f& pos)
 
 void SpriteManager::killEnemy(Enemy* enem)
 {
-	SpriteType t = enem->spDef.type;
 	enem->changeState(Dead);
-	if (t == SpriteType::Boss) { return; }
 
 	int details = Random::intRandom((int)(enem->enemyDef.midleDrop * 0.8f), (int)(enem->enemyDef.midleDrop * 1.2f));
 	player->details += details;

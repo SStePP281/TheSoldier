@@ -183,6 +183,7 @@
     <ClInclude Include="HPP\Raycast.h" />
     <ClInclude Include="HPP\Renderer.h" />
     <ClInclude Include="HPP\RenderState.h" />
+    <ClInclude Include="HPP\resource.h" />
     <ClInclude Include="HPP\Resources.h" />
     <ClInclude Include="HPP\sfmlExtantion.h" />
     <ClInclude Include="HPP\SoundManager.h" />
@@ -195,6 +196,12 @@
     <Text Include="Data\KeyData.txt" />
     <Text Include="Data\TextData.txt" />
     <Text Include="Data\КЛЮЧИ.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Texture\gameIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Pricol2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -35,7 +35,6 @@ private:
 	sf::Vector2f endPos;
 
 	void generate();
-	void findStEnd(std::vector<Leaf*> leafs);
 	void writeRoom(sf::IntRect rect, int layer, int value);
 	void writeEnemy(std::vector<sf::IntRect> rooms);
 };

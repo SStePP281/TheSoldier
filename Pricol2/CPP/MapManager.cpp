@@ -232,9 +232,9 @@ void MapManager::generate()
 	while (didSplit)
 	{
 		didSplit = false;
-		for (size_t i = 0; i < tempLeaf.size(); i++)
+		for (int i = 0; i < tempLeaf.size(); i++)
 		{
-			if (tempLeaf[i]->leftChild == nullptr && tempLeaf[i]->rightChild == nullptr)
+			if (!tempLeaf[i]->leftChild && !tempLeaf[i]->rightChild)
 			{
 				if (tempLeaf[i]->leafData.width > MAX_LEAF_SIZE || tempLeaf[i]->leafData.height > MAX_LEAF_SIZE || Random::bitRandom() > 0.25)
 				{
@@ -249,27 +249,17 @@ void MapManager::generate()
 		}
 	}
 
-	root->creatRooms();
+	root->findRoom();
+	root->getAllChild();
 
-	std::vector<Leaf*> leafs;
 	std::vector<sf::IntRect> rooms;
-	std::vector<sf::IntRect> halls;
 
-	for (auto l : tempLeaf)
+	std::vector<std::pair<bool, sf::Vector2i>> middlePoint;
+	for (auto l : root->getRoom())
 	{
-		if (l->isRoom)
-		{
-			leafs.push_back(l);
-			rooms.push_back(l->leafData);
-		}
-
-		for (auto h : l->halls)
-		{
-			halls.push_back(h);
-		}
+		rooms.push_back(l->leafData);
+		middlePoint.push_back({ false, sf::Vector2i(l->leafData.left + l->leafData.width / 2, l->leafData.top + l->leafData.height / 2) });
 	}
-
-	findStEnd(leafs);
 
 	delete root;
 	delete nowMap;
@@ -277,19 +267,6 @@ void MapManager::generate()
 	nowMap = new Map();
 	nowMap->grid = std::vector(SPACE_SIZE_H, std::vector(SPACE_SIZE_W, std::array<int, LAYER_COUNT>()));
 	nowMap->blockMap = std::vector(SPACE_SIZE_H, std::vector(SPACE_SIZE_W, std::set<Sprite*>()));
-	
-	std::vector<sf::IntRect> enemyRooms = rooms;
-
-	for (size_t i = 0; i < enemyRooms.size(); i++)
-	{
-		if (enemyRooms[i].contains((sf::Vector2i)startPos))
-		{
-			enemyRooms.erase(enemyRooms.begin() + i);
-			break;
-		}
-	}
-
-	writeEnemy(enemyRooms);
 
 	for (auto rect : rooms)
 	{
@@ -297,10 +274,85 @@ void MapManager::generate()
 		{
 			writeRoom(rect, i.first, Random::intRandom(1, TEXTURE_COUNT) + TEXTURE_COUNT * i.second);
 		}
+		writeRoom(rect, WALL_LAYER, Random::intRandom(2, TEXTURE_COUNT));
 
 		sf::IntRect smalRect({ rect.left + 1, rect.top + 1 }, { rect.width - 2, rect.height - 2 });
-		writeRoom(rect, 1, Random::intRandom(2, TEXTURE_COUNT));
-		writeRoom(smalRect, 1, 0);
+		writeRoom(smalRect, WALL_LAYER, 0);
+	}
+
+	bool isAll = false;
+	int current = Random::intRandom(0, middlePoint.size() - 1);
+	startPos = (sf::Vector2f)middlePoint[current].second;
+	middlePoint[current].first = true;
+	while (!isAll)
+	{
+		float minDist = INFINITY;
+		int minRoom = -1;
+
+		for (int i = 0; i < middlePoint.size(); i++)
+		{
+			if (!middlePoint[i].first)
+			{
+				float dist = GETDIST(middlePoint[i].second, middlePoint[current].second);
+
+				if (minDist > dist)
+				{
+					minDist = dist;
+					minRoom = i;
+				}
+			}
+		}
+
+		sf::Vector2i dir = middlePoint[current].second - middlePoint[minRoom].second;
+		float angle = atan2(-dir.y, dir.x) * 180 / PI;
+		angle = fmod(angle, 360.0f);
+		if (angle < 0) angle += 360.0f;
+
+		sf::IntRect rect = rooms[minRoom];
+		if ((angle >= 315.0f && angle < 360.0f) ||
+			(angle >= 0.0f && angle < 45.0f))
+		{
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 1][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width][WALL_LAYER] = 1;
+		}
+		else if (angle >= 45.0f && angle < 135.0f)
+		{
+			nowMap->grid[rect.top][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top][rect.left + rect.width / 2][WALL_LAYER] = 1;
+			nowMap->grid[rect.top - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
+		}
+		else if (angle >= 135.0f && angle < 225.0f)
+		{
+			nowMap->grid[rect.top + rect.height / 2][rect.left][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left][WALL_LAYER] = 1;
+			nowMap->grid[rect.top + rect.height / 2][rect.left - 1][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left - 2][WALL_LAYER] = 0;
+		}
+		else
+		{
+			nowMap->grid[rect.top + rect.height - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height][rect.left + rect.width / 2][WALL_LAYER] = 1;
+		}
+
+		current = minRoom;
+		middlePoint[current].first = true;
+
+		isAll = true;
+		for (auto pair : middlePoint)
+		{
+			if (!pair.first)
+			{
+				isAll = false;
+				break;
+			}
+		}
+
+		endPos = (sf::Vector2f)middlePoint[current].second;
 	}
 
 	for (size_t y = 0; y < nowMap->grid.size(); y++)
@@ -311,54 +363,23 @@ void MapManager::generate()
 			{
 				if (Random::bitRandom() > 0.9f)
 				{
-					nowMap->grid[y][x][1] = Random::intRandom(1, TEXTURE_COUNT) + TEXTURE_COUNT * 3;
+					nowMap->grid[y][x][WALL_LAYER] = Random::intRandom(1, TEXTURE_COUNT) + TEXTURE_COUNT * 3;
 				}
 			}
 		}
 	}
 
-	for (auto h : halls)
+	std::vector<sf::IntRect> enemyRooms = rooms;
+	for (size_t i = 0; i < enemyRooms.size(); i++)
 	{
-		writeRoom(h, 1, 0);
-		if (h.width > h.height)
+		if (enemyRooms[i].contains((sf::Vector2i)startPos))
 		{
-			nowMap->grid[h.top][h.left + 1][1] = 1;
-		}
-		else
-		{
-			nowMap->grid[h.top + 1][h.left][1] = 1;
+			enemyRooms.erase(enemyRooms.begin() + i);
+			break;
 		}
 	}
-}
 
-void MapManager::findStEnd(std::vector<Leaf*> leafs)
-{
-	std::vector<sf::Vector2f> midPoint;
-	for (auto l : leafs)
-	{
-		auto p = l->leafData;
-		midPoint.push_back({ p.left + p.width / 2.0f,
-							p.top + p.height / 2.0f });
-	}
-
-	auto getDist = [](sf::Vector2f p1, sf::Vector2f p2)
-		{ return (float)(pow(p1.x - p2.x, 2.0f) + pow(p1.y - p2.y, 2.0f)); };
-
-	float maxDist = 0;
-	std::pair<sf::Vector2f, sf::Vector2f> result;
-	for (size_t i = 0; i < midPoint.size(); i++)
-	{
-		for (size_t j = i + 1; j < midPoint.size(); j++)
-		{
-			auto dist = getDist(midPoint[i], midPoint[j]);
-			if (maxDist < dist)
-			{
-				maxDist = dist;
-				startPos = midPoint[i];
-				endPos = midPoint[j];
-			}
-		}
-	}
+	writeEnemy(enemyRooms);
 }
 
 void MapManager::writeRoom(sf::IntRect rect, int layer, int value)

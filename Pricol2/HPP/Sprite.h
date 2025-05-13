@@ -301,7 +301,7 @@ static std::vector<EnemyDef> enemyDefs = {
 };
 
 static std::vector<ConverterDef> converterDefs = {
-	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, 5},
+	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, 40},
 	{{1, 2, 3, 4, 5}, 10},
 	{{5, 6, 7, 8, 9}, 20},
 	{{8, 9, 10, 11, 12}, 30}
