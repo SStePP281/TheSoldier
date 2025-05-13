@@ -35,8 +35,8 @@ private:
 	sf::Vector2f endPos;
 
 	void generate();
-	void writeRoom(sf::IntRect rect, int layer, int value);
-	void writeEnemy(std::vector<sf::IntRect> rooms);
+	void writeRoom(sf::IntRect& rect, int layer, int value);
+	void writeEnemy(std::vector<sf::IntRect>& rooms);
 };
 
 static std::vector<std::string> mapFileNames{

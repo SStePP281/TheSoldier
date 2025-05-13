@@ -21,7 +21,7 @@
 #include "RenderState.h"
 #include "Menu.h"
 
-#define DEBUG
+//#define DEBUG
 
 class Game
 {
@@ -29,7 +29,7 @@ public:
 public:
 	Game(sf::RenderWindow* window, MapManager* mapManager);
 	~Game();
-	void getInput(sf::Event event, float deltaTime);
+	void getInput(sf::Event& event, float deltaTime);
 	void makeCycle(float deltaTime);
 	void save();
 	void editor(); //Удалить после конца

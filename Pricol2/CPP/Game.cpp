@@ -25,7 +25,7 @@ Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
 		renderer->Draw3DView(player, mapManager->getNowMap(), spManager->getDeteachSprite());
 		uiManager->drawPlayerUI(player);
 		};
-	playState = RenderState(update, draw);
+	playState = RenderState(std::move(update), std::move(draw));
 
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("SWAPLOC", [=](const int levelN) {
@@ -125,7 +125,7 @@ void Game::save()
 	event.trigger<int>("SAVE", 0);
 }
 
-void Game::getInput(sf::Event event, float deltaTime)
+void Game::getInput(sf::Event& event, float deltaTime)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
@@ -191,12 +191,11 @@ void Game::getInput(float deltaTime)
 		player->fire(0);
 	}
 
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+	sf::Vector2f mousePos = ((sf::Vector2f)sf::Mouse::getPosition(*window) - (sf::Vector2f)screenMidlePos) / 2.0f;
 	
 	player->checkBoost(lShiftPressed, deltaTime);
 	player->move(deltaPos, deltaTime);
-	player->updateMouseData({ (mousePos.x - screenMidlePos.x) / 2.0f, 
-							  (mousePos.y - screenMidlePos.y) / 2.0f }, deltaTime);
+	player->updateMouseData( mousePos, deltaTime);
 	sf::Mouse::setPosition(screenMidlePos, *window);
 }
 

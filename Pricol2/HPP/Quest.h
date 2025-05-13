@@ -22,7 +22,7 @@ struct QuestData
 class Quest 
 {
 public:
-    Quest(QuestData data);
+    Quest(QuestData& data);
 
     ~Quest() = default;
 
@@ -48,7 +48,7 @@ public:
 
     void deleteAllQuest();
 
-    void addQuest(QuestData data);
+    void addQuest(QuestData& data);
 
     void updateQuests(QuestType type, int value);
 

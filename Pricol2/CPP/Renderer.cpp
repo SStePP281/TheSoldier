@@ -40,7 +40,7 @@ ThreadPool::~ThreadPool()
 	}
 }
 
-void ThreadPool::addTask(std::function<void()> task)
+void ThreadPool::addTask(std::function<void()>&& task)
 {
 	{
 		std::unique_lock<std::mutex> lock(queueMutex);

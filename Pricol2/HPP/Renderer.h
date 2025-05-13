@@ -22,7 +22,7 @@ class ThreadPool
 public:
 	ThreadPool(int threadCount);
 	~ThreadPool();
-	void addTask(std::function<void()> task);
+	void addTask(std::function<void()>&& task);
 	void waitAll();
 	int getThreadCount();
 private:

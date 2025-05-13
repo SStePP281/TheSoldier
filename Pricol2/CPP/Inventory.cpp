@@ -19,7 +19,8 @@ Inventory::Inventory(sf::RenderWindow* _window, Player* _player, UIManager* _uiM
 	event.subscribe<int>("SAVE", [=](const int NON)
 		{
 			auto& data = Data::getInstance();
-			data.saveInvent(convert2save());
+			auto save = convert2save();
+			data.saveInvent(save);
 		});
 
 	event.subscribe<int>("RESET_GAME", [=](const int NON) { items.clear(); });

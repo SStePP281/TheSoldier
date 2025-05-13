@@ -8,8 +8,8 @@ class RenderState
 {
 public:
 	RenderState() = default;
-	RenderState(std::function<void(float deltaTime)> _updateFunc,
-		std::function<void()> _drawFunc) : 
+	RenderState(std::function<void(float deltaTime)>&& _updateFunc,
+		std::function<void()>&& _drawFunc) : 
 		updateFunc{ _updateFunc }, drawFunc{ _drawFunc } {}
 	~RenderState() = default;
 

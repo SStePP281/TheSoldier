@@ -39,19 +39,19 @@ public:
 	}
 
 	GameStateData getGameState();
-	void saveGameState(GameStateData data);
+	void saveGameState(GameStateData& data);
 
 	PlayerDef getPlayerData();
 	void savePlayerData(Player* player);
 
 	std::vector<GunData> getGunData();
-	void saveGunData(std::vector<GunData> guns);
+	void saveGunData(std::vector<GunData>& guns);
 
 	std::vector<std::pair<int, int>> getInvent();
-	void saveInvent(std::vector<std::pair<int, int>> inv);
+	void saveInvent(std::vector<std::pair<int, int>>& inv);
 
 	std::vector<QuestData> getQuest();
-	void saveQuest(std::vector<QuestData> quests);
+	void saveQuest(std::vector<QuestData>& quests);
 
 	std::vector<int> getKeys(int key);
 	std::pair<std::wstring, int> getText(int key);

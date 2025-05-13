@@ -221,12 +221,14 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 	sf::Vector2f thisSize{ spDef.size / 2.0f, spDef.size / 2.0f };
 	sf::Vector2f thisStart = newPos - thisSize;
 	sf::Vector2f thisEnd = newPos + thisSize;
+	sf::Vector2i pos(newPos);
 
 	if (xAxis) {
 		if (map->GetOnGrid((int)newPos.x, (int)newPos.y, WALL_LAYER)) { return true; }
 
-		auto curSp = map->getBlockMap((sf::Vector2i)newPos);
-		for (auto sp : curSp) {
+		auto curSp = map->getBlockMap(pos);
+		for (auto sp : curSp) 
+		{
 			if (sp->spDef.size == 0.f || sp == this) continue;
 
 			sf::Vector2f spriteSize = { sp->spDef.size / 2.f, sp->spDef.size / 2.f };
@@ -242,21 +244,20 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 			float exit = std::fmax(t1, t2);
 
 			bool yIntersect = exit > entry && exit > 0.f && entry < 1.f;
-			if (px >= spriteStart.x && px <= spriteEnd.x && yIntersect) {
-				return true;
-			}
+			if (px >= spriteStart.x && px <= spriteEnd.x && yIntersect) { return true; }
 		}
 	}
 	else {
 		if (map->GetOnGrid((int)newPos.x, (int)newPos.y, WALL_LAYER)) { return true; }
 
-		const auto& set = map->getBlockMap({ (int)newPos.x, (int)newPos.y });
-		for (const auto& thing : set) {
-			if (thing->spDef.size == 0.f || thing == this) { continue; }
+		auto curSp = map->getBlockMap(pos);
+		for (auto sp : curSp) 
+		{
+			if (sp->spDef.size == 0.f || sp == this) continue;
 
-			sf::Vector2f halfSize = { thing->spDef.size / 2.f, thing->spDef.size / 2.f };
-			sf::Vector2f thingStart = thing->spMap.position - halfSize;
-			sf::Vector2f thingEnd = thing->spMap.position + halfSize;
+			sf::Vector2f halfSize = { sp->spDef.size / 2.f, sp->spDef.size / 2.f };
+			sf::Vector2f thingStart = sp->spMap.position - halfSize;
+			sf::Vector2f thingEnd = sp->spMap.position + halfSize;
 
 			float py = newPos.y;
 			float px0 = thisStart.x, px1 = thisEnd.x, magnitude = px1 - px0;
@@ -267,9 +268,7 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 			float exit = std::fmax(t1, t2);
 
 			bool xIntersect = exit > entry && exit > 0.f && entry < 1.f;
-			if (py >= thingStart.y && py <= thingEnd.y && xIntersect) {
-				return true;
-			}
+			if (py >= thingStart.y && py <= thingEnd.y && xIntersect) { return true; }
 		}
 
 	}

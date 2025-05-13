@@ -30,15 +30,15 @@ public:
 	void SetNewOnGrid(int x, int y, int layerNumber, int value);
 	int GetOnGrid(int x, int y, int layerNumber);
 
-	bool isCellEmpty(sf::Vector2i pos);
+	bool isCellEmpty(sf::Vector2i& pos);
 	void setupBlockmap(Sprite* sp);
 	void deleteInBlockMap(Sprite* sp);
-	std::set<Sprite*> getBlockMap(sf::Vector2i pos);
+	std::set<Sprite*> getBlockMap(sf::Vector2i& pos);
 
-	void rotateSprite(sf::Vector2i pos, float angle);
+	void rotateSprite(sf::Vector2i& pos, float angle);
 
-	void setMapSprite(MapSprite sp);
-	void deleteMapSprite(sf::Vector2i pos);
+	void setMapSprite(MapSprite& sp);
+	void deleteMapSprite(sf::Vector2i& pos);
 	std::vector<MapSprite>& getMapSprites();
 
 	std::vector<std::vector<std::array<int, LAYER_COUNT>>> grid;

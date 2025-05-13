@@ -81,7 +81,7 @@ std::vector<std::pair<int, int>> Data::getInvent()
 	return inv;
 }
 
-void Data::saveInvent(std::vector<std::pair<int, int>> inv)
+void Data::saveInvent(std::vector<std::pair<int, int>>& inv)
 {
 	std::ofstream out{ "Data/inventory.inv", std::ios::out | std::ios::binary };
 	if (!out.is_open()) return;
@@ -119,7 +119,7 @@ std::vector<QuestData> Data::getQuest()
 	return quests;
 }
 
-void Data::saveQuest(std::vector<QuestData> quests)
+void Data::saveQuest(std::vector<QuestData>& quests)
 {
 	std::ofstream out{ "Data/Quest.qst", std::ios::out | std::ios::binary };
 	if (!out.is_open()) return;
@@ -177,7 +177,7 @@ GameStateData Data::getGameState()
 	return data;
 }
 
-void Data::saveGameState(GameStateData data)
+void Data::saveGameState(GameStateData& data)
 {
 	std::ofstream out{ "Data/gameState.state", std::ios::out | std::ios::binary };
 	if (!out.is_open()) return;
@@ -282,7 +282,7 @@ std::vector<GunData> Data::getGunData()
 	return defs;
 }
 
-void Data::saveGunData(std::vector<GunData> guns)
+void Data::saveGunData(std::vector<GunData>& guns)
 {
 	std::ofstream out{ "Data/gunData.gun", std::ios::out | std::ios::binary };
 	if (!out.is_open()) return;

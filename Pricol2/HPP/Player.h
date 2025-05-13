@@ -36,12 +36,12 @@ struct PlayerDef
 class Player
 {
 public:
-	Player(Enemy* sprite, PlayerDef def, Map* _nowMap);
+	Player(Enemy* sprite, PlayerDef& def, Map* _nowMap);
 	~Player();
 	void setInventory(Inventory* invent);
-	void updateMouseData(sf::Vector2f mousePos, float deltaTime);
+	void updateMouseData(sf::Vector2f& mousePos, float deltaTime);
 	void checkBoost(bool isPressed, float deltaTime);
-	void move(sf::Vector2f deltaPos, float deltaTime);
+	void move(sf::Vector2f& deltaPos, float deltaTime);
 	void jump();
 	Sprite* dialog();
 	void takeDamage(float damage);

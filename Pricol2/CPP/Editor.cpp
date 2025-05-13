@@ -58,7 +58,7 @@ void Editor::createSpriteButton()
 	}
 }
 
-void Editor::takeEditInput(sf::Event event)
+void Editor::takeEditInput(sf::Event& event)
 {
 	if (!editorWindow->hasFocus()) return;
 
@@ -78,7 +78,7 @@ void Editor::takeEditInput(sf::Event event)
 	editorWindow->setView(editorView);
 }
 
-void Editor::takeWindowInput(sf::Event event)
+void Editor::takeWindowInput(sf::Event& event)
 {
 	if (!window->hasFocus()) return;
 
@@ -193,7 +193,8 @@ void Editor::windowStateLeftClick()
 						nowHp = enemyDefs[nowSpriteDef.texture + 1].maxHealpoint;
 					}
 
-					mapManager->getNowMap()->setMapSprite({ nowSpriteDef.texture + 1, { mapPos.x + 0.5f, mapPos.y + 0.5f }, -90.0f, nowHp });
+					MapSprite spMap = { nowSpriteDef.texture + 1, { mapPos.x + 0.5f, mapPos.y + 0.5f }, -90.0f, nowHp };
+					mapManager->getNowMap()->setMapSprite(spMap);
 				}
 			}
 		}
@@ -222,7 +223,7 @@ void Editor::drawEditor()
 	}
 }
 
-sf::Vector2i Editor::getMapPos(sf::Vector2f worldPos)
+sf::Vector2i Editor::getMapPos(sf::Vector2f& worldPos)
 {
 	return sf::Vector2i((int)floor(worldPos.x - 0.1f) / TEXTURE_SIZE,
 						(int)floor(worldPos.y - 0.1f) / TEXTURE_SIZE);

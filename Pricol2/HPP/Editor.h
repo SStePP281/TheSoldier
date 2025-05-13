@@ -18,8 +18,8 @@ class Editor
 public:
 	Editor() = default;
 	void init(sf::RenderWindow* window, sf::RenderWindow* editorWindow, MapManager* mapMn);
-	void takeWindowInput(sf::Event event);
-	void takeEditInput(sf::Event event);
+	void takeWindowInput(sf::Event& event);
+	void takeEditInput(sf::Event& event);
 	void drawEditor();
 
 	int drawerLayer();
@@ -43,7 +43,7 @@ private:
 	void windowStateNoRightClick();
 	void windowStateLeftClick();
 	void editorWindowStateLeftClick();
-	sf::Vector2i getMapPos(sf::Vector2f worldPos);
+	sf::Vector2i getMapPos(sf::Vector2f& worldPos);
 };
 
 #endif // !EDITOR

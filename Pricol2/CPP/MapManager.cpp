@@ -382,7 +382,7 @@ void MapManager::generate()
 	writeEnemy(enemyRooms);
 }
 
-void MapManager::writeRoom(sf::IntRect rect, int layer, int value)
+void MapManager::writeRoom(sf::IntRect& rect, int layer, int value)
 {
 	for (size_t y = rect.top; y < rect.top + rect.height; y++)
 	{
@@ -393,7 +393,7 @@ void MapManager::writeRoom(sf::IntRect rect, int layer, int value)
 	}
 }
 
-void MapManager::writeEnemy(std::vector<sf::IntRect> rooms)
+void MapManager::writeEnemy(std::vector<sf::IntRect>& rooms)
 {
 	auto& state = GameState::getInstance();
 	int midleRoomCount = std::min(ENEMY_LEVEL_COUNT, (state.data.levelNumber + 1) * 7) / (float)rooms.size();
@@ -414,11 +414,13 @@ void MapManager::writeEnemy(std::vector<sf::IntRect> rooms)
 		{
 			auto index = Random::intRandom(minEnemy, maxEnemy);
 			auto def = spriteDefs[index];
-			nowMap->setMapSprite({ def.texture + 1, (sf::Vector2f)p, (float)Random::intRandom(0,180), enemyDefs[index].maxHealpoint });
+			MapSprite spMap = { def.texture + 1, (sf::Vector2f)p, (float)Random::intRandom(0,180), enemyDefs[index].maxHealpoint };
+			nowMap->setMapSprite(spMap);
 		}
 	}
 
-	nowMap->setMapSprite({ PORTAL_INDEX, endPos, 0.0f, 100.0f });
+	MapSprite spMap = { PORTAL_INDEX, endPos, 0.0f, 100.0f };
+	nowMap->setMapSprite(spMap);
 }
 
 Map* MapManager::getNowMap() { return nowMap; }
