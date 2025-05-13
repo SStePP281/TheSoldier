@@ -55,7 +55,6 @@ public:
 	void heal();
 
 	Gun* getNowGun();
-	sf::Vector2f getDeltaShake();
 	PlayerDef getPlayerDef();
 	void setNemMap(Map* map);
 
@@ -69,11 +68,11 @@ public:
 	int details;
 	Item* nowHeal;
 	Gun* guns[3]{};
+	sf::Vector2f shakeDelta;
 private:
 	Inventory* invent;
 	bool isJump, jumpFlag;
 	Map* nowMap;
-	sf::Vector2f shakeDelta;
 	int nowGun;
 	float nowSpeed, boostSpeed, shakeTime;
 

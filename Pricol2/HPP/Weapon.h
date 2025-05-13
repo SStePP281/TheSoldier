@@ -81,7 +81,7 @@ struct ItemsDef
 class Itemble
 {
 public:
-	Itemble(std::wstring name, std::wstring disc, int cost, int textureId);
+	Itemble(std::wstring& name, std::wstring& disc, int cost, int textureId);
 	virtual ~Itemble() = default;
 	std::wstring name;
 	std::wstring disc;
@@ -92,9 +92,9 @@ public:
 class Item : public Itemble
 {
 public:
-	Item(ItemsDef def);
+	Item(ItemsDef& def);
 	Item() = default;
-	void setFunc(std::function<void(Player* player)> _useFunc);
+	void setFunc(std::function<void(Player* player)>&& _useFunc);
 	void useItem(Player* sprite);
 	ItemType type;
 	int maxUsing;
@@ -104,10 +104,10 @@ public:
 class Improve : public Itemble
 {
 public:
-	Improve(ImproveDef def);
+	Improve(ImproveDef& def);
 	Improve() = default;
-	void setGetFunc(std::function<void(Gun* gun)> setEffect);
-	void setDelFunc(std::function<void(Gun* gun)> delEffect);
+	void setGetFunc(std::function<void(Gun* gun)>&& setEffect);
+	void setDelFunc(std::function<void(Gun* gun)>&& delEffect);
 	ImproveType type;
 	std::function<void(Gun* gun)> getImprove;
 	std::function<void(Gun* gun)> deleteImprove;
@@ -120,7 +120,7 @@ public:
 	Weapon() = default;
 	virtual ~Weapon() = default;
 	virtual void update(float dt);
-	virtual void drawWeapon(sf::RenderTarget* window, sf::Vector2f delta);
+	virtual void drawWeapon(sf::RenderTarget* window, sf::Vector2f& delta);
 	virtual bool isCanUsed();
 	virtual void setAnimator(Animator<sf::Texture*>&& anim);
 
@@ -136,7 +136,7 @@ protected:
 class Gun : public Weapon, public Itemble
 {
 public:
-	Gun(GunDef def, bool isReset, int dunId);
+	Gun(GunDef& def, bool isReset, int dunId);
 	Gun() = default;
 
 	Improve* trySetImprove(Improve* improve);

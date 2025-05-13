@@ -114,7 +114,8 @@ void Game::initPlayer()
 
 void Game::editor()
 {
-	spManager->resetMap(mapManager->getNowMap(), {0.0f, 0.0f});
+	sf::Vector2f plPos{};
+	spManager->resetMap(mapManager->getNowMap(), plPos);
 }
 
 void Game::save()

@@ -16,25 +16,25 @@ public:
 	SpriteManager(Map* _nowMap, UIManager* uiManager, ItemManager* _itemManager);
 	~SpriteManager();
 	void update(float deltaTime);
-	void resetMap(Map* newMap, sf::Vector2f playerPos);
+	void resetMap(Map* newMap, sf::Vector2f& playerPos);
 	void resetOldPlayer();
 	Player* getPlayer();
 	Npc* getNpc(int id);
 	std::vector<std::shared_ptr<Sprite>>* getDeteachSprite();
 private:
 	void init();
-	void createSpriteFromMapSprite(MapSprite mapSprite);
-	void createBoss(MapSprite spMap, SpriteDef spDef);
-	void spawnPortal(sf::Vector2f pos);
-	void createConverter(MapSprite mapSprite, SpriteDef def);
-	void createEnemy(MapSprite mapSprite, SpriteDef def);
-	void createNpc(MapSprite mapSprite, SpriteDef);
-	void createPlayer(MapSprite mapSprite, SpriteDef def, PlayerDef plDef);
-	void createDefaultPlayer(PlayerDef plDef);
+	void createSpriteFromMapSprite(MapSprite& mapSprite);
+	void createBoss(MapSprite& spMap, SpriteDef& spDef);
+	void spawnPortal(const sf::Vector2f& pos);
+	void createConverter(MapSprite& mapSprite, SpriteDef& def);
+	void createEnemy(MapSprite& mapSprite, SpriteDef& def);
+	void createNpc(MapSprite& mapSprite, SpriteDef&);
+	void createPlayer(MapSprite& mapSprite, SpriteDef& def, PlayerDef& plDef);
+	void createDefaultPlayer(PlayerDef& plDef);
 	void aiControler(float deltaTime);
 	void killEnemy(Enemy* enem);
 	bool isEnemyHit(Enemy* enemy, float distance);
-	void spawnEnemy(std::pair<int, sf::Vector2i> pair);
+	void spawnEnemy(const std::pair<int, sf::Vector2i>& pair);
 
 	int id;
 	UIManager* uiManager;

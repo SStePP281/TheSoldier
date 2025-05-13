@@ -57,8 +57,8 @@ std::wstring UIManager::toMax(std::wstring str, float maxW, float textSize)
 	return result;
 }
 
-void UIManager::initDialog(std::map<int, std::wstring, std::greater<int>> variants,
-	std::wstring npcName)
+void UIManager::initDialog(std::map<int, std::wstring, std::greater<int>>& variants,
+	std::wstring& npcName)
 {
 	background = sf::Sprite(Resources::dialogBackground);
 	background.setScale({ (float)SCREEN_W / Resources::dialogBackground.getSize().x,
@@ -377,7 +377,7 @@ void UIManager::initQuest(Quest* quest, Player* player)
 	buttons.push_back(button);
 }
 
-void UIManager::initTrade(std::map<int, Itemble*> variants, Player* player)
+void UIManager::initTrade(std::map<int, Itemble*>& variants, Player* player)
 {
 	background = sf::Sprite(Resources::tradeBackground);
 	background.setScale({ (float)SCREEN_W / Resources::tradeBackground.getSize().x,
@@ -591,7 +591,7 @@ void UIManager::initChanger(int coef, Player* player)
 	buttons.push_back(button);
 }
 
-void UIManager::initInvent(std::map<Itemble*, int> items, Itemble* choose, Player* player)
+void UIManager::initInvent(std::map<Itemble*, int>& items, Itemble* choose, Player* player)
 {
 	background = sf::Sprite(Resources::inventoryBackground);
 	background.setScale({ (float)SCREEN_W / Resources::inventoryBackground.getSize().x,
@@ -741,6 +741,7 @@ void UIManager::initInvent(std::map<Itemble*, int> items, Itemble* choose, Playe
 
 			oss << choose->disc;
 		}
+
 		dataGroup1.setString(splitText(oss.str(), (int)dataGroup1.getSize().x, dataGroup1.text.getCharacterSize()));
 		buttons.push_back(dataGroup1);
 	}
@@ -786,12 +787,13 @@ void UIManager::drawPlayerUI(Player* player)
 
 	if (!player->kick->isCanUsed())
 	{
-		player->kick->drawWeapon(window, { 0.0f, 0.0f });
+		sf::Vector2f deltaPos{};
+		player->kick->drawWeapon(window, deltaPos);
 	}
 	else
 	{
 		auto gun = player->getNowGun();
-		gun->drawWeapon(window, player->getDeltaShake());
+		gun->drawWeapon(window, player->shakeDelta);
 
 		if (gun->isReset)
 		{

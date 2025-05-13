@@ -85,7 +85,7 @@ struct TraderDef
 class Sprite
 {
 public:
-	Sprite(SpriteDef spDef, MapSprite spMap, int _id);
+	Sprite(SpriteDef& spDef, MapSprite& spMap, int _id);
 	Sprite() = default;
 	virtual ~Sprite() = default;
 	virtual std::pair<int, bool> getTextIndex();
@@ -101,16 +101,16 @@ public:
 class Enemy : public Sprite
 {
 public:
-	Enemy(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, int id);
+	Enemy(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, int id);
 	virtual ~Enemy() = default;
 	virtual std::pair<int, bool> getTextIndex() override;
 	virtual void death();
 	virtual void attack(Player* player);
 	void update(float deltaTime);
-	void move(Map* map, sf::Vector2f move);
+	void move(Map* map, sf::Vector2f& move);
 	virtual void takeDamage(float damage);
 	virtual EnemyState determineNewState(float dist);
-	virtual void enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime);
+	virtual void enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime);
 	virtual bool canChangeState();
 	virtual void changeState(EnemyState newState);
 
@@ -125,19 +125,19 @@ protected:
 
 	void updateTimeSinceLastAttack(float deltaTime);
 	void updateTimeSinceDamaged(float deltaTime);
-	bool checkCollision(Map* map, sf::Vector2f newPos, bool xAxis);
+	bool checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis);
 };
 
 class Converter : public Enemy
 {
 public:
-	Converter(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, ConverterDef cDef, int id);
+	Converter(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id);
 	void takeDamage(float damege) override;
 	void death() override;
 	void attack(Player* plaer) override;
 	void changeState(EnemyState newState) override;
 	bool canChangeState() override;
-	void enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime) override;
+	void enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime) override;
 	EnemyState determineNewState(float dist) override;
 
 	ConverterDef cDef;
@@ -148,11 +148,11 @@ private:
 class Boss : public Enemy
 {
 public:
-	Boss(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, ConverterDef cDef, int id);
+	Boss(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id);
 	void death() override;
 	void attack(Player* plaer) override;
 	void changeState(EnemyState newState) override;
-	void enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime) override;
+	void enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime) override;
 	EnemyState determineNewState(float dist) override;
 
 	ConverterDef cDef;
@@ -163,10 +163,10 @@ private:
 class Npc : public Sprite
 {
 public:
-	Npc(SpriteDef spDef, MapSprite spMap, UIManager* uiManager, Player* player, NpcDef npcDef, int _id);
+	Npc(SpriteDef& spDef, MapSprite& spMap, UIManager* uiManager, Player* player, NpcDef& npcDef, int _id);
 	Npc() = default;
 	virtual ~Npc() = default;
-	void setEndFunc(std::function<void()> _endFunc);
+	void setEndFunc(std::function<void()>&& _endFunc);
 	virtual void init();
 	virtual void stop();
 	virtual void use();
@@ -184,7 +184,7 @@ protected:
 class FuncNpc : public Npc
 {
 public:
-	FuncNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, ItemManager* itemManager, 
+	FuncNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, ItemManager* itemManager, 
 		UIManager* uiManager, Player* player, int id);
 
 	virtual void init() override = 0;
@@ -202,7 +202,7 @@ protected:
 class TradeNpc : public FuncNpc
 {
 public:
-	TradeNpc(SpriteDef spDef, MapSprite spMap, TraderDef tradeDef,
+	TradeNpc(SpriteDef& spDef, MapSprite& spMap, TraderDef& tradeDef, NpcDef& npcDef,
 		ItemManager* itemManager, UIManager* uiManager, Player* player, int _id);
 	void init() override;
 	void use() override;
@@ -214,7 +214,7 @@ private:
 class TravelerNpc : public FuncNpc
 {
 public:
-	TravelerNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, 
+	TravelerNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, 
 		UIManager* uiManager, ItemManager* itemManager, Player* player, int _id);
 	void init() override;
 	void use() override;
@@ -223,7 +223,7 @@ public:
 class ChangerNpc : public FuncNpc
 {
 public:
-	ChangerNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, UIManager* uiManager, 
+	ChangerNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, UIManager* uiManager, 
 		ItemManager* itemManager, Player* player, int _id);
 	void init() override;
 	void use() override;
@@ -234,7 +234,7 @@ private:
 class PortalNpc : public FuncNpc
 {
 public:
-	PortalNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, UIManager* uiManager,
+	PortalNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, UIManager* uiManager,
 		ItemManager* itemManager, Player* player, int _id);
 	void init() override;
 	void use() override;
@@ -243,7 +243,7 @@ public:
 class MechanicNpc : public FuncNpc
 {
 public:
-	MechanicNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, UIManager* uiManager,
+	MechanicNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, UIManager* uiManager,
 		ItemManager* itemManager, Player* player, int _id);
 	void init() override;
 	void use() override;
@@ -257,7 +257,7 @@ private:
 class QuestNpc : public FuncNpc
 {
 public:
-	QuestNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, UIManager* uiManager,
+	QuestNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, UIManager* uiManager,
 		ItemManager* itemManager, Player* player, int _id);
 	void init() override;
 	void use() override;

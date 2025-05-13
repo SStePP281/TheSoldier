@@ -12,7 +12,7 @@ SpriteManager::SpriteManager(Map* _nowMap, UIManager* _uiManager, ItemManager* _
 	auto& event = EventSystem::getInstance();
 	event.subscribe<std::pair<int, sf::Vector2i>>("SPAWN_ENEMY", [=](const std::pair<int, sf::Vector2i> pair) { spawnEnemy(pair); });
 
-	event.subscribe<sf::Vector2f>("SPAWN_PORTAL", [=](const sf::Vector2f pos) {spawnPortal(pos);});
+	event.subscribe<sf::Vector2f>("SPAWN_PORTAL", [&](const sf::Vector2f pos) {spawnPortal(pos);});
 }
 
 void SpriteManager::init()
@@ -63,7 +63,7 @@ void SpriteManager::init()
 	}
 }
 
-void SpriteManager::createSpriteFromMapSprite(MapSprite mapSprite)
+void SpriteManager::createSpriteFromMapSprite(MapSprite& mapSprite)
 {
 	auto def = spriteDefs[mapSprite.spriteDefId];
 	if (def.type == SpriteType::Enemy)
@@ -86,7 +86,7 @@ void SpriteManager::createSpriteFromMapSprite(MapSprite mapSprite)
 	id++;
 }
 
-void SpriteManager::createBoss(MapSprite spMap, SpriteDef spDef)
+void SpriteManager::createBoss(MapSprite& spMap, SpriteDef& spDef)
 {
 	auto enemy = enemyDefs[spMap.spriteDefId];
 	auto cDef = converterDefs[spDef.texture - ENEMY_MAX_INDEX];
@@ -105,7 +105,7 @@ void SpriteManager::createBoss(MapSprite spMap, SpriteDef spDef)
 	allSprites->push_back(std::move(boss));
 }
 
-void SpriteManager::createConverter(MapSprite mapSprite, SpriteDef def)
+void SpriteManager::createConverter(MapSprite& mapSprite, SpriteDef& def)
 {
 	auto cDef = converterDefs[def.texture - ENEMY_MAX_INDEX];
 	auto converter = std::make_shared<Converter>(Converter(def, mapSprite, enemyDefs[mapSprite.spriteDefId], cDef, id));
@@ -118,7 +118,7 @@ void SpriteManager::createConverter(MapSprite mapSprite, SpriteDef def)
 	allSprites->push_back(std::move(converter));
 }
 
-void SpriteManager::createEnemy(MapSprite mapSprite, SpriteDef def)
+void SpriteManager::createEnemy(MapSprite& mapSprite, SpriteDef& def)
 {
 	auto enemy = std::make_shared<Enemy>(def, mapSprite, enemyDefs[mapSprite.spriteDefId], id);
 	
@@ -136,7 +136,7 @@ void SpriteManager::createEnemy(MapSprite mapSprite, SpriteDef def)
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::createNpc(MapSprite mapSprite, SpriteDef def)
+void SpriteManager::createNpc(MapSprite& mapSprite, SpriteDef& def)
 {
 	auto npcDef = npcDefs[def.texture - ENEMY_MAX_INDEX - 4];
 
@@ -152,7 +152,7 @@ void SpriteManager::createNpc(MapSprite mapSprite, SpriteDef def)
 			}
 		}
 
-		allSprites->push_back(std::make_shared<TradeNpc>(TradeNpc(def, mapSprite, tradeDef, itemManager, 
+		allSprites->push_back(std::make_shared<TradeNpc>(TradeNpc(def, mapSprite, tradeDef, npcDef, itemManager, 
 			uiManager, player.get(), id)));
 	}
 	else if (npcDef.type == Traveler)
@@ -183,7 +183,7 @@ void SpriteManager::createNpc(MapSprite mapSprite, SpriteDef def)
 	nowMap->setupBlockmap(allSprites->back().get());
 }
 
-void SpriteManager::createPlayer(MapSprite mapSprite, SpriteDef def, PlayerDef plDef)
+void SpriteManager::createPlayer(MapSprite& mapSprite, SpriteDef& def, PlayerDef& plDef)
 {
 	auto enemy = std::make_shared<Enemy>(def, mapSprite, enemyDefs[mapSprite.spriteDefId], id);
 
@@ -197,7 +197,7 @@ void SpriteManager::createPlayer(MapSprite mapSprite, SpriteDef def, PlayerDef p
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::createDefaultPlayer(PlayerDef plDef)
+void SpriteManager::createDefaultPlayer(PlayerDef& plDef)
 {
 	auto def = spriteDefs[0];
 	auto enDef = enemyDefs[0];
@@ -219,7 +219,7 @@ void SpriteManager::createDefaultPlayer(PlayerDef plDef)
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::resetMap(Map* newMap, sf::Vector2f pos)
+void SpriteManager::resetMap(Map* newMap, sf::Vector2f& pos)
 {
 	nowMap = newMap;
 	init();
@@ -294,8 +294,8 @@ void SpriteManager::aiControler(float deltaTime)
 			}
 		}
 
-		enemys[i]->enemyMechenic(distance, player->enemy->spMap.position - enemys[i]->spMap.position,
-								nowMap, deltaTime);
+		sf::Vector2f toPlayerDir = player->enemy->spMap.position - enemys[i]->spMap.position;
+		enemys[i]->enemyMechenic(distance, toPlayerDir, nowMap, deltaTime);
 	}
 }
 
@@ -327,7 +327,7 @@ bool SpriteManager::isEnemyHit(Enemy* enemy, float distance)
 	);
 }
 
-void SpriteManager::spawnEnemy(std::pair<int, sf::Vector2i> pair)
+void SpriteManager::spawnEnemy(const std::pair<int, sf::Vector2i>& pair)
 {
 	int x0 = std::max(pair.second.x - SPAWN_RADIUS, 0), x1 = std::min(pair.second.x + SPAWN_RADIUS, (int)nowMap->blockMap[0].size());
 	int y0 = std::max(pair.second.y - SPAWN_RADIUS, 0), y1 = std::min(pair.second.y + SPAWN_RADIUS, (int)nowMap->blockMap.size());
@@ -351,11 +351,11 @@ void SpriteManager::spawnEnemy(std::pair<int, sf::Vector2i> pair)
 	id++;
 }
 
-void SpriteManager::spawnPortal(sf::Vector2f pos)
+void SpriteManager::spawnPortal(const sf::Vector2f& pos)
 {
 	auto def = spriteDefs[PORTAL_INDEX];
-
-	createNpc({ def.texture + 1, pos, -90.0f, 10 }, def);
+	MapSprite spMap{ def.texture + 1, pos, -90.0f, 10 };
+	createNpc(spMap, def);
 }
 
 void SpriteManager::killEnemy(Enemy* enem)

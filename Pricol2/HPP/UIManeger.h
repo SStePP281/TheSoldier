@@ -20,17 +20,17 @@ class UIManager
 public:
 	UIManager(sf::RenderWindow* _window);
 	void drawPlayerUI(Player* player);
-	void initDialog(std::map<int, std::wstring, std::greater<int>> variants,
-		std::wstring npcName);
+	void initDialog(std::map<int, std::wstring, std::greater<int>>& variants,
+		std::wstring& npcName);
 	void initResetMenu();
 	void initStartMenu();
 	void initGameMenu();
 	void initSetting();
 	void initQuest(Quest* quest, Player* player);
-	void initTrade(std::map<int, Itemble*> variants, Player* player);
+	void initTrade(std::map<int, Itemble*>& variants, Player* player);
 	void initMechanic(Player* player, Gun* choose);
 	void initChanger(int coef, Player* player);
-	void initInvent(std::map<Itemble*, int> items, Itemble* chose, Player* player);
+	void initInvent(std::map<Itemble*, int>& items, Itemble* chose, Player* player);
 	void deleteNow();
 	void drawNow();
 	int checkButton();

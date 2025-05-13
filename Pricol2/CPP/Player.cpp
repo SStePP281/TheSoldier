@@ -100,7 +100,8 @@ void Player::checkBoost(bool isPressed, float deltaTime)
 void Player::move(sf::Vector2f deltaPos, float deltaTime)
 {
 	guns[nowGun]->updateRad(deltaPos != sf::Vector2f(), deltaTime);
-	enemy->move(nowMap, deltaPos * deltaTime * nowSpeed);
+	sf::Vector2f deltaMove = deltaPos * deltaTime * nowSpeed;
+	enemy->move(nowMap, deltaMove);
 	shakeCamera(deltaTime, deltaPos != sf::Vector2f());
 }
 
@@ -239,8 +240,6 @@ PlayerDef Player::getPlayerDef()
 void Player::setNemMap(Map* _map) { nowMap = _map; }
 
 Gun* Player::getNowGun() { return guns[nowGun]; }
-
-sf::Vector2f Player::getDeltaShake() { return shakeDelta; }
 
 float Player::getMoveSpeed() { return nowSpeed; }
 

@@ -5,7 +5,7 @@
 #include "Weapon.h"
 #include "Player.h"
 
-Sprite::Sprite(SpriteDef _spDef, MapSprite _spMap, int _id) :
+Sprite::Sprite(SpriteDef& _spDef, MapSprite& _spMap, int _id) :
 	spDef{ _spDef }, spMap{ _spMap }, id{ _id }, textSize{ 0 }, texture{ nullptr }
 {
 	if (spDef.texture != -1)
@@ -17,7 +17,7 @@ Sprite::Sprite(SpriteDef _spDef, MapSprite _spMap, int _id) :
 
 std::pair<int, bool> Sprite::getTextIndex() { return { 0, false }; }
 
-Enemy::Enemy(SpriteDef spDef, MapSprite spMap, EnemyDef _enemyDef, int id) :
+Enemy::Enemy(SpriteDef& spDef, MapSprite& spMap, EnemyDef& _enemyDef, int id) :
 	Sprite(spDef, spMap, id), enemyDef{ _enemyDef }, state{ Stay }, timeAtecked{ 0.5f }, isDamaged{ false }, nowTimeAtack{ 0 }
 {
 	float frameTime = 1.0f / enemyDef.speed;
@@ -65,17 +65,19 @@ void Enemy::attack(Player* player)
 	player->takeDamage(enemyDef.damage);
 }
 
-void Enemy::move(Map* map, sf::Vector2f move)
+void Enemy::move(Map* map, sf::Vector2f& move)
 {
 	if (move == sf::Vector2f()) return;
 
 	float xOffset = move.x > 0 ? spDef.size / 2.0f : -spDef.size / 2.0f;
 	float yOffset = move.y > 0 ? spDef.size / 2.0f : -spDef.size / 2.0f;
-	if (!checkCollision(map, { spMap.position.x + move.x + xOffset, spMap.position.y }, true))
+	sf::Vector2f deltaX = { spMap.position.x + move.x + xOffset, spMap.position.y };
+	sf::Vector2f deltaY = { spMap.position.x, spMap.position.y + move.y + yOffset };
+	if (!checkCollision(map, deltaX, true))
 	{
 		spMap.position.x += move.x;
 	}
-	if (!checkCollision(map, { spMap.position.x, spMap.position.y + move.y + yOffset }, false))
+	if (!checkCollision(map, deltaY, false))
 	{
 		spMap.position.y += move.y;
 	}
@@ -179,7 +181,7 @@ EnemyState Enemy::determineNewState(float dist)
 	}
 }
 
-void Enemy::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime)
+void Enemy::enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime)
 {
 	if (isAtack) { return; }
 	auto newState = determineNewState(dist);
@@ -190,7 +192,8 @@ void Enemy::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, flo
 	if (newState == Run)
 	{
 		if (Random::bitRandom() > 0.7f) spMap.angle = std::atan2(toPlayerDir.y, toPlayerDir.x) * 180.0f / PI;
-		move(nowMap, enemyDef.speed * deltaTime * dir);
+		sf::Vector2f deltaMove = enemyDef.speed * deltaTime * dir;
+		move(nowMap, deltaMove);
 
 		changeState(newState);
 	}
@@ -213,7 +216,7 @@ void Enemy::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, flo
 	}
 }
 
-bool Enemy::checkCollision(Map* map, sf::Vector2f newPos, bool xAxis)
+bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 {
 	sf::Vector2f thisSize{ spDef.size / 2.0f, spDef.size / 2.0f };
 	sf::Vector2f thisStart = newPos - thisSize;
@@ -274,7 +277,7 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f newPos, bool xAxis)
 	return false;
 }
 
-Converter::Converter(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, ConverterDef cDef, int id) :
+Converter::Converter(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id) :
 	Enemy(spDef, spMap, enemyDef, id), cDef{ cDef }
 {
 	nowSpawnCount = (int)(cDef.maxSpawnCount * spMap.nowHealPoint / enemyDef.maxHealpoint);
@@ -342,7 +345,7 @@ void Converter::changeState(EnemyState newState)
 	state = newState;
 }
 
-void Converter::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime)
+void Converter::enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime)
 {
 	auto newState = determineNewState(dist);
 
@@ -352,7 +355,8 @@ void Converter::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap,
 	if (newState == Run && !isAtack)
 	{
 		if (Random::bitRandom() > 0.7f) spMap.angle = std::atan2(toPlayerDir.y, toPlayerDir.x) * 180.0f / PI;
-		move(nowMap, enemyDef.speed * deltaTime * dir);
+		sf::Vector2f deltaMove = enemyDef.speed * deltaTime * dir;
+		move(nowMap, deltaMove);
 
 		changeState(newState);
 	}
@@ -396,7 +400,7 @@ bool Converter::canChangeState()
 	return !isAtack || nowSpawnCount > 0;
 }
 
-Boss::Boss(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, ConverterDef cDef, int id) :
+Boss::Boss(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id) :
 	Enemy(spDef, spMap, enemyDef, id), cDef{ cDef }
 {
 	nowSpawnCount = (int)(cDef.maxSpawnCount * spMap.nowHealPoint / enemyDef.maxHealpoint);
@@ -426,7 +430,7 @@ void Boss::attack(Player* player)
 	}
 }
 
-void Boss::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, float deltaTime)
+void Boss::enemyMechenic(float dist, sf::Vector2f& toPlayerDir, Map* nowMap, float deltaTime)
 {
 	if (isAtack) { return; }
 	auto newState = determineNewState(dist);
@@ -437,7 +441,8 @@ void Boss::enemyMechenic(float dist, sf::Vector2f toPlayerDir, Map* nowMap, floa
 	if (newState == Run)
 	{
 		if (Random::bitRandom() > 0.7f) spMap.angle = std::atan2(toPlayerDir.y, toPlayerDir.x) * 180.0f / PI;
-		move(nowMap, enemyDef.speed * deltaTime * dir);
+		sf::Vector2f deltaMove = enemyDef.speed * deltaTime * dir;
+		move(nowMap, deltaMove);
 
 		changeState(newState);
 	}
@@ -530,13 +535,13 @@ EnemyState Boss::determineNewState(float dist)
 	}
 }
 
-Npc::Npc(SpriteDef _spDef, MapSprite _spMap, UIManager* _uiManager, Player* _player, NpcDef npcDef, int _id) :
+Npc::Npc(SpriteDef& _spDef, MapSprite& _spMap, UIManager* _uiManager, Player* _player, NpcDef& npcDef, int _id) :
 	Sprite(_spDef, _spMap, _id), npcDefData{ npcDef }, player{ _player }, uiManager{ _uiManager }, nowKey{ npcDef.startKey }
 {
 	textSize = texture->getSize().y;
 }
 
-void Npc::setEndFunc(std::function<void()> _endFunc) { endFunc = _endFunc; }
+void Npc::setEndFunc(std::function<void()>&& _endFunc) { endFunc = _endFunc; }
 
 void Npc::init()
 {
@@ -583,7 +588,7 @@ void Npc::check()
 	}
 }
 
-FuncNpc::FuncNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef, ItemManager* _itemManager,
+FuncNpc::FuncNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef, ItemManager* _itemManager,
 	UIManager* uiManager, Player* _player, int _id) :
 	Npc(spDef, spMap, uiManager, _player, npcDef, _id), isFunc{ false }, choose{ -1 }, itemManager{ _itemManager } {}
 
@@ -632,9 +637,9 @@ void FuncNpc::check()
 	}
 }
 
-TradeNpc::TradeNpc(SpriteDef spDef, MapSprite spMap, TraderDef _tradeDef,
+TradeNpc::TradeNpc(SpriteDef& spDef, MapSprite& spMap, TraderDef& _tradeDef, NpcDef& npcDef,
 	ItemManager* _itemManager, UIManager* uiManager, Player* _player, int _id) :
-	FuncNpc(spDef, spMap, NpcDef{ TraderNpcType, _tradeDef.startKey }, _itemManager, uiManager, _player, _id), tradeDef{ _tradeDef } {}
+	FuncNpc(spDef, spMap, npcDef, _itemManager, uiManager, _player, _id), tradeDef{ _tradeDef } {}
 
 void TradeNpc::init()
 {
@@ -672,7 +677,7 @@ void TradeNpc::use()
 	init();
 }
 
-TravelerNpc::TravelerNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef,
+TravelerNpc::TravelerNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef,
 	UIManager* uiManager, ItemManager* _itemManager, Player* _player, int _id) :
 	FuncNpc(spDef, spMap, npcDef, _itemManager, uiManager, _player, _id) {}
 
@@ -727,7 +732,7 @@ void TravelerNpc::use()
 	event.trigger<int>("SWAPLOC", temp);
 }
 
-ChangerNpc::ChangerNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef,
+ChangerNpc::ChangerNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef,
 	UIManager* uiManager, ItemManager* itemManager, Player* _player, int _id) :
 	FuncNpc(spDef, spMap, npcDef, itemManager, uiManager, _player, _id)
 {
@@ -761,7 +766,7 @@ void ChangerNpc::use()
 	init();
 }
 
-PortalNpc::PortalNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef,
+PortalNpc::PortalNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef,
 	UIManager* uiManager, ItemManager* itemManager, Player* player, int _id) :
 	FuncNpc(spDef, spMap, npcDef, itemManager, uiManager, player, _id) {}
 
@@ -785,7 +790,7 @@ void PortalNpc::use()
 	event.trigger<int>("SWAPLOC", BASE_N);
 }
 
-MechanicNpc::MechanicNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef,
+MechanicNpc::MechanicNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef,
 	UIManager* uiManager, ItemManager* itemManager, Player* player, int _id) :
 	FuncNpc(spDef, spMap, npcDef, itemManager, uiManager, player, _id), typeUpgade{ -1 } {}
 
@@ -867,7 +872,7 @@ void MechanicNpc::check()
 	}
 }
 
-QuestNpc::QuestNpc(SpriteDef spDef, MapSprite spMap, NpcDef npcDef,
+QuestNpc::QuestNpc(SpriteDef& spDef, MapSprite& spMap, NpcDef& npcDef,
 	UIManager* uiManager, ItemManager* itemManager, Player* player, int _id) :
 	FuncNpc(spDef, spMap, npcDef, itemManager, uiManager, player, _id) {}
 
