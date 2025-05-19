@@ -2,20 +2,18 @@
 #ifndef RENDERER
 #define RENDERER
 
+#include "Player.h"
+#include "Map.h"
+#include "Sprite.h"
+#include "Raycast.h"
+#include "CONST.h"
+#include "Resources.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <thread>
 #include <queue>
-#include "Player.h"
-#include "Map.h"
-#include "Sprite.h"
-#include "Raycast.h"
-#include "Resources.h"
-
-constexpr int MAX_DETH = 64;
-constexpr float PLAYER_FOV = 60.0f, CAMERA_Z = SCREEN_H / 2.0f, ASPECT = (float)SCREEN_W / SCREEN_H * 0.5f, BRIGHTNESTDIST = MAX_DETH / 7.0f;
 
 class ThreadPool
 {
@@ -38,17 +36,18 @@ private:
 class Renderer
 {
 public:
-	Renderer(sf::RenderWindow* window);
+	Renderer(sf::RenderWindow* window, Player* player);
 	~Renderer();
 
 	void Init();
 
-	void Draw3DView(Player* player, Map* map, std::vector<std::shared_ptr<Sprite>>* sprites);
+	void Draw3DView(Map* map, std::vector<std::shared_ptr<Sprite>>* sprites);
 private:
 	sf::RenderWindow* window;
 	sf::Texture floorTexture;
 	sf::Sprite floorSprite;
 	uint8_t* screenPixels;
+	Player* player;
 
 	sf::VertexArray walls{ sf::Lines };
 	sf::VertexArray spriteColumns{ sf::Lines };
@@ -56,10 +55,8 @@ private:
 
 	ThreadPool threads;
 
-	void DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, 
-		Player* player, Map* map, int startH, int endH);
-	void DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane, Player* player,
-		std::vector<std::shared_ptr<Sprite>>* sprites);
+	void DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, Map* map, int startH, int endH);
+	void DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane, std::vector<std::shared_ptr<Sprite>>* sprites);
 };
 
 #endif // !RENDERER

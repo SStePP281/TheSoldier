@@ -2,15 +2,10 @@
 #ifndef SOUNDM
 #define SOUNDM
 
-#include <vector>
+#include "CONST.h"
 #include <memory>
 #include <SFML/System/Vector3.hpp>
 #include <SFML/Audio.hpp>
-
-enum MusicType
-{
-	MenuSound, BaseSound, LevelSound, StartIntro, EndIntro
-};
 
 class SoundManager
 {

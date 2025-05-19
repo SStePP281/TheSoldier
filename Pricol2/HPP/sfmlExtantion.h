@@ -2,6 +2,8 @@
 #ifndef SFMLEXT
 #define SFMLEXT
 
+#include "Resources.h"
+#include "SoundManager.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -11,8 +13,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <Windows.h>
 #include <functional>
-#include "Resources.h"
-#include "SoundManager.h"
 
 struct Vector2iCompare
 {

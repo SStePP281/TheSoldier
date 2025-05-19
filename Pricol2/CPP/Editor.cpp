@@ -188,7 +188,7 @@ void Editor::windowStateLeftClick()
 				{
 					float nowHp = 10;
 
-					if (nowSpriteDef.type != SpriteType::NPC)
+					if (nowSpriteDef.type != SpriteType::NPC && nowSpriteDef.type != SpriteType::Decoration)
 					{
 						nowHp = enemyDefs[nowSpriteDef.texture + 1].maxHealpoint;
 					}

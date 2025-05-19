@@ -1,13 +1,10 @@
 #ifndef LEAF
 #define LEAF
 
-#include <SFML/System/Vector2.hpp>
+#include "Randomizer.h"
+#include "CONST.h"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <vector>
-#include "Randomizer.h"
-
-constexpr int MIN_LEAF_SIZE = 10, MAX_LEAF_SIZE = 20;
 
 class Leaf
 {

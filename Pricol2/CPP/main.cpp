@@ -10,17 +10,17 @@ int main()
 {
 	Resources::initResources();
 
-	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game"/*, sf::Style::Fullscreen*/);
+	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game", sf::Style::Fullscreen);
 	window.setIcon(Resources::gameIcon.getSize().x, Resources::gameIcon.getSize().y, Resources::gameIcon.getPixelsPtr());
 	window.setFramerateLimit(60);
 	window.setMouseCursorVisible(false);
 
-#ifdef DEBUG
+#ifdef REDACT_MODE
 	sf::RenderWindow editorWindow(sf::VideoMode(450,500), "Editor");
 	editorWindow.setPosition(sf::Vector2i(0, 0));
 	editorWindow.setActive(false);
 	editorWindow.setVisible(false);
-#endif // DEBUG
+#endif // REDACT_MODE
 
 	State state = State::Game;
 	auto& event = EventSystem::getInstance();
@@ -83,10 +83,10 @@ int main()
 	std::unique_ptr<MapManager> mapManager = std::make_unique<MapManager>(&window);
 	mapManager->load();
 
-#ifdef DEBUG
+#ifdef REDACT_MODE
 	std::unique_ptr<Editor> editor = std::make_unique<Editor>();
 	editor->init(&window, &editorWindow, mapManager.get());
-#endif // DEBUG
+#endif // REDACT_MODE
 
 	std::unique_ptr<Game> game = std::make_unique<Game>(&window, mapManager.get());
 
@@ -95,7 +95,7 @@ int main()
 
 	while (window.isOpen())
 	{
-#ifdef DEBUG
+#ifdef REDACT_MODE
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -163,8 +163,8 @@ int main()
 			
 			editorWindow.display();
 		}
-#endif // DEBUG
-#ifndef DEBUG
+#endif // REDACT_MODE
+#ifndef REDACT_MODE
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -178,7 +178,7 @@ int main()
 
 		window.clear();
 		game->makeCycle(deltaTime);
-#endif // !DEBUG
+#endif // !REDACT_MODE
 		window.display();
 		window.setTitle("SOLDIER " + std::to_string(1.0f / deltaTime));
 		deltaTime = gameClock.getElapsedTime().asSeconds();

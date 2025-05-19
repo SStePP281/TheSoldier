@@ -2,15 +2,14 @@
 #ifndef DIALOG
 #define DIALOG
 
-#include "sfmlExtantion.h"
-#include <functional>
-#include "Player.h"
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Mouse.hpp"
 #include "UIManeger.h"
 #include "ItemManager.h"
 #include "RenderState.h"
 #include "EventSystem.h"
+#include "Player.h"
+#include <functional>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 class Dialog
 {

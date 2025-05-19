@@ -71,7 +71,7 @@ void UIManager::initDialog(std::map<int, std::wstring, std::greater<int>>& varia
 	g.setPosition({ (float)SCREEN_W / 2, INTERVAL});
 	buttons.push_back(g);
 
-	sf::RectangleShape dataBase{ {DIALOG_W, DIALOG_H / 2.5f} };
+	sf::RectangleShape dataBase{ {DIALOG_W, DIALOG_H / 1.5f} };
 	dataBase.setFillColor(sf::Color(100, 100, 100));
 	sf::Text dataText(splitText(variants[-1], (int)DIALOG_W, 40), Resources::UIFont, TEXTSIZE - 10);
 	Group g1(dataBase, dataText);

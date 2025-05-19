@@ -2,11 +2,11 @@
 #ifndef RANDOM
 #define RANDOM
 
+#include "sfmlExtantion.h"
 #include <random>
 #include <set>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include "sfmlExtantion.h"
 
 class Random
 {

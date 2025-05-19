@@ -5,13 +5,12 @@
 #include "MapManager.h"
 #include "Resources.h"
 #include "sfmlExtantion.h"
-
+#include "CONST.h"
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <functional>
 
-constexpr int COUNT_ROW_TEXT = 7;
 
 class Editor
 {

@@ -2,6 +2,13 @@
 #ifndef WEAPON
 #define WEAPON
 
+#include "Resources.h"
+#include "Sprite.h"
+#include "Animation.h"
+#include "Randomizer.h"
+#include "SoundManager.h"
+#include "EventSystem.h"
+#include "CONST.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -10,73 +17,9 @@
 #include <vector>
 #include <array>
 #include <functional>
-#include "Resources.h"
-#include "Sprite.h"
-#include "Animation.h"
-#include "Randomizer.h"
-#include "SoundManager.h"
-#include "EventSystem.h"
-
-constexpr int MAX_RAD = 30, MIN_RAD = 1;
 
 class Gun;
 class Player;
-
-struct GunDef
-{
-	int id;
-	int damage;
-	int maxCount;
-	int nowCount;
-	float shutTime;
-	float maxDist;
-	float resetTime;
-	int cost;
-	std::wstring name;
-	std::wstring disc;
-};
-
-struct GunData
-{
-	int id;
-	int nowCount;
-	int nowMaxCount;
-	int nowMaxRad;
-	int nowDamage;
-	int upgradeCount;
-	std::vector<int> improveId;
-};
-
-enum ImproveType
-{
-	Damage, Spread, Magazin
-};
-
-struct ImproveDef
-{
-	int id;
-	ImproveType type;
-	std::wstring name;
-	float effect;
-	int cost;
-	std::wstring disc;
-};
-
-enum ItemType
-{
-	MaxEnergy, MaxHeal, Heal, Armor, Patrons
-};
-
-struct ItemsDef
-{
-	int id;
-	ItemType type;
-	std::wstring name;
-	int effect;
-	int maxUSing;
-	int cost;
-	std::wstring disc;
-};
 
 class Itemble
 {

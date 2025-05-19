@@ -23,6 +23,7 @@ public:
 	std::vector<std::shared_ptr<Sprite>>* getDeteachSprite();
 private:
 	void init();
+	void createDecor(MapSprite& mapSprite, SpriteDef& spDef);
 	void createSpriteFromMapSprite(MapSprite& mapSprite);
 	void createBoss(MapSprite& spMap, SpriteDef& spDef);
 	void spawnPortal(const sf::Vector2f& pos);

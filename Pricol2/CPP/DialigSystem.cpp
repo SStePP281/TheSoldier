@@ -5,6 +5,7 @@ Dialog::Dialog(sf::RenderWindow* _window, UIManager* _uiManager,
 	uiManager{ _uiManager }, weaponManager{ _weaponManager },
 	npc{ nullptr }, player{ nullptr }, 
 	dialogState{ [=](float deltaTime) { update(); }, [=]() { draw();}} {}
+
 void Dialog::setPlayer(Player* _player) { player = _player; }
 
 void Dialog::start(Npc* _npc)

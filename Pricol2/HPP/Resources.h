@@ -6,10 +6,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Audio.hpp>
-#include "array"
-
-const int TEXTURE_SIZE = 128, GUN_SIZE = 1, ICON_SIZE = 64, TEXTURE_COUNT = 15;
-constexpr int SCREEN_W = 1280, SCREEN_H = 720;
+#include <array>
 
 class Resources
 {

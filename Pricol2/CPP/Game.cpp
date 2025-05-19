@@ -5,13 +5,13 @@ Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
 {
 	screenMidlePos = { (int)(SCREEN_W / 2), (int)(SCREEN_H / 2) };
 	itemManager = new ItemManager();
-	renderer = new Renderer(window);
-	uiManager = new UIManager(window);;
+	uiManager = new UIManager(window);
 	dialogSys = new Dialog(window, uiManager, itemManager);
 	spManager = new SpriteManager(mapManager->getNowMap(), uiManager, itemManager);
 	player = spManager->getPlayer();
 	menu = new Menu(window, uiManager, player);
 	invent = new Inventory(window, player, uiManager);
+	renderer = new Renderer(window, player);
 	initPlayer();
 
 	auto& data = Data::getInstance();
@@ -22,7 +22,7 @@ Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
 		spManager->update(deltaTime);
 		};
 	auto draw = [=]() {
-		renderer->Draw3DView(player, mapManager->getNowMap(), spManager->getDeteachSprite());
+		renderer->Draw3DView(mapManager->getNowMap(), spManager->getDeteachSprite());
 		uiManager->drawPlayerUI(player);
 		};
 	playState = RenderState(std::move(update), std::move(draw));
@@ -138,13 +138,13 @@ void Game::getInput(sf::Event& event, float deltaTime)
 		{
 			player->heal();
 		}
-#ifdef DEBUG
+#ifdef REDACT_MODE
 		if (event.key.code == sf::Keyboard::P)
 		{
 			auto& event = EventSystem::getInstance();
 			event.trigger<int>("SWAPLOC", BASE_N);
 		}
-#endif // DEBUG
+#endif // REDACT_MODE
 		if (event.key.code == sf::Keyboard::Escape)
 		{
 			menu->initGameMenu();

@@ -6,14 +6,11 @@
 #include "EventSystem.h"
 #include "DataBase.h"
 #include "sfmlExtantion.h"
+#include "Weapon.h"
+#include "CONST.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <vector>
-#include "Weapon.h"
 #include <map>
-
-constexpr float DIALOG_W = SCREEN_W - 200, DIALOG_H = SCREEN_H - 100, INTERVAL = 40;
-constexpr int TEXTSIZE = 50;
 
 class UIManager
 {

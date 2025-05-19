@@ -82,8 +82,17 @@ void SpriteManager::createSpriteFromMapSprite(MapSprite& mapSprite)
 	{
 		createBoss(mapSprite, def);
 	}
+	else if (def.type == SpriteType::Decoration)
+	{
+		createDecor(mapSprite, def);
+	}
 	
 	id++;
+}
+
+void SpriteManager::createDecor(MapSprite& mapSprite, SpriteDef& spDef)
+{
+	allSprites->push_back(std::make_shared<Sprite>(spDef, mapSprite, id));
 }
 
 void SpriteManager::createBoss(MapSprite& spMap, SpriteDef& spDef)
@@ -145,7 +154,7 @@ void SpriteManager::createNpc(MapSprite& mapSprite, SpriteDef& def)
 		TraderDef tradeDef;
 		for (auto t : traderDefs)
 		{
-			if (t.startKey == npcDef.startKey)
+			if (t.startKey == npcDef.idKey)
 			{
 				tradeDef = t;
 				break;

@@ -8,7 +8,12 @@
 Sprite::Sprite(SpriteDef& _spDef, MapSprite& _spMap, int _id) :
 	spDef{ _spDef }, spMap{ _spMap }, id{ _id }, textSize{ 0 }, texture{ nullptr }
 {
-	if (spDef.texture != -1)
+	if (spDef.type == SpriteType::Decoration)
+	{
+		texture = &Resources::spritesTextures[spDef.texture];
+		textSize = texture->getSize().y;
+	}
+	else if (spDef.texture != -1)
 	{
 		texture = &Resources::spritesTextures[spDef.texture];
 		textSize = texture->getSize().x / 8;
@@ -279,6 +284,7 @@ bool Enemy::checkCollision(Map* map, sf::Vector2f& newPos, bool xAxis)
 Converter::Converter(SpriteDef& spDef, MapSprite& spMap, EnemyDef& enemyDef, ConverterDef& cDef, int id) :
 	Enemy(spDef, spMap, enemyDef, id), cDef{ cDef }
 {
+	nowSpawnCount = (int)(cDef.maxSpawnCount * spMap.nowHealPoint / enemyDef.maxHealpoint);
 	textSize = texture->getSize().y / 2;
 	Animation<int> stay({ {0.0f, 0} });
 	Animation<int> attack({ {0.0f, 0}, {enemyDef.timeBettwenAtack, 0 }, {enemyDef.timeBettwenAtack, 0 } });
@@ -534,7 +540,7 @@ EnemyState Boss::determineNewState(float dist)
 }
 
 Npc::Npc(SpriteDef& _spDef, MapSprite& _spMap, UIManager* _uiManager, Player* _player, NpcDef& npcDef, int _id) :
-	Sprite(_spDef, _spMap, _id), npcDefData{ npcDef }, player{ _player }, uiManager{ _uiManager }, nowKey{ npcDef.startKey }
+	Sprite(_spDef, _spMap, _id), npcDefData{ npcDef }, player{ _player }, uiManager{ _uiManager }, nowKey{ 1 }
 {
 	textSize = texture->getSize().y;
 }
@@ -543,16 +549,14 @@ void Npc::setEndFunc(std::function<void()>&& _endFunc) { endFunc = _endFunc; }
 
 void Npc::init()
 {
-	uiManager->deleteNow();
-
 	auto& data = Data::getInstance();
-	auto keys = data.getKeys(nowKey);
+	auto keys = data.getKeys(npcDefData.idKey, nowKey);
 
 	std::map<int, std::wstring, std::greater<int>> variants;
 
 	for (int i = 0; i < keys.size(); i++)
 	{
-		auto d = data.getText(keys[i]);
+		auto d = data.getText(npcDefData.idKey, keys[i]);
 		variants[d.second] = d.first;
 	}
 
@@ -561,7 +565,7 @@ void Npc::init()
 
 void Npc::stop()
 {
-	nowKey = npcDefData.startKey;
+	nowKey = 1;
 	endFunc();
 	endFunc = nullptr;
 }
@@ -582,6 +586,7 @@ void Npc::check()
 	}
 	else
 	{
+		uiManager->deleteNow();
 		init();
 	}
 }

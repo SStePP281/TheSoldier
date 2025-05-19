@@ -4,7 +4,7 @@
 
 #include "Resources.h"
 #include "Sprite.h"
-
+#include "CONST.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Image.hpp>
@@ -14,15 +14,7 @@
 #include <array>
 #include <ios>
 #include <string>
-#include <vector>
 #include <set>
-
-constexpr int ALL_LAYER = 4;
-constexpr int LAYER_COUNT = 3;
-constexpr int FLOOR_LAYER = 0;
-constexpr int WALL_LAYER = 1;
-constexpr int CELL_LAYER = 2;
-constexpr int SPRITE_LAYER = 3;
 
 class Map
 {

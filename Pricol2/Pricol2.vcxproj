@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HPP\Animation.h" />
+    <ClInclude Include="HPP\CONST.h" />
     <ClInclude Include="HPP\DataBase.h" />
     <ClInclude Include="HPP\DialogSystem.h" />
     <ClInclude Include="HPP\Editor.h" />

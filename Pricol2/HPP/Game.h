@@ -2,11 +2,6 @@
 #ifndef GAME
 #define GAME
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <memory>
-#include <vector>
-#include <Windows.h>
 #include "Sprite.h"
 #include "DataBase.h"
 #include "DialogSystem.h"
@@ -20,8 +15,11 @@
 #include "SoundManager.h"
 #include "RenderState.h"
 #include "Menu.h"
-
-//#define DEBUG
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <memory>
+#include <vector>
+#include <Windows.h>
 
 class Game
 {
@@ -32,7 +30,7 @@ public:
 	void getInput(sf::Event& event, float deltaTime);
 	void makeCycle(float deltaTime);
 	void save();
-	void editor(); //Удалить после конца
+	void editor(); 
 private:
 	void resetGame();
 	void getInput(float deltaTime);

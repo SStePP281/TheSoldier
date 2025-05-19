@@ -1,9 +1,9 @@
 #include "DataBase.h"
 #pragma warning(disable : 4996)
 
-std::vector<std::pair<int, std::vector<int>>> Data::loadKeyData()
+std::vector<std::pair<int, std::vector<int>>> Data::loadKeyData(int idKey)
 {
-	std::wifstream fileIn("Data/KeyData.txt");
+	std::wifstream fileIn("Dialog/dialogKey" + std::to_string(idKey) + ".txt");
 	fileIn.imbue(std::locale(fileIn.getloc(), new std::codecvt_utf8<wchar_t>));
 	if (!fileIn.is_open()) return {};
 
@@ -32,9 +32,9 @@ std::vector<std::pair<int, std::vector<int>>> Data::loadKeyData()
 	return key2key;
 }
 
-std::vector<std::tuple<int, std::wstring, int>> Data::loadTextData()
+std::vector<std::tuple<int, std::wstring, int>> Data::loadTextData(int idKey)
 {
-	std::wifstream fileIn("Data/TextData.txt");
+	std::wifstream fileIn("Dialog/dialogText" + std::to_string(idKey) + ".txt");
 	fileIn.imbue(std::locale(fileIn.getloc(), new std::codecvt_utf8<wchar_t>));
 	if (!fileIn.is_open()) return {};
 
@@ -135,9 +135,9 @@ void Data::saveQuest(std::vector<QuestData>& quests)
 	out.close();
 }
 
-std::vector<int> Data::getKeys(int key)
+std::vector<int> Data::getKeys(int idKey, int key)
 {
-	auto key2key = loadKeyData();
+	auto key2key = loadKeyData(idKey);
 
 	for (size_t i = 0; i < key2key.size(); i++)
 	{
@@ -149,9 +149,9 @@ std::vector<int> Data::getKeys(int key)
 	return {};
 }
 
-std::pair<std::wstring, int> Data::getText(int key)
+std::pair<std::wstring, int> Data::getText(int idKey, int key)
 {
-	auto key2text = loadTextData();
+	auto key2text = loadTextData(idKey);
 
 	for (size_t i = 0; i < key2text.size(); i++)
 	{

@@ -2,22 +2,10 @@
 #ifndef QUEST
 #define QUEST
 
+#include "EventSystem.h"
+#include "CONST.h"
 #include <iostream>
 #include <vector>
-#include "EventSystem.h"
-
-enum QuestType
-{
-    KillMonster, CollectionMoney, CollectionDetails
-};
-
-struct QuestData
-{
-    QuestType type;
-    int progress;
-    int target;
-    int rewardCoins;
-};
 
 class Quest 
 {

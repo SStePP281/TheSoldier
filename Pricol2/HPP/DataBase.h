@@ -2,29 +2,14 @@
 #ifndef DATA
 #define DATA
 
-#include <vector>
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <tuple>
-#include "Player.h"
-#include "Quest.h"
 #include <codecvt>
 #include <locale>
-
-struct GameStateData
-{
-	bool isFirstGame;
-	int effectVolume;
-	int soundVolume;
-	int levelNumber;
-	bool isLevelBase;
-	int changerCoef;
-	float mouseSpeed;
-	bool killFirst;
-	bool killSecond;
-	bool killTherd;
-};
+#include "Player.h"
+#include "Quest.h"
+#include "CONST.h"
 
 class Data
 {
@@ -53,14 +38,14 @@ public:
 	std::vector<QuestData> getQuest();
 	void saveQuest(std::vector<QuestData>& quests);
 
-	std::vector<int> getKeys(int key);
-	std::pair<std::wstring, int> getText(int key);
+	std::vector<int> getKeys(int startKey, int key);
+	std::pair<std::wstring, int> getText(int startKey, int key);
 private:
 	Data() = default;
 	~Data() = default;
 
-	std::vector<std::pair<int, std::vector<int>>> loadKeyData();
-	std::vector<std::tuple<int, std::wstring, int>> loadTextData();
+	std::vector<std::pair<int, std::vector<int>>> loadKeyData(int startKey);
+	std::vector<std::tuple<int, std::wstring, int>> loadTextData(int startKey);
 };
 
 class GameState

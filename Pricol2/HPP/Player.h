@@ -2,36 +2,20 @@
 #ifndef PLAYER
 #define PLAYER
 
+#include "Map.h"
+#include "Resources.h"
+#include "Animation.h"
+#include "Weapon.h"
+#include "Raycast.h"
+#include "CONST.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <vector>
-#include "Map.h"
-#include "Resources.h"
-#include "Animation.h"
-#include "Weapon.h"
-#include "Raycast.h"
-
-constexpr float ROTATION_SPEED = 80.0f, VERTICAL_MOUSE_SPEED = 25.0f;
 
 class Inventory;
-
-struct PlayerDef
-{
-	float maxHp;
-	float nowHp;
-	float maxEnergy;
-	float nowEnergy;
-	float defence;
-	float maxStrenght;
-	float nowStrenght;
-	int countpantrons;
-	int money;
-	int details;
-	std::vector<int> gunsData;
-};
 
 class Player
 {

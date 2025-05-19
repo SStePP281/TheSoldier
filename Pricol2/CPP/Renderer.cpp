@@ -57,12 +57,11 @@ void ThreadPool::waitAll()
 
 int ThreadPool::getThreadCount() { return workers.size(); }
 
-Renderer::Renderer(sf::RenderWindow* _window) :
-	window{ _window }, threads{ (int)std::thread::hardware_concurrency() - 2 }
+Renderer::Renderer(sf::RenderWindow* _window, Player* player) :
+	window{ _window }, player{ player }, threads {
+	std::max((int)std::thread::hardware_concurrency() - 2, 3) }
 {
 	Init();
-	screenPixels = new uint8_t[SCREEN_H * SCREEN_W * 4]();
-	distanceBuffer = new float[SCREEN_W + 1] {};
 }
 
 Renderer::~Renderer()
@@ -75,9 +74,11 @@ void Renderer::Init()
 {
 	floorTexture.create(SCREEN_W, SCREEN_H);
 	floorSprite.setTexture(floorTexture);
+	screenPixels = new uint8_t[SCREEN_H * SCREEN_W * 4]();
+	distanceBuffer = new float[SCREEN_W + 1] {};
 }
 
-void Renderer::Draw3DView(Player* player, Map* map, std::vector<std::shared_ptr<Sprite>>* sprites)
+void Renderer::Draw3DView(Map* map, std::vector<std::shared_ptr<Sprite>>* sprites)
 {
 	//StaticCalculations
 	float pRadians = player->enemy->spMap.angle * PI / 180.0f;
@@ -93,16 +94,16 @@ void Renderer::Draw3DView(Player* player, Map* map, std::vector<std::shared_ptr<
 	{
 		threads.addTask([&, cnt]()
 			{
-				int start = (int)((SCREEN_H / threadCount * cnt));
-				int end = (int)((SCREEN_H / threadCount * (cnt + 1)));
-				DrawFloor(rayDirLeft, rayDirRight, rayPos, player, map, start, end);
+				int start = (int)(((float)SCREEN_H / threadCount * cnt));
+				int end = (int)(((float)SCREEN_H / threadCount * (cnt + 1)));
+				DrawFloor(rayDirLeft, rayDirRight, rayPos, map, start, end);
 			});
 	}
 
 	//SpritePart
 	threads.addTask([&]() {
 		std::sort(sprites->begin(), sprites->end(), 
-		[player](const std::shared_ptr<Sprite> a, const std::shared_ptr<Sprite> b)
+		[&](const std::shared_ptr<Sprite> a, const std::shared_ptr<Sprite> b)
 			{
 				return COMPARER(a->spMap.position, b->spMap.position, player->enemy->spMap.position);
 			});});
@@ -172,13 +173,13 @@ void Renderer::Draw3DView(Player* player, Map* map, std::vector<std::shared_ptr<
 	sf::RenderStates states{ &Resources::textures };
 	window->draw(walls, states);
 
-	DrawSprite(pDirection, cameraPlane, player, sprites);
+	DrawSprite(pDirection, cameraPlane, sprites);
 
 	spriteColumns.clear();
 	walls.clear();
 }
 
-void Renderer::DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane, Player* player,
+void Renderer::DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane,
 	std::vector<std::shared_ptr<Sprite>>* sprites)
 {
 	float invDet = 1.0f / (cameraPlane.x * pDirection.y - cameraPlane.y * pDirection.x);
@@ -254,7 +255,7 @@ void Renderer::DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane, P
 	}
 }
 
-void Renderer::DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, Player* player, Map* map, int startH, int endH)
+void Renderer::DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, Map* map, int startH, int endH)
 {
 	for (int y = startH; y < endH; y++)
 	{
