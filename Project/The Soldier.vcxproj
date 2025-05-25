@@ -24,6 +24,7 @@
     <ProjectGuid>{3956fd7a-0ea0-4278-b3b2-90f92aa5cd09}</ProjectGuid>
     <RootNamespace>Pricol2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>The Soldier</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -202,7 +203,7 @@
     <Image Include="Texture\gameIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Pricol2.rc" />
+    <ResourceCompile Include="The Soldier.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
