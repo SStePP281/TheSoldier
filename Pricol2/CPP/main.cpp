@@ -26,9 +26,11 @@ int main()
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("RESET_GAME", [&](const int NON) {
 		sfe::Movie movie;
+
 		if (!movie.openFromFile("Sound/startIntroVideo.mp4")) return;
 		movie.fit(0.0f, 0.0f, (float)window.getSize().x, (float)window.getSize().y);
 		movie.play();
+
 		SoundManager::stopAllSound();
 		SoundManager::playerMusic(StartIntro);
 

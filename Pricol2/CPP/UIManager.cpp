@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 UIManager::UIManager(sf::RenderWindow* _window) : 
-	window{ _window }, choseBut{ nullptr }, keyButton{ -1 } {}
+	window{ _window }, choseBut{ -1 }, keyButton{ -1 } {}
 
 std::wstring UIManager::splitText(std::wstring text, int maxLen, int textSize)
 {
@@ -750,7 +750,7 @@ void UIManager::initInvent(std::map<Itemble*, int>& items, Itemble* choose, Play
 void UIManager::deleteNow() 
 { 
 	buttons.clear();
-	choseBut = nullptr;
+	choseBut = -1;
 }
 
 int UIManager::checkButton()
@@ -762,10 +762,11 @@ int UIManager::checkButton()
 	{
 		if (buttons[i].isClicked(worldPos))
 		{
-			if (choseBut) choseBut->setFillColor(sf::Color(70, 70, 70));
-			choseBut = &buttons[i];
-			choseBut->setFillColor(sf::Color::Red);
+			if (choseBut != -1) buttons[choseBut].setFillColor(sf::Color(70, 70, 70));
+			choseBut = i;
+			buttons[i].setFillColor(sf::Color::Red);
 			buttons[i].use();
+
 			return keyButton;
 		}
 	}

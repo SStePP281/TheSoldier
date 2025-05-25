@@ -7,11 +7,10 @@ MapManager::MapManager(sf::RenderWindow* _window) :
 	event.subscribe<int>("SAVE", [=](const int NON) { save(); });
 
 	event.subscribe<int>("RESET_GAME", [&](const int NON) {
-		load(mapFileNames[BASE_N]);
 		auto& state = GameState::getInstance(); 
 		state.data.isLevelBase = true; 
 		state.data.levelNumber = 0;
-		event.trigger<int>("SWAPLOC", 0);
+		event.trigger<int>("SWAPLOC", BASE_N);
 		});
 
 	event.subscribe<int>("WIN_GAME", [&](const int NON) {
@@ -38,27 +37,28 @@ void MapManager::save()
 	size_t h = grid.size();
 	size_t w = grid[0].size();
 
-	out.write(reinterpret_cast<const char*>(&w), sizeof(w));
+	out.write(reinterpret_cast<char*>(&w), sizeof(w));
 	out.write(reinterpret_cast<const char*>(&h), sizeof(h));
 
 	for (size_t y = 0; y < h; y++)
 	{
 		for (size_t x = 0; x < w; x++)
 		{
-			out.write(reinterpret_cast<const char*>(grid[y][x].data()),
+			out.write(reinterpret_cast<char*>(grid[y][x].data()),
 				sizeof(grid[y][x][0]) * LAYER_COUNT);
 		}
 	}
 
 	auto sprites = nowMap->sprites;
 	size_t numSp = sprites.size();
-	out.write(reinterpret_cast<const char*>(&numSp), sizeof(numSp));
+	out.write(reinterpret_cast<char*>(&numSp), sizeof(numSp));
 
 	for (size_t i = 0; i < sprites.size(); i++)
 	{
-		out.write(reinterpret_cast<const char*>(&sprites[i]), sizeof(sprites[i]));
+		out.write(reinterpret_cast<char*>(&sprites[i]), sizeof(sprites[i]));
 	}
 
+	out.flush();
 	out.close();
 }
 

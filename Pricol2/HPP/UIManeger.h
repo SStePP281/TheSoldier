@@ -36,7 +36,7 @@ private:
 	std::wstring toMax(std::wstring str, float maxW, float textSize);
 	sf::RenderWindow* window;
 	sf::Sprite background;
-	Button* choseBut;
+	int choseBut;
 	std::vector<Button> buttons;
 	int keyButton;
 	std::function<void(Player* player)> playerUI;

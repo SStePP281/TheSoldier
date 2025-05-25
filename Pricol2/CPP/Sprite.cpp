@@ -568,6 +568,7 @@ void Npc::stop()
 	nowKey = 1;
 	endFunc();
 	endFunc = nullptr;
+	uiManager->deleteNow();
 }
 
 void Npc::use() {}
