@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MapManager.h"
 #include <sfeMovie/Movie.hpp>
+#include <SFML/Window/Cursor.hpp>
 
 enum class State{Editor, Game};
 
@@ -10,10 +11,12 @@ int main()
 {
 	Resources::initResources();
 
-	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game", sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game"/*, sf::Style::Fullscreen*/);
 	window.setIcon(Resources::gameIcon.getSize().x, Resources::gameIcon.getSize().y, Resources::gameIcon.getPixelsPtr());
 	window.setFramerateLimit(60);
-	window.setMouseCursorVisible(false);
+	sf::Cursor cur{};
+	cur.loadFromPixels(Resources::cursorImage.getPixelsPtr(), Resources::cursorImage.getSize(), sf::Vector2u(0, 0));
+	window.setMouseCursor(cur);
 
 #ifdef REDACT_MODE
 	sf::RenderWindow editorWindow(sf::VideoMode(450,500), "Editor");
@@ -22,7 +25,6 @@ int main()
 	editorWindow.setVisible(false);
 #endif // REDACT_MODE
 
-	State state = State::Game;
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("RESET_GAME", [&](const int NON) {
 		sfe::Movie movie;
@@ -82,6 +84,7 @@ int main()
 		window.clear();
 		});
 
+	State state = State::Game;
 	std::unique_ptr<MapManager> mapManager = std::make_unique<MapManager>(&window);
 	mapManager->load();
 

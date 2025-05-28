@@ -9,7 +9,7 @@ Player::Player(Enemy* _sprite, PlayerDef& def, Map* _nowMap) :
 	invent{ nullptr }, pitch{ 0 }, shakeTime{ 0 }, posZ{ 0 }, isJump{ false }, jumpFlag{ false },
 	boostSpeed{ 8.0f }, nowSpeed{ enemy->enemyDef.speed }, mouseSpeed{1.0f}
 {
-	enemy->textSize = 104;
+	enemy->textSize = 0;
 
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("SAVE", [=](const int NON) {
@@ -22,10 +22,7 @@ Player::Player(Enemy* _sprite, PlayerDef& def, Map* _nowMap) :
 	event.subscribe<int>("WIN_GAME", [=](const int NON) { resetPlayer(); });
 }
 
-Player::~Player()
-{
-	auto& event = EventSystem::getInstance();
-}
+Player::~Player() {}
 
 void Player::resetPlayer()
 {
@@ -53,8 +50,7 @@ Gun* Player::getGun(int pos) { return guns[pos]; }
 
 void Player::setInventory(Inventory* _invent) 
 { 
-	invent = _invent; 
-	nowHeal = invent->takeMaxHeal();
+	if (invent = _invent; invent) { nowHeal = invent->takeMaxHeal(); }
 }
 
 void Player::updateMouseData(sf::Vector2f& mousePos, float deltaTime)

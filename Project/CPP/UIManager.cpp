@@ -288,12 +288,14 @@ void UIManager::initQuest(Quest* quest, Player* player)
 	text.setString(L"Взять новый квест");
 	shape.setSize({text.getLocalBounds().width + 10.0f, text.getLocalBounds().height + 10.0f});
 	Button newQuest(Group(shape, text));
+	newQuest.setFillColor(sf::Color(50, 50, 50));
 	newQuest.setFunc([=]() {keyButton = -300; });
 
 	text.setCharacterSize(30);
 	shape.setSize({DIALOG_W / 3, DIALOG_H / 3 - 20.0f});
 	shape.setPosition({shape.getSize().x, shape.getSize().y / 2 + 90.0f});
 	Button totalQuest(Group(shape, text));
+	totalQuest.setFillColor(sf::Color(50, 50, 50));
 
 	auto& questM = QuestManager::getInstance();
 	auto total = questM.quests;
@@ -333,11 +335,11 @@ void UIManager::initQuest(Quest* quest, Player* player)
 
 			if (total[i] == quest)
 			{
-				totalQuest.setFillColor(sf::Color::Red);
+				totalQuest.setFillColor(sf::Color(128, 128, 0));
 			}
 
 			buttons.push_back(totalQuest);
-			totalQuest.setFillColor(sf::Color(70, 70, 70));
+			totalQuest.setFillColor(sf::Color(50, 50, 50));
 			oss.clear();
 			oss.str(L"");
 		}
@@ -353,6 +355,7 @@ void UIManager::initQuest(Quest* quest, Player* player)
 	if (quest)
 	{
 		Button dataButton(Group(shape, text));
+		dataButton.setFillColor(sf::Color(50, 50, 50));
 		if (quest->isCompleted())
 		{
 			dataButton.setString(L"Получить награду");
@@ -371,6 +374,7 @@ void UIManager::initQuest(Quest* quest, Player* player)
 	text.setCharacterSize(50);
 	text.setString(L"В\nЫ\nХ\nО\nД");
 	shape.setSize({ text.getLocalBounds().width + 10.0f, text.getLocalBounds().height + 10.0f });
+	shape.setFillColor(sf::Color(50, 50, 50));
 	shape.setPosition({ (float)SCREEN_W - shape.getSize().x - 5.0f, (float)SCREEN_H / 2 });
 	button = Button(Group(shape, text));
 	button.setFunc([=]() { keyButton = -100; });
@@ -452,7 +456,7 @@ void UIManager::initTrade(std::map<int, Itemble*>& variants, Player* player)
 	text1.setString(L"К\nУ\nП\nИ\nТ\nЬ");
 	text1.setCharacterSize(50);
 	sf::RectangleShape rect1({ size + 10.0f, 350.0f });
-	rect1.setFillColor(sf::Color(70, 70, 70));
+	rect1.setFillColor(sf::Color(50, 50, 50));
 	Group g3(rect1, text1);
 	g3.setPosition({ ((float)SCREEN_W + DIALOG_W) / 2 + g3.getSize().x, g3.getSize().y / 2 + 5.0f});
 
@@ -488,7 +492,7 @@ void UIManager::initMechanic(Player* player, Gun* choose)
 	{
 		if (player->guns[i])
 		{
-			if (player->guns[i] == choose) dataGroup.shape.setFillColor(sf::Color::Red);
+			if (player->guns[i] == choose) dataGroup.shape.setFillColor(sf::Color(128, 128, 0));
 			buttons.push_back(dataGroup);
 			buttons.back().setFunc([=]() { keyButton = (int)i; });
 
@@ -519,6 +523,7 @@ void UIManager::initMechanic(Player* player, Gun* choose)
 	text.setString(L"У\nЛ\nУ\nЧ\nШ\nИ\nТ\nЬ");
 	shape.setSize({ text.getLocalBounds().width + 10.0f, text.getLocalBounds().height + 10.0f });
 	shape.setPosition({ ((float)SCREEN_W + DIALOG_W) / 2 + shape.getSize().x, (float)SCREEN_H / 2 - shape.getSize().y / 2 - 5.0f });
+	shape.setFillColor(sf::Color(50, 50, 50));
 	button = Button(Group(shape, text));
 	button.setFunc([=]() { keyButton = -200; });
 	buttons.push_back(button);
@@ -762,9 +767,9 @@ int UIManager::checkButton()
 	{
 		if (buttons[i].isClicked(worldPos))
 		{
-			if (choseBut != -1) buttons[choseBut].setFillColor(sf::Color(70, 70, 70));
+			if (choseBut != -1) buttons[choseBut].setFillColor(sf::Color(50, 50, 50));
 			choseBut = i;
-			buttons[i].setFillColor(sf::Color::Red);
+			buttons[i].setFillColor(sf::Color(128, 128, 0));
 			buttons[i].use();
 
 			return keyButton;

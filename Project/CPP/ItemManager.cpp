@@ -89,8 +89,8 @@ void  ItemManager::createGuns()
 Animator<sf::Texture*> ItemManager::createAnimator(int gunIndex)
 {
 	return Animator<sf::Texture*>(&Resources::gunsBaseText[gunIndex],
-		{ createAnimation(&Resources::gunsFireAnim[gunIndex], gunsDef[gunIndex].shutTime)
-		, createAnimation(&Resources::gunsResetAnim[gunIndex], gunsDef[gunIndex].resetTime) });
+		{ createAnimation(&Resources::gunsFireAnim[gunIndex], gunsDef[gunIndex].shutTime),
+		createAnimation(&Resources::gunsResetAnim[gunIndex], gunsDef[gunIndex].resetTime) });
 }
 
 Animation<sf::Texture*> ItemManager::createAnimation(std::vector<sf::Texture>* frames, float duration)

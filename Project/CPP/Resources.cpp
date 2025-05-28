@@ -2,6 +2,7 @@
 #include <thread>
 
 sf::Image Resources::gameIcon{};
+sf::Image Resources::cursorImage{};
 sf::Texture Resources::textures{};
 sf::Texture Resources::dialogBackground{};
 sf::Texture Resources::tradeBackground{};
@@ -55,6 +56,7 @@ void Resources::initResources()
 {
 	if (!textureImage.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
 	if (!gameIcon.loadFromFile("Texture/gameIcon.png")) throw "TextureLoadError!";
+	if (!cursorImage.loadFromFile("Texture/cursorTexture.png")) throw "TextureLoadError!";
 	if (!dialogBackground.loadFromFile("Texture/dialogBackground.png")) throw "TextureLoadError!";
 	if (!tradeBackground.loadFromFile("Texture/tradeBackground.png")) throw "TextureLoadError!";
 	if (!menuBackground.loadFromFile("Texture/menuBackground.png")) throw "TextureLoadError!";

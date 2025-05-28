@@ -14,6 +14,7 @@ private:
 	static void loadGun(std::string baseName, int index);
 public:
 	static sf::Image gameIcon;
+	static sf::Image cursorImage;
 	static sf::Texture dialogBackground;
 	static sf::Texture tradeBackground;
 	static sf::Texture menuBackground;
