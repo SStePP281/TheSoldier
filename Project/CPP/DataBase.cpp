@@ -59,80 +59,89 @@ std::vector<std::tuple<int, std::wstring, int>> Data::loadTextData(int idKey)
 	return key2text;
 }
 
-std::vector<std::pair<int, int>> Data::getInvent()
+template<typename T>
+bool loadBinary(std::string filename, T& data)
 {
-	std::ifstream in{ "Data/inventory.inv", std::ios::in | std::ios::binary };
-	if (!in.is_open()) return {};
-	
+	std::ifstream in(filename, std::ios::binary);
+	if (!in.is_open()) return false;
+
+	in.read(reinterpret_cast<char*>(&data), sizeof(T));
+
+	in.close();
+	return true;
+}
+
+template<typename T>
+bool loadBinary(std::string filename, std::vector<T>& data)
+{
+	std::ifstream in(filename, std::ios::binary);
+	if (!in.is_open()) return false;
+
 	size_t size;
 	in.read(reinterpret_cast<char*>(&size), sizeof(size));
-	std::vector<std::pair<int, int>> inv(size);
+	data.resize(size);
 
 	for (size_t i = 0; i < size; i++)
 	{
-		int first, second;
-		in.read(reinterpret_cast<char*>(&first), sizeof(first));
-		in.read(reinterpret_cast<char*>(&second), sizeof(second));
-		inv[i] = {first, second};
+		in.read(reinterpret_cast<char*>(&data[i]), sizeof(T));
 	}
 
 	in.close();
+	return true;
+}
 
+template<typename T>
+bool saveBinary(std::string filename, T& data)
+{
+	std::ofstream out(filename, std::ios::binary);
+	if (!out.is_open()) return false;
+
+	out.write(reinterpret_cast<char*>(&data), sizeof(T));
+
+	out.close();
+	return true;
+}
+
+template<typename T>
+bool saveBinary(std::string filename, std::vector<T>& data)
+{
+	std::ofstream out(filename, std::ios::binary);
+	if (!out.is_open()) return false;
+
+	size_t size = data.size();
+	out.write(reinterpret_cast<char*>(&size), sizeof(size));
+
+	for (size_t i = 0; i < size; i++)
+	{
+		out.write(reinterpret_cast<char*>(&data[i]), sizeof(T));
+	}
+
+	out.close();
+	return true;
+}
+
+std::vector<std::pair<int, int>> Data::getInvent()
+{
+	std::vector<std::pair<int, int>> inv;
+	loadBinary("Data/inventory.inv", inv);
 	return inv;
 }
 
 void Data::saveInvent(std::vector<std::pair<int, int>>& inv)
 {
-	std::ofstream out{ "Data/inventory.inv", std::ios::out | std::ios::binary };
-	if (!out.is_open()) return;
-
-	size_t size = inv.size();
-	out.write(reinterpret_cast<const char*>(&size), sizeof(size));
-
-	for (auto it : inv)
-	{
-		out.write(reinterpret_cast<const char*>(&it.first), sizeof(it.first));
-		out.write(reinterpret_cast<const char*>(&it.second), sizeof(it.second));
-	}
-
-	out.close();
+	saveBinary("Data/inventory.inv", inv);
 }
 
 std::vector<QuestData> Data::getQuest()
 {
-	std::ifstream in{ "Data/Quest.qst", std::ios::in | std::ios::binary };
-	if (!in.is_open()) return {};
-
-	size_t size;
-	in.read(reinterpret_cast<char*>(&size), sizeof(size));
-	std::vector<QuestData> quests(size);
-
-	for (size_t i = 0; i < size; i++)
-	{
-		QuestData quest;
-		in.read(reinterpret_cast<char*>(&quest), sizeof(quest));
-		quests[i] = quest;
-	}
-
-	in.close();
-
-	return quests;
+	std::vector<QuestData> quest;
+	loadBinary("Data/Quest.qst", quest);
+	return quest;
 }
 
 void Data::saveQuest(std::vector<QuestData>& quests)
 {
-	std::ofstream out{ "Data/Quest.qst", std::ios::out | std::ios::binary };
-	if (!out.is_open()) return;
-
-	size_t size = quests.size();
-	out.write(reinterpret_cast<const char*>(&size), sizeof(size));
-
-	for (auto q : quests)
-	{
-		out.write(reinterpret_cast<const char*>(&q), sizeof(q));
-	}
-
-	out.close();
+	saveBinary("Data/Quest.qst", quests);
 }
 
 std::vector<int> Data::getKeys(int idKey, int key)
@@ -166,24 +175,14 @@ std::pair<std::wstring, int> Data::getText(int idKey, int key)
 
 GameStateData Data::getGameState()
 {
-	std::ifstream in{ "Data/gameState.state", std::ios::in | std::ios::binary };
-	if (!in.is_open()) return { true, 50, 50, 0, true };
-
 	GameStateData data;
-	in.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-	in.close();
-
+	loadBinary("Data/gameState.state", data);
 	return data;
 }
 
 void Data::saveGameState(GameStateData& data)
 {
-	std::ofstream out{ "Data/gameState.state", std::ios::out | std::ios::binary };
-	if (!out.is_open()) return;
-
-	out.write(reinterpret_cast<const char*>(&data), sizeof(data));
-	out.close();
+	saveBinary("Data/gameState.state", data);
 }
 
 PlayerDef Data::getPlayerData()
