@@ -32,6 +32,8 @@ public:
 	void save();
 	void editor(); 
 private:
+	void init();
+	void subscribeEvent();
 	void resetGame();
 	void getInput(float deltaTime);
 	void initPlayer();

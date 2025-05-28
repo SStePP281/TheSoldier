@@ -13,9 +13,11 @@ void Dialog::start(Npc* _npc)
 	auto& event = EventSystem::getInstance();
 	event.trigger<RenderState*>("SWAP_STATE", &dialogState);
 	window->setMouseCursorVisible(true);
-	npc = _npc;
-	npc->setEndFunc([=]() {stop();});
-	npc->init();
+	if (npc = _npc, npc)
+	{
+		npc->setEndFunc([=]() {stop();});
+		npc->init();
+	}
 }
 
 void Dialog::stop()

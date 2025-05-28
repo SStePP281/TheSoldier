@@ -1,9 +1,16 @@
 #include "Game.h"
 
 Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
-	window{ _window }, mapManager{ _mapManager }, isKeyPressed{false}
+	window{ _window }, mapManager{ _mapManager }, isKeyPressed{false},
+	screenMidlePos{ (int)(SCREEN_W / 2), (int)(SCREEN_H / 2) }
 {
-	screenMidlePos = { (int)(SCREEN_W / 2), (int)(SCREEN_H / 2) };
+	init();
+	subscribeEvent();
+	menu->initStartMenu();
+}
+
+void Game::init()
+{
 	itemManager = new ItemManager();
 	uiManager = new UIManager(window);
 	dialogSys = new Dialog(window, uiManager, itemManager);
@@ -15,24 +22,33 @@ Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
 	initPlayer();
 
 	auto& data = Data::getInstance();
-	for (auto b : data.getInvent()) { player->takeItem(itemManager->getItemble(b.first), b.second); }
+	for (auto b : data.getInvent()) 
+	{ 
+		player->takeItem(itemManager->getItemble(b.first), b.second);
+	}
 
 	auto update = [=](float deltaTime) {
 		getInput(deltaTime);
 		spManager->update(deltaTime);
 		};
+
 	auto draw = [=]() {
 		renderer->Draw3DView(mapManager->getNowMap(), spManager->getDeteachSprite());
 		uiManager->drawPlayerUI(player);
 		};
+
 	playState = RenderState(std::move(update), std::move(draw));
 
+}
+
+void Game::subscribeEvent()
+{
 	auto& event = EventSystem::getInstance();
 	event.subscribe<int>("SWAPLOC", [=](const int levelN) {
-			auto& state = GameState::getInstance();
-			state.data.changerCoef = Random::intRandom(2, 5);
-			sf::Vector2f pos = mapManager->nextLocation(levelN);
-			spManager->resetMap(mapManager->getNowMap(), pos);
+		auto& state = GameState::getInstance();
+		state.data.changerCoef = Random::intRandom(2, 5);
+		sf::Vector2f pos = mapManager->nextLocation(levelN);
+		spManager->resetMap(mapManager->getNowMap(), pos);
 		});
 
 	event.subscribe<int>("RESET_GAME", [=](const int NON) {
@@ -62,8 +78,6 @@ Game::Game(sf::RenderWindow* _window, MapManager* _mapManager) :
 		state.data.levelNumber--;
 		menu->initResetMenu();
 		});
-
-	menu->initStartMenu();
 }
 
 Game::~Game()

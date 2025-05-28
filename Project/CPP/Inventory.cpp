@@ -1,27 +1,11 @@
 #include "Inventory.h"
 
 Inventory::Inventory(sf::RenderWindow* _window, Player* _player, UIManager* _uiManager) :
-	window{ _window }, uiManager { _uiManager }, player{ _player } 
-{
-	isOpen = false;
-	choose = nullptr;
-	nowKey = 0;
-
-	auto updateF = [=](float deltaTime) {
-		update();
-		};
-	auto drawF = [=]() {
-		drawInvent();
-		};
-	invetState = RenderState(updateF, drawF);
-
+	window{ _window }, uiManager{ _uiManager }, player{ _player }, isOpen{ false },
+	choose{nullptr}, nowKey{0}, invetState{ [=](float deltaTime) {update();}, [=]() {drawInvent();} }
+{	
 	auto& event = EventSystem::getInstance();
-	event.subscribe<int>("SAVE", [=](const int NON)
-		{
-			auto& data = Data::getInstance();
-			auto save = convert2save();
-			data.saveInvent(save);
-		});
+	event.subscribe<int>("SAVE", [=](const int NON) { save(); });
 
 	event.subscribe<int>("RESET_GAME", [=](const int NON) { items.clear(); });
 
@@ -49,11 +33,13 @@ Item* Inventory::takeMaxHeal()
 
 void Inventory::takeItem(Itemble* item, int cnt)
 {
-	items[item] += cnt;
+	if (item) { items[item] += cnt; }
 }
 
 void Inventory::useItem(Itemble* item, int cnt)
 {
+	if (!item) return;
+
 	if (items[item] - cnt >= 0)
 	{
 		items[item] -= cnt;
@@ -65,7 +51,7 @@ void Inventory::useItem(Itemble* item, int cnt)
 	}
 }
 
-std::vector<std::pair<int, int>> Inventory::convert2save()
+void Inventory::save()
 {
 	std::vector<std::pair<int, int>> inv;
 
@@ -74,25 +60,25 @@ std::vector<std::pair<int, int>> Inventory::convert2save()
 		inv.push_back({ it.first->id, it.second });
 	}
 
-	return inv;
+	auto& data = Data::getInstance();
+	data.saveInvent(inv);
 }
 
 void Inventory::useInvent() 
 { 
-	auto& event = EventSystem::getInstance();
 	uiManager->deleteNow();
+	isOpen = !isOpen;
+	window->setMouseCursorVisible(isOpen);
 
-	window->setMouseCursorVisible(!isOpen);
-	if (isOpen)
+	auto& event = EventSystem::getInstance();
+	event.trigger<RenderState*>("SWAP_STATE", isOpen ? &invetState : nullptr);
+
+	if (!isOpen)
 	{
-		event.trigger<RenderState*>("SWAP_STATE", nullptr);
-		isOpen = false;
 		choose = nullptr;
 	}
 	else
 	{
-		event.trigger<RenderState*>("SWAP_STATE", &invetState);
-		isOpen = true;
 		initInv();
 	}
 }
@@ -124,7 +110,6 @@ void Inventory::selectedItem()
 	else if (auto improve = dynamic_cast<Improve*>(choose); improve) 
 	{ useSelectedImprove(improve); }
 	
-	uiManager->deleteNow();
 	choose = nullptr;
 	initInv();
 }

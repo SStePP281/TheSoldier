@@ -19,7 +19,7 @@ public:
 	void update();
 	void drawInvent();
 private:
-	std::vector<std::pair<int, int>> convert2save();
+	void save();
 	void initInv();
 	void checkChose();
 	void selectedItem();
