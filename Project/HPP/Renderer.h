@@ -55,8 +55,8 @@ private:
 
 	ThreadPool threads;
 
-	void DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, Map* map, int startH, int endH);
-	void DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane, std::vector<std::shared_ptr<Sprite>>* sprites);
+	void DrawFloor(const sf::Vector2f& rayDirLeft, const sf::Vector2f& rayDirRight, const sf::Vector2f& rayPos, Map* map, int startH, int endH);
+	void DrawSprite(const sf::Vector2f& pDirection, const sf::Vector2f& cameraPlane, std::vector<std::shared_ptr<Sprite>>* sprites);
 };
 
 #endif // !RENDERER

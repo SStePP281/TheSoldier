@@ -179,7 +179,7 @@ void Renderer::Draw3DView(Map* map, std::vector<std::shared_ptr<Sprite>>* sprite
 	walls.clear();
 }
 
-void Renderer::DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane,
+void Renderer::DrawSprite(const sf::Vector2f& pDirection, const sf::Vector2f& cameraPlane,
 	std::vector<std::shared_ptr<Sprite>>* sprites)
 {
 	float invDet = 1.0f / (cameraPlane.x * pDirection.y - cameraPlane.y * pDirection.x);
@@ -255,7 +255,7 @@ void Renderer::DrawSprite(sf::Vector2f& pDirection, sf::Vector2f& cameraPlane,
 	}
 }
 
-void Renderer::DrawFloor(sf::Vector2f& rayDirLeft, sf::Vector2f& rayDirRight, sf::Vector2f& rayPos, Map* map, int startH, int endH)
+void Renderer::DrawFloor(const sf::Vector2f& rayDirLeft, const sf::Vector2f& rayDirRight, const sf::Vector2f& rayPos, Map* map, int startH, int endH)
 {
 	for (int y = startH; y < endH; y++)
 	{
