@@ -382,7 +382,7 @@ void MapManager::generate()
 	writeEnemy(enemyRooms);
 }
 
-void MapManager::writeRoom(sf::IntRect& rect, int layer, int value)
+void MapManager::writeRoom(const sf::IntRect& rect, int layer, int value)
 {
 	for (size_t y = rect.top; y < rect.top + rect.height; y++)
 	{
@@ -393,7 +393,7 @@ void MapManager::writeRoom(sf::IntRect& rect, int layer, int value)
 	}
 }
 
-void MapManager::writeEnemy(std::vector<sf::IntRect>& rooms)
+void MapManager::writeEnemy(const std::vector<sf::IntRect>& rooms)
 {
 	auto& state = GameState::getInstance();
 	int midleRoomCount = std::min(ENEMY_LEVEL_COUNT, (state.data.levelNumber + 1) * 7) / (float)rooms.size();

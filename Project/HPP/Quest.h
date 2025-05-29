@@ -10,7 +10,7 @@
 class Quest 
 {
 public:
-    Quest(QuestData& data);
+    Quest(const QuestData& data);
 
     ~Quest() = default;
 
@@ -36,7 +36,7 @@ public:
 
     void deleteAllQuest();
 
-    void addQuest(QuestData& data);
+    void addQuest(const QuestData& data);
 
     void updateQuests(QuestType type, int value);
 

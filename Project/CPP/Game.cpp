@@ -139,7 +139,7 @@ void Game::save()
 	event.trigger<int>("SAVE", 0);
 }
 
-void Game::getInput(sf::Event& event, float deltaTime)
+void Game::getInput(const sf::Event& event, float deltaTime)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{

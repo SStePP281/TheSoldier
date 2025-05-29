@@ -15,7 +15,7 @@ void Weapon::update(float dt)
 
 void Weapon::setAnimator(Animator<sf::Texture*>&& anim) { weaponAnimator = anim; }
 
-void Weapon::drawWeapon(sf::RenderTarget* window, sf::Vector2f& delta)
+void Weapon::drawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta)
 {
 	sf::Texture* tex = weaponAnimator.get();
 	if (tex)
@@ -40,10 +40,10 @@ void Weapon::startAnimation(int number)
 	weaponAnimator.setAnimation(number);
 }
 
-Itemble::Itemble(std::wstring& _name, std::wstring& _disc, int _cost, int _textureId) :
+Itemble::Itemble(const std::wstring& _name, const std::wstring& _disc, int _cost, int _textureId) :
 	name{ _name }, disc{ _disc }, cost{ _cost }, id{ _textureId } {}
 
-Improve::Improve(ImproveDef& def) : 
+Improve::Improve(const ImproveDef& def) :
 	Itemble(def.name, def.disc, def.cost, def.id), type{ def.type }
 {
 	if (type == Damage)
@@ -74,7 +74,7 @@ void Improve::setGetFunc(std::function<void(Gun* gun)>&& _setEffect) { getImprov
 
 void Improve::setDelFunc(std::function<void(Gun* gun)>&& _delEffect) { deleteImprove = _delEffect; }
 
-Item::Item(ItemsDef& def) : Itemble(def.name, def.disc, def.cost, def.id),
+Item::Item(const ItemsDef& def) : Itemble(def.name, def.disc, def.cost, def.id),
 type{ def.type }, maxUsing{ def.maxUSing }
 {
 	if (def.type == Heal)
@@ -116,7 +116,7 @@ void Item::setFunc(std::function<void(Player* sprite)>&& _useFunc) { useFunc = _
 
 void Item::useItem(Player* sprite) { useFunc(sprite); }
 
-Gun::Gun(GunDef& def, bool _isReset, int _gunId) : Weapon(def.shutTime, def.maxDist),
+Gun::Gun(const GunDef& def, bool _isReset, int _gunId) : Weapon(def.shutTime, def.maxDist),
 Itemble(def.name, def.disc, def.cost, def.id),
 damage{ def.damage }, maxCount{ def.maxCount }, nowCount{ def.nowCount },
 nowTimeBetwenReset{ def.resetTime }, timeBetwenReset{ def.resetTime }, 

@@ -63,7 +63,7 @@ void SpriteManager::init()
 	}
 }
 
-void SpriteManager::createSpriteFromMapSprite(MapSprite& mapSprite)
+void SpriteManager::createSpriteFromMapSprite(const MapSprite& mapSprite)
 {
 	auto def = spriteDefs[mapSprite.spriteDefId];
 	if (def.type == SpriteType::Enemy)
@@ -90,12 +90,12 @@ void SpriteManager::createSpriteFromMapSprite(MapSprite& mapSprite)
 	id++;
 }
 
-void SpriteManager::createDecor(MapSprite& mapSprite, SpriteDef& spDef)
+void SpriteManager::createDecor(const MapSprite& mapSprite, const SpriteDef& spDef)
 {
 	allSprites->push_back(std::make_shared<Sprite>(spDef, mapSprite, id));
 }
 
-void SpriteManager::createBoss(MapSprite& spMap, SpriteDef& spDef)
+void SpriteManager::createBoss(const MapSprite& spMap, const SpriteDef& spDef)
 {
 	auto enemy = enemyDefs[spMap.spriteDefId];
 	auto cDef = converterDefs[spDef.texture - ENEMY_MAX_INDEX];
@@ -114,7 +114,7 @@ void SpriteManager::createBoss(MapSprite& spMap, SpriteDef& spDef)
 	allSprites->push_back(std::move(boss));
 }
 
-void SpriteManager::createConverter(MapSprite& mapSprite, SpriteDef& def)
+void SpriteManager::createConverter(const MapSprite& mapSprite, const SpriteDef& def)
 {
 	auto cDef = converterDefs[def.texture - ENEMY_MAX_INDEX];
 	auto converter = std::make_shared<Converter>(Converter(def, mapSprite, enemyDefs[mapSprite.spriteDefId], cDef, id));
@@ -127,7 +127,7 @@ void SpriteManager::createConverter(MapSprite& mapSprite, SpriteDef& def)
 	allSprites->push_back(std::move(converter));
 }
 
-void SpriteManager::createEnemy(MapSprite& mapSprite, SpriteDef& def)
+void SpriteManager::createEnemy(const MapSprite& mapSprite, const SpriteDef& def)
 {
 	auto enemy = std::make_shared<Enemy>(def, mapSprite, enemyDefs[mapSprite.spriteDefId], id);
 	
@@ -145,7 +145,7 @@ void SpriteManager::createEnemy(MapSprite& mapSprite, SpriteDef& def)
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::createNpc(MapSprite& mapSprite, SpriteDef& def)
+void SpriteManager::createNpc(const MapSprite& mapSprite, const SpriteDef& def)
 {
 	auto npcDef = npcDefs[def.texture - ENEMY_MAX_INDEX - 4];
 
@@ -192,7 +192,7 @@ void SpriteManager::createNpc(MapSprite& mapSprite, SpriteDef& def)
 	nowMap->setupBlockmap(allSprites->back().get());
 }
 
-void SpriteManager::createPlayer(MapSprite& mapSprite, SpriteDef& def, PlayerDef& plDef)
+void SpriteManager::createPlayer(const MapSprite& mapSprite, const SpriteDef& def, const PlayerDef& plDef)
 {
 	auto enemy = std::make_shared<Enemy>(def, mapSprite, enemyDefs[mapSprite.spriteDefId], id);
 
@@ -206,7 +206,7 @@ void SpriteManager::createPlayer(MapSprite& mapSprite, SpriteDef& def, PlayerDef
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::createDefaultPlayer(PlayerDef& plDef)
+void SpriteManager::createDefaultPlayer(const PlayerDef& plDef)
 {
 	auto def = spriteDefs[0];
 	auto enDef = enemyDefs[0];
@@ -228,7 +228,7 @@ void SpriteManager::createDefaultPlayer(PlayerDef& plDef)
 	allSprites->push_back(std::move(enemy));
 }
 
-void SpriteManager::resetMap(Map* newMap, sf::Vector2f& pos)
+void SpriteManager::resetMap(Map* newMap, const sf::Vector2f& pos)
 {
 	nowMap = newMap;
 	init();
@@ -315,7 +315,7 @@ void SpriteManager::aiControler(float deltaTime)
 	}
 }
 
-bool isPointInAttackRect(sf::Vector2f point, sf::Vector2f pos,
+bool isPointInAttackRect(const sf::Vector2f& point, const sf::Vector2f& pos,
 	sf::Vector2f dir, float attackDist)
 {
 	sf::Vector2f rel = point - pos;

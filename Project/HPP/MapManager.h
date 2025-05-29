@@ -32,8 +32,8 @@ private:
 	sf::Vector2f endPos;
 
 	void generate();
-	void writeRoom(sf::IntRect& rect, int layer, int value);
-	void writeEnemy(std::vector<sf::IntRect>& rooms);
+	void writeRoom(const sf::IntRect& rect, int layer, int value);
+	void writeEnemy(const std::vector<sf::IntRect>& rooms);
 };
 
 #endif // !MAPM

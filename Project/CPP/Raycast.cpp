@@ -1,6 +1,6 @@
 #include "Raycast.h"
 
-RayHit raycast(Map* map, sf::Vector2f& pos, sf::Vector2f& dir,
+RayHit raycast(Map* map, const sf::Vector2f& pos, const sf::Vector2f& dir,
 	bool checkSprite, Sprite* ignore, int maxDist, float pitch)
 {
 	float origin[2] = { pos.x, pos.y };

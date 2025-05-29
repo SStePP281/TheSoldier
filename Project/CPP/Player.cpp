@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Inventory.h"
 
-Player::Player(Enemy* _sprite, PlayerDef& def, Map* _nowMap) : 
+Player::Player(Enemy* _sprite, const PlayerDef& def, Map* _nowMap) : 
 	nowEnergy{ def.nowEnergy }, maxEnergy { def.maxEnergy },
 	defence{ def.defence}, nowStrenght{ def.nowStrenght }, maxStrenght{ def.maxStrenght }, 
 	patrons{ def.countpantrons }, money{ def.money }, details{ def.details },
@@ -53,7 +53,7 @@ void Player::setInventory(Inventory* _invent)
 	if (invent = _invent; invent) { nowHeal = invent->takeMaxHeal(); }
 }
 
-void Player::updateMouseData(sf::Vector2f& mousePos, float deltaTime)
+void Player::updateMouseData(const sf::Vector2f& mousePos, float deltaTime)
 {
 	enemy->spMap.angle += mouseSpeed * ROTATION_SPEED * mousePos.x * deltaTime;
 
@@ -93,7 +93,7 @@ void Player::checkBoost(bool isPressed, float deltaTime)
 	}
 }
 
-void Player::move(sf::Vector2f& deltaPos, float deltaTime)
+void Player::move(const sf::Vector2f& deltaPos, float deltaTime)
 {
 	guns[nowGun]->updateRad(deltaPos != sf::Vector2f(), deltaTime);
 	sf::Vector2f deltaMove = deltaPos * deltaTime * nowSpeed;

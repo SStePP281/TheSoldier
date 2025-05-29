@@ -58,7 +58,7 @@ std::wstring UIManager::toMax(std::wstring str, float maxW, float textSize)
 }
 
 void UIManager::initDialog(std::map<int, std::wstring, std::greater<int>>& variants,
-	std::wstring& npcName)
+	const std::wstring& npcName)
 {
 	background = sf::Sprite(Resources::dialogBackground);
 	background.setScale({ (float)SCREEN_W / Resources::dialogBackground.getSize().x,
@@ -381,7 +381,7 @@ void UIManager::initQuest(Quest* quest, Player* player)
 	buttons.push_back(button);
 }
 
-void UIManager::initTrade(std::map<int, Itemble*>& variants, Player* player)
+void UIManager::initTrade(const std::map<int, Itemble*>& variants, Player* player)
 {
 	background = sf::Sprite(Resources::tradeBackground);
 	background.setScale({ (float)SCREEN_W / Resources::tradeBackground.getSize().x,
@@ -596,7 +596,7 @@ void UIManager::initChanger(int coef, Player* player)
 	buttons.push_back(button);
 }
 
-void UIManager::initInvent(std::map<Itemble*, int>& items, Itemble* choose, Player* player)
+void UIManager::initInvent(const std::map<Itemble*, int>& items, Itemble* choose, Player* player)
 {
 	background = sf::Sprite(Resources::inventoryBackground);
 	background.setScale({ (float)SCREEN_W / Resources::inventoryBackground.getSize().x,

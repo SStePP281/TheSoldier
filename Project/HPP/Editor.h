@@ -42,7 +42,7 @@ private:
 	void windowStateNoRightClick();
 	void windowStateLeftClick();
 	void editorWindowStateLeftClick();
-	sf::Vector2i getMapPos(sf::Vector2f& worldPos);
+	sf::Vector2i getMapPos(const sf::Vector2f& worldPos);
 };
 
 #endif // !EDITOR

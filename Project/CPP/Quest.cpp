@@ -1,7 +1,7 @@
 #include "Quest.h"
 #include "DataBase.h"
 
-Quest::Quest(QuestData& data) : data{ data } {}
+Quest::Quest(const QuestData& data) : data{ data } {}
 
 void Quest::updateProgress(int value) { data.progress = std::min(data.progress + value, data.target); }
 
@@ -31,7 +31,7 @@ QuestManager::~QuestManager()
     dataBase.saveQuest(questData);
 }
 
-void QuestManager::addQuest(QuestData& data)
+void QuestManager::addQuest(const QuestData& data)
 { 
     for (size_t i = 0; i < quests.size(); i++)
     {

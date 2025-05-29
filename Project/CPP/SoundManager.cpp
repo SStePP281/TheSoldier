@@ -8,7 +8,7 @@ std::vector<std::unique_ptr<sf::Sound>> SoundManager::sounds{};
 
 sf::Music SoundManager::music{};
 
-void SoundManager::playSound(sf::SoundBuffer& buffer, bool isLoop)
+void SoundManager::playSound(const sf::SoundBuffer& buffer, bool isLoop)
 {
 	for (size_t i = 0; i < sounds.size(); i++)
 	{

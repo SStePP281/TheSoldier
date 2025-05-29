@@ -223,7 +223,7 @@ void Editor::drawEditor()
 	}
 }
 
-sf::Vector2i Editor::getMapPos(sf::Vector2f& worldPos)
+sf::Vector2i Editor::getMapPos(const sf::Vector2f& worldPos)
 {
 	return sf::Vector2i((int)floor(worldPos.x - 0.1f) / TEXTURE_SIZE,
 						(int)floor(worldPos.y - 0.1f) / TEXTURE_SIZE);

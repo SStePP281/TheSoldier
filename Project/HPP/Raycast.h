@@ -15,7 +15,7 @@ struct RayHit
 	Sprite* sprite;
 };
 
-RayHit raycast(Map* map, sf::Vector2f& pos, sf::Vector2f& dir,
+RayHit raycast(Map* map, const sf::Vector2f& pos, const sf::Vector2f& dir,
 	bool checkSprite = false, Sprite* ignore = nullptr, int maxDist = 64, float pitch = 0.0f);
 
 #endif // !RAYCAST

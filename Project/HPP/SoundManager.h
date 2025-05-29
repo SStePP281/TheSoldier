@@ -11,7 +11,7 @@ class SoundManager
 {
 public:
 	SoundManager();
-	static void playSound(sf::SoundBuffer& buffer, bool isLoop = false);
+	static void playSound(const sf::SoundBuffer& buffer, bool isLoop = false);
 	static void playerMusic(MusicType type);
 	static void stopAllSound();
 	static void update();

@@ -20,12 +20,12 @@ int Map::GetOnGrid(int x, int y, int layerNumber)
 	return isValidGridPos(x, y) ? grid[y][x][layerNumber] : 0;
 }
 
-bool Map::isCellEmpty(sf::Vector2i& pos)
+bool Map::isCellEmpty(const sf::Vector2i& pos)
 {
 	return isValidBlockmapPos(pos.x, pos.y) ? blockMap[pos.y][pos.x].empty() : false;
 }
 
-void Map::rotateSprite(sf::Vector2i& pos, float angle)
+void Map::rotateSprite(const sf::Vector2i& pos, float angle)
 {
 	if (!isValidBlockmapPos(pos.x, pos.y)) return;
 
@@ -71,14 +71,14 @@ void Map::deleteInBlockMap(Sprite* sp)
 	}
 }
 
-std::set<Sprite*> Map::getBlockMap(sf::Vector2i& pos) 
+std::set<Sprite*> Map::getBlockMap(const sf::Vector2i& pos) 
 {
 	return isValidBlockmapPos(pos.x, pos.y) ? blockMap[pos.y][pos.x] : std::set<Sprite*>{};
 }
 
 std::vector<MapSprite>& Map::getMapSprites() { return sprites; }
 
-void Map::setMapSprite(MapSprite& sp)
+void Map::setMapSprite(const MapSprite& sp)
 {
 	for (auto s : sprites)
 	{
@@ -87,7 +87,7 @@ void Map::setMapSprite(MapSprite& sp)
 	sprites.push_back(sp);
 }
 
-void Map::deleteMapSprite(sf::Vector2i& pos)
+void Map::deleteMapSprite(const sf::Vector2i& pos)
 {
 	auto it = std::remove_if(sprites.begin(), sprites.end(), [pos](MapSprite sp) {
 		return (sf::Vector2i)sp.position == pos; });

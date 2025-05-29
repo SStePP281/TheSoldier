@@ -27,7 +27,7 @@ public:
 public:
 	Game(sf::RenderWindow* window, MapManager* mapManager);
 	~Game();
-	void getInput(sf::Event& event, float deltaTime);
+	void getInput(const sf::Event& event, float deltaTime);
 	void makeCycle(float deltaTime);
 	void save();
 	void editor(); 
