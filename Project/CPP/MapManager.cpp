@@ -312,31 +312,43 @@ void MapManager::generate()
 		if ((angle >= 315.0f && angle < 360.0f) ||
 			(angle >= 0.0f && angle < 45.0f))
 		{
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 3][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 1][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width][WALL_LAYER] = 1;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 1][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 3][WALL_LAYER] = 0;
 		}
 		else if (angle >= 45.0f && angle < 135.0f)
 		{
-			nowMap->grid[rect.top][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top][rect.left + rect.width / 2][WALL_LAYER] = 1;
 			nowMap->grid[rect.top - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top - 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
 		}
 		else if (angle >= 135.0f && angle < 225.0f)
 		{
-			nowMap->grid[rect.top + rect.height / 2][rect.left][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + 3][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left + 1][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height / 2][rect.left][WALL_LAYER] = 1;
 			nowMap->grid[rect.top + rect.height / 2][rect.left - 1][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height / 2][rect.left - 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height / 2][rect.left - 3][WALL_LAYER] = 0;
 		}
 		else
 		{
+			nowMap->grid[rect.top + rect.height - 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height][rect.left + rect.width / 2][WALL_LAYER] = 0;
 			nowMap->grid[rect.top + rect.height][rect.left + rect.width / 2][WALL_LAYER] = 1;
+			nowMap->grid[rect.top + rect.height + 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height + 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			nowMap->grid[rect.top + rect.height + 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
 		}
 
 		current = minRoom;
