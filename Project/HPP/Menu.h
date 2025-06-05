@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MENU
 #define MENU
 
@@ -9,25 +8,26 @@
 class Menu
 {
 public:
-	Menu(sf::RenderWindow* _window, UIManager* _uiManager, Player* player);
-	void initStartMenu();
-	void initGameMenu();
-	void initSetting();
-	void initResetMenu();
-	void stop();
-	void draw();
-	void updateResetMenu();
-	void updateStartMenu();
-	void updateGameMenu();
-	void updateSetting();
+	Menu(sf::RenderWindow* window, UIManager* ui_manager, Player* player);
+	void InitStartMenu();
+	void InitGameMenu();
+	void InitSetting();
+	void InitResetMenu();
+	void Stop();
+	void Draw();
+	void UpdateResetMenu();
+	void UpdateStartMenu();
+	void UpdateGameMenu();
+	void UpdateSetting();
 private:
-	bool isKeyPressed;
+	bool is_key_pressed;
 	sf::RenderWindow* window;
 	Player* player;
-	UIManager* uiManager;
-	RenderState resetState;
-	RenderState startMenuState;
-	RenderState gameMenuState;
-	RenderState settingState;
+	UIManager* ui_manager;
+	RenderState reset_state;
+	RenderState start_menu_state;
+	RenderState game_menu_state;
+	RenderState setting_state;
 };
+
 #endif // !MENU

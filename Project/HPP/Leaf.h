@@ -8,22 +8,22 @@
 
 class Leaf
 {
-private:
-	std::vector<Leaf*> allChild;
 public:
-	sf::IntRect leafData;
-	bool isRoom;
-	Leaf* leftChild;
-	Leaf* rightChild;
-
-	Leaf(sf::Vector2i, sf::Vector2i);
+	Leaf(sf::Vector2i position, sf::Vector2i size);
 	Leaf() = default;
 	~Leaf();
 
-	std::vector<Leaf*> getRoom();
-	bool split();
-	void findRoom();
-	std::vector<Leaf*> getAllChild();
+	std::vector<Leaf*> GetRoom();
+	bool Split();
+	void FindRoom();
+	std::vector<Leaf*> GetAllChild();
+
+	sf::IntRect leaf_data;
+	bool is_room;
+	Leaf* left_child;
+	Leaf* right_child;
+private:
+	std::vector<Leaf*> all_child;
 };
 
 #endif // !LEAF

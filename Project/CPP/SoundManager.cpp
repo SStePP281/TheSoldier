@@ -8,7 +8,7 @@ std::vector<std::unique_ptr<sf::Sound>> SoundManager::sounds{};
 
 sf::Music SoundManager::music{};
 
-void SoundManager::playSound(const sf::SoundBuffer& buffer, bool isLoop)
+void SoundManager::PlaySounds(const sf::SoundBuffer& buffer, bool is_loop)
 {
 	for (size_t i = 0; i < sounds.size(); i++)
 	{
@@ -20,48 +20,48 @@ void SoundManager::playSound(const sf::SoundBuffer& buffer, bool isLoop)
 		}	
 	}
 
-	auto& state = GameState::getInstance();
+	auto& state = GameState::GetInstance();
 
 	sounds.push_back(std::make_unique<sf::Sound>(buffer));
-	sounds.back()->setLoop(isLoop);
+	sounds.back()->setLoop(is_loop);
 	sounds.back()->setVolume((float)state.data.effectVolume);
 	sounds.back()->play();
 }
 
-void SoundManager::playerMusic(MusicType type)
+void SoundManager::PlayerMusic(MusicType type)
 {
-	std::string filePath = "Sound/background";
+	std::string file_path = "Sound/background";
 
-	if (type == MenuSound)
+	if (type == MusicType::MenuSound)
 	{
-		filePath += "1";
+		file_path += "1";
 	}
-	else if (type == BaseSound)
+	else if (type == MusicType::BaseSound)
 	{
-		filePath += "2";
+		file_path += "2";
 	}
-	else if (type == LevelSound)
+	else if (type == MusicType::LevelSound)
 	{
-		filePath += std::to_string(Random::intRandom(3, 9));
+		file_path += std::to_string(Random::IntRandom(3, 9));
 	}
-	else if (type == StartIntro)
+	else if (type == MusicType::StartIntro)
 	{
-		filePath = "Sound/startIntroMusic";
+		file_path = "Sound/startIntroMusic";
 	}
-	else if (type == EndIntro)
+	else if (type == MusicType::EndIntro)
 	{
-		filePath = "Sound/endIntroMusic";
+		file_path = "Sound/endIntroMusic";
 	}
 
-	auto& state = GameState::getInstance();
+	auto& state = GameState::GetInstance();
 
-	if (!music.openFromFile(filePath + ".ogg")) return;
+	if (!music.openFromFile(file_path + ".ogg")) return;
 	music.setLoop(true);
 	music.setVolume((float)state.data.soundVolume);
 	music.play();
 }
 
-void SoundManager::stopAllSound()
+void SoundManager::StopAllSound()
 {
 	for (size_t i = 0; i < sounds.size(); i++)
 	{
@@ -72,7 +72,7 @@ void SoundManager::stopAllSound()
 	music.stop();
 }
 
-void SoundManager::update()
+void SoundManager::Update()
 {
 	size_t i = 0;
 
@@ -89,9 +89,9 @@ void SoundManager::update()
 	}
 }
 
-void SoundManager::updateVolume()
+void SoundManager::UpdateVolume()
 {
-	auto& state = GameState::getInstance();
+	auto& state = GameState::GetInstance();
 
 	music.setVolume((float)state.data.soundVolume);
 

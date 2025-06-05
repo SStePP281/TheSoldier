@@ -1,4 +1,3 @@
-#pragma once
 #ifndef DIALOG
 #define DIALOG
 
@@ -14,21 +13,21 @@
 class Dialog
 {
 public:
-	Dialog(sf::RenderWindow* _window, UIManager* _uiManager, 
-		ItemManager* _weaponManager);
-	void setPlayer(Player* _player);
-	void start(Npc* npc);
+	Dialog(sf::RenderWindow* window, UIManager* ui_manager, 
+		ItemManager* weapon_manager);
+	void SetPlayer(Player* player);
+	void Start(Npc* npc);
 private:
-	RenderState dialogState;
+	void Update();
+	void Draw();
+	void Stop();
+
+	RenderState dialog_state;
 	Npc* npc;
 	Player* player;
-	UIManager* uiManager;
-	ItemManager* weaponManager;
+	UIManager* ui_manager;
+	ItemManager* weapon_manager;
 	sf::RenderWindow* window;
-
-	void update();
-	void draw();
-	void stop();
 };
 
 #endif // !DIALOG

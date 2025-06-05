@@ -37,11 +37,11 @@ class Item : public Itemble
 public:
 	Item(const ItemsDef& def);
 	Item() = default;
-	void setFunc(std::function<void(Player* player)>&& _useFunc);
-	void useItem(Player* sprite);
+	void SetFunc(std::function<void(Player* player)>&& _useFunc);
+	void UseItem(Player* sprite);
 	ItemType type;
 	int maxUsing;
-	std::function<void(Player* sprite)> useFunc;
+	std::function<void(Player* sprite)> use_func;
 };
 
 class Improve : public Itemble
@@ -49,8 +49,8 @@ class Improve : public Itemble
 public:
 	Improve(const ImproveDef& def);
 	Improve() = default;
-	void setGetFunc(std::function<void(Gun* gun)>&& setEffect);
-	void setDelFunc(std::function<void(Gun* gun)>&& delEffect);
+	void SetGetFunc(std::function<void(Gun* gun)>&& setEffect);
+	void SetDelFunc(std::function<void(Gun* gun)>&& delEffect);
 	ImproveType type;
 	std::function<void(Gun* gun)> getImprove;
 	std::function<void(Gun* gun)> deleteImprove;
@@ -62,15 +62,15 @@ public:
 	Weapon(float _timeBetewen, float maxDist);
 	Weapon() = default;
 	virtual ~Weapon() = default;
-	virtual void update(float dt);
-	virtual void drawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta);
-	virtual bool isCanUsed();
-	virtual void setAnimator(Animator<sf::Texture*>&& anim);
+	virtual void Update(float dt);
+	virtual void DrawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta);
+	virtual bool IsCanUsed();
+	virtual void SetAnimator(Animator<sf::Texture*>&& anim);
 
 	float maxDist;
 protected:
-	virtual void startAnimation(int number);
-	virtual void ussing(Enemy* sp, float dist) = 0;
+	virtual void StartAnimation(int number);
+	virtual void Ussing(Enemy* sp, float dist) = 0;
 
 	Animator<sf::Texture*> weaponAnimator;
 	float timeBetwen, nowTime;
@@ -82,19 +82,19 @@ public:
 	Gun(const GunDef& def, bool isReset, int dunId);
 	Gun() = default;
 
-	Improve* trySetImprove(Improve* improve);
+	Improve* TrySetImprove(Improve* improve);
 
-	Improve* deleteImprove(ImproveType type);
+	Improve* DeleteImprove(ImproveType type);
 
-	void update(float dt) override;
+	void Update(float dt) override;
 
-	void updateRad(bool isRun, float deltaTime);
+	void UpdateRad(bool isRun, float deltaTime);
 
-	int resetPatron(int count);
+	int ResetPatron(int count);
 
-	GunData getGunData();
+	GunData GetGunData();
 
-	void ussing(Enemy* sp, float dist) override;
+	void Ussing(Enemy* sp, float dist) override;
 
 	bool isReset;
 	int nowCount;

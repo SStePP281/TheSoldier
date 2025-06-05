@@ -1,4 +1,3 @@
-#pragma once
 #ifndef GAME
 #define GAME
 
@@ -25,32 +24,32 @@ class Game
 {
 public:
 public:
-	Game(sf::RenderWindow* window, MapManager* mapManager);
+	Game(sf::RenderWindow* window, MapManager* map_manager);
 	~Game();
-	void getInput(const sf::Event& event, float deltaTime);
-	void makeCycle(float deltaTime);
-	void save();
-	void editor(); 
+	void GetInput(const sf::Event& event, float delta_time);
+	void MakeCycle(float delta_time);
+	void Save();
+	void Editor(); 
 private:
-	void init();
-	void subscribeEvent();
-	void resetGame();
-	void getInput(float deltaTime);
-	void initPlayer();
+	void Init();
+	void SubscribeEvent();
+	void ResetGame();
+	void GetInput(float delta_time);
+	void InitPlayer();
 
-	bool isKeyPressed;
+	bool is_key_pressed;
 	Menu* menu;
-	RenderState* currentState;
-	RenderState playState;
-	Inventory* invent;
-	Dialog* dialogSys;
-	sf::Vector2i screenMidlePos;
-	SpriteManager* spManager;
-	UIManager* uiManager;
-	ItemManager* itemManager;
+	RenderState* current_state;
+	RenderState play_state;
+	Inventory* inventory;
+	Dialog* dialog_system;
+	sf::Vector2i screen_midle_position;
+	SpriteManager* sprite_manager;
+	UIManager* ui_manager;
+	ItemManager* item_manager;
 	Player* player;
 	Renderer* renderer;
-	MapManager* mapManager;
+	MapManager* map_manager;
 	sf::RenderWindow* window;
 };
 

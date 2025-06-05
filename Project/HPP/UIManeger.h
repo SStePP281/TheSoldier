@@ -16,24 +16,25 @@ class UIManager
 {
 public:
 	UIManager(sf::RenderWindow* _window);
-	void drawPlayerUI(Player* player);
-	void initDialog(std::map<int, std::wstring, std::greater<int>>& variants,
+	void DrawPlayerUI(Player* player);
+	void InitDialog(std::map<int, std::wstring, std::greater<int>>& variants,
 		const std::wstring& npcName);
-	void initResetMenu();
-	void initStartMenu();
-	void initGameMenu();
-	void initSetting();
-	void initQuest(Quest* quest, Player* player);
-	void initTrade(const std::map<int, Itemble*>& variants, Player* player);
-	void initMechanic(Player* player, Gun* choose);
-	void initChanger(int coef, Player* player);
-	void initInvent(const std::map<Itemble*, int>& items, Itemble* chose, Player* player);
-	void deleteNow();
-	void drawNow();
-	int checkButton();
+	void InitResetMenu();
+	void InitStartMenu();
+	void InitGameMenu();
+	void InitSetting();
+	void InitQuest(Quest* quest, Player* player);
+	void InitTrade(const std::map<int, Itemble*>& variants, Player* player);
+	void InitMechanic(Player* player, Gun* choose);
+	void InitChanger(int coef, Player* player);
+	void InitInvent(const std::map<Itemble*, int>& items, Itemble* chose, Player* player);
+	void DeleteNow();
+	void DrawNow();
+	int CheckButton();
 private:
-	std::wstring splitText(std::wstring text, int maxLen, int textSize);
-	std::wstring toMax(std::wstring str, float maxW, float textSize);
+	std::wstring SplitText(std::wstring text, int maxLen, int textSize);
+	std::wstring ToMax(std::wstring str, float maxW, float textSize);
+
 	sf::RenderWindow* window;
 	sf::Sprite background;
 	int choseBut;

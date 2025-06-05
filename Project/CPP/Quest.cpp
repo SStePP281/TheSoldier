@@ -3,35 +3,35 @@
 
 Quest::Quest(const QuestData& data) : data{ data } {}
 
-void Quest::updateProgress(int value) { data.progress = std::min(data.progress + value, data.target); }
+void Quest::UpdateProgress(int value) { data.progress = std::min(data.progress + value, data.target); }
 
-bool Quest::isCompleted() { return data.progress >= data.target; }
+bool Quest::IsCompleted() { return data.progress >= data.target; }
 
 QuestManager::QuestManager()
 {
     quests = std::vector<Quest*>(3);
-    auto& dataBase = Data::getInstance();
-    auto questData = dataBase.getQuest();
+    auto& data_base = Data::GetInstance();
+    auto quest_data = data_base.GetQuest();
 
-    for (size_t i = 0; i < questData.size(); i++)
+    for (size_t i = 0; i < quest_data.size(); i++)
     {
-        addQuest(questData[i]);
+        AddQuest(quest_data[i]);
     }
 }
 
 QuestManager::~QuestManager()
 {
-    std::vector<QuestData> questData;
+    std::vector<QuestData> quest_data;
     for (auto q : quests)
     {
-        if (q) { questData.push_back(q->data); }
+        if (q) { quest_data.push_back(q->data); }
     }
 
-    auto& dataBase = Data::getInstance();
-    dataBase.saveQuest(questData);
+    auto& data_base = Data::GetInstance();
+    data_base.SaveQuest(quest_data);
 }
 
-void QuestManager::addQuest(const QuestData& data)
+void QuestManager::AddQuest(const QuestData& data)
 { 
     for (size_t i = 0; i < quests.size(); i++)
     {
@@ -43,18 +43,18 @@ void QuestManager::addQuest(const QuestData& data)
     }
 }
 
-void QuestManager::updateQuests(QuestType type, int value)
+void QuestManager::UpdateQuests(QuestType type, int value)
 {
     for (auto quest : quests) 
     {
         if (quest && quest->data.type == type)
         {
-            quest->updateProgress(value);
+            quest->UpdateProgress(value);
         }
     }
 }
 
-void QuestManager::deleteAllQuest()
+void QuestManager::DeleteAllQuest()
 {
     for (size_t i = 0; i < quests.size(); i++)
     {
@@ -66,7 +66,7 @@ void QuestManager::deleteAllQuest()
     }
 }
 
-int QuestManager::deleteQuest(Quest* quest) 
+int QuestManager::DeleteQuest(Quest* quest) 
 {
     int reward = 0;
     for (size_t i = 0; i < quests.size(); i++)

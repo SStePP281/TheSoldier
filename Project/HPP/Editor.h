@@ -1,4 +1,3 @@
-#pragma once
 #ifndef EDITOR
 #define EDITOR
 
@@ -11,38 +10,36 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <functional>
 
-
 class Editor
 {
 public:
-	Editor() = default;
-	void init(sf::RenderWindow* window, sf::RenderWindow* editorWindow, MapManager* mapMn);
-	void takeWindowInput(sf::Event& event);
-	void takeEditInput(sf::Event& event);
-	void drawEditor();
+	Editor(sf::RenderWindow* window, sf::RenderWindow* editor_window, MapManager* map_manager);
+	void TakeWindowInput(sf::Event& event);
+	void TakeEditInput(sf::Event& event);
+	void DrawEditor();
 
-	int drawerLayer();
+	int DrawerLayer();
 private:
-	sf::RenderWindow* window;
-	sf::RenderWindow* editorWindow;
-	bool isFirstMouse;
-	int nowValue;
-	int nowLayer;
-	SpriteDef nowSpriteDef;
-	sf::Vector2i lastMousePos;
-	sf::Vector2i windowMousePos, editorMousePos;
-	sf::View windowView, editorView;
-	MapManager* mapManager;
-	std::vector<std::shared_ptr<Button>> buttons;
+	void CreateTextureButton();
+	void CreateSpriteButton();
+	void WindowStateRightClick();
+	void ScrollAndCntr(float delta);
+	void WindowStateNoRightClick();
+	void WindowStateLeftClick();
+	void EditorWindowStateLeftClick();
+	sf::Vector2i GetMapPos(const sf::Vector2f& world_position);
 
-	void createTextureButton();
-	void createSpriteButton();
-	void windowStateRightClick();
-	void scrollAndCntr(float delta);
-	void windowStateNoRightClick();
-	void windowStateLeftClick();
-	void editorWindowStateLeftClick();
-	sf::Vector2i getMapPos(const sf::Vector2f& worldPos);
+	sf::RenderWindow* window;
+	sf::RenderWindow* editor_window;
+	bool is_first_mouse;
+	int now_value;
+	int now_layer;
+	SpriteDef now_sprite_def;
+	sf::Vector2i last_mouse_pos;
+	sf::Vector2i window_mouse_position, editor_mouse_position;
+	sf::View window_view, editor_view;
+	MapManager* map_manager;
+	std::vector<std::shared_ptr<Button>> buttons;
 };
 
 #endif // !EDITOR

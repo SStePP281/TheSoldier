@@ -1,27 +1,28 @@
 #include "Renderer.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 
-ThreadPool::ThreadPool(int threadCount)
+ThreadPool::ThreadPool(int thread_count) : 
+	active_tasks{ 0 }, stop{false}
 {
-	for (size_t i = 0; i < threadCount; ++i)
+	for (size_t i = 0; i < thread_count; ++i)
 	{
 		workers.emplace_back([this]() {
 			while (true)
 			{
 				std::function<void()> task;
 				{
-					std::unique_lock<std::mutex> lock(queueMutex);
+					std::unique_lock<std::mutex> lock(queue_mutex);
 					condition.wait(lock, [this]() { return stop || !tasks.empty(); });
 					if (stop && tasks.empty()) return;
 					task = std::move(tasks.front());
 					tasks.pop();
-					++activeTasks;
+					++active_tasks;
 				}
 				task();
 				{
-					std::unique_lock<std::mutex> lock(queueMutex);
-					--activeTasks;
-					if (activeTasks == 0) { completionCondition.notify_all(); }
+					std::unique_lock<std::mutex> lock(queue_mutex);
+					--active_tasks;
+					if (active_tasks == 0) { completion_condition.notify_all(); }
 				}
 			}});
 	}
@@ -30,32 +31,35 @@ ThreadPool::ThreadPool(int threadCount)
 ThreadPool::~ThreadPool()
 {
 	{
-		std::unique_lock<std::mutex> lock(queueMutex);
+		std::unique_lock<std::mutex> lock(queue_mutex);
 		stop = true;
 	}
+
 	condition.notify_all();
+
 	for (auto& worker : workers)
 	{
 		if (worker.joinable()) worker.join();
 	}
 }
 
-void ThreadPool::addTask(std::function<void()>&& task)
+void ThreadPool::AddTask(std::function<void()>&& task)
 {
 	{
-		std::unique_lock<std::mutex> lock(queueMutex);
+		std::unique_lock<std::mutex> lock(queue_mutex);
 		tasks.push(std::move(task));
 	}
+
 	condition.notify_one();
 }
 
-void ThreadPool::waitAll()
+void ThreadPool::WaitAll()
 {
-	std::unique_lock<std::mutex> lock(queueMutex);
-	completionCondition.wait(lock, [this]() { return activeTasks == 0; });
+	std::unique_lock<std::mutex> lock(queue_mutex);
+	completion_condition.wait(lock, [this]() { return active_tasks == 0; });
 }
 
-int ThreadPool::getThreadCount() { return workers.size(); }
+int ThreadPool::GetThreadCount() { return workers.size(); }
 
 Renderer::Renderer(sf::RenderWindow* _window, Player* player) :
 	window{ _window }, player{ player }, threads {
@@ -66,137 +70,137 @@ Renderer::Renderer(sf::RenderWindow* _window, Player* player) :
 
 Renderer::~Renderer()
 {
-	delete[] distanceBuffer;
-	delete[] screenPixels;
+	delete[] distance_buffer;
+	delete[] screen_pixels;
 }
 
 void Renderer::Init()
 {
-	floorTexture.create(SCREEN_W, SCREEN_H);
-	floorSprite.setTexture(floorTexture);
-	screenPixels = new uint8_t[SCREEN_H * SCREEN_W * 4]();
-	distanceBuffer = new float[SCREEN_W + 1] {};
+	floor_texture.create(kScreenWight, kScreenHeight);
+	floor_sprite.setTexture(floor_texture);
+	screen_pixels = new uint8_t[kScreenHeight * kScreenWight * 4]();
+	distance_buffer = new float[kScreenWight + 1] {};
 }
 
 void Renderer::Draw3DView(Map* map, std::vector<std::shared_ptr<Sprite>>* sprites)
 {
 	//StaticCalculations
-	float pRadians = player->enemy->spMap.angle * PI / 180.0f;
-	sf::Vector2f pDirection{ cosf(pRadians), sinf(pRadians) };
-	sf::Vector2f cameraPlane = sf::Vector2f(-pDirection.y, pDirection.x) * ASPECT;
-	sf::Vector2f rayPos = player->enemy->spMap.position;
+	float player_angle_radians = player->enemy->map_sprite.angle * kPI / 180.0f;
+	sf::Vector2f player_direction{ cosf(player_angle_radians), sinf(player_angle_radians) };
+	sf::Vector2f camera_plane = sf::Vector2f(-player_direction.y, player_direction.x) * kAspect;
+	sf::Vector2f ray_position = player->enemy->map_sprite.position;
 
 	//FloorPart
-	sf::Vector2f rayDirLeft{ pDirection - cameraPlane },
-		rayDirRight{ pDirection + cameraPlane };
-	int threadCount = threads.getThreadCount() - 1;
-	for (int cnt = 0; cnt < threadCount; cnt++)
+	sf::Vector2f ray_direction_left{ player_direction - camera_plane },
+		rayDirRight{ player_direction + camera_plane };
+	int thread_count = threads.GetThreadCount() - 1;
+	for (int cnt = 0; cnt < thread_count; cnt++)
 	{
-		threads.addTask([&, cnt]()
+		threads.AddTask([&, cnt]()
 			{
-				int start = (int)(((float)SCREEN_H / threadCount * cnt));
-				int end = (int)(((float)SCREEN_H / threadCount * (cnt + 1)));
-				DrawFloor(rayDirLeft, rayDirRight, rayPos, map, start, end);
+				int start = (int)(((float)kScreenHeight / thread_count * cnt));
+				int end = (int)(((float)kScreenHeight / thread_count * (cnt + 1)));
+				DrawFloor(ray_direction_left, rayDirRight, ray_position, map, start, end);
 			});
 	}
 
 	//SpritePart
-	threads.addTask([&]() {
+	threads.AddTask([&]() {
 		std::sort(sprites->begin(), sprites->end(), 
 		[&](const std::shared_ptr<Sprite> a, const std::shared_ptr<Sprite> b)
 			{
-				return COMPARER(a->spMap.position, b->spMap.position, player->enemy->spMap.position);
+				return COMPARER(a->map_sprite.position, b->map_sprite.position, player->enemy->map_sprite.position);
 			});});
 
 	//SkyPart
-	sf::Vector2u skyTextureSize = Resources::skyTextures.getSize();
-	int textureOffsetX = (int)(player->enemy->spMap.angle / 90.0f * skyTextureSize.x);
-	while (textureOffsetX < 0)
+	sf::Vector2u sky_texture_size = Resources::sky_textures.getSize();
+	int texture_offset_x = (int)(player->enemy->map_sprite.angle / 90.0f * sky_texture_size.x);
+	while (texture_offset_x < 0)
 	{
-		textureOffsetX += skyTextureSize.x;
+		texture_offset_x += sky_texture_size.x;
 	}
 
 	sf::Vertex sky[] = {
-		sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(textureOffsetX, -player->pitch)),
-		sf::Vertex(sf::Vector2f(0.0f, SCREEN_H), sf::Vector2f(textureOffsetX, skyTextureSize.y - player->pitch)),
-		sf::Vertex(sf::Vector2f(SCREEN_W, SCREEN_H),
-		sf::Vector2f(textureOffsetX + skyTextureSize.x, skyTextureSize.y - player->pitch)),
-		sf::Vertex(sf::Vector2f(SCREEN_W, 0), sf::Vector2f(textureOffsetX + skyTextureSize.x, -player->pitch))
+		sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(texture_offset_x, -player->pitch)),
+		sf::Vertex(sf::Vector2f(0.0f, kScreenHeight), sf::Vector2f(texture_offset_x, sky_texture_size.y - player->pitch)),
+		sf::Vertex(sf::Vector2f(kScreenWight, kScreenHeight),
+		sf::Vector2f(texture_offset_x + sky_texture_size.x, sky_texture_size.y - player->pitch)),
+		sf::Vertex(sf::Vector2f(kScreenWight, 0), sf::Vector2f(texture_offset_x + sky_texture_size.x, -player->pitch))
 	};
 
-	window->draw(sky, 4, sf::Quads, sf::RenderStates(&Resources::skyTextures));
+	window->draw(sky, 4, sf::Quads, sf::RenderStates(&Resources::sky_textures));
 	//NewAlgoritmPart
-	sf::Vector2f rayDir{};
-	for (int i = 0; i <= SCREEN_W; i++)
+	sf::Vector2f ray_direction{};
+	for (int i = 0; i <= kScreenWight; i++)
 	{
-		float cameraX = i * 2.0f / SCREEN_W - 1.0f;
-		rayDir = pDirection + cameraPlane * cameraX;
+		float camera_x = i * 2.0f / kScreenWight - 1.0f;
+		ray_direction = player_direction + camera_plane * camera_x;
 
-		RayHit hit = raycast(map, rayPos, rayDir);
+		RayHit hit = Raycast(map, ray_position, ray_direction);
 
 		if (hit.cell)
 		{
-			float wallHeight = SCREEN_H / hit.perpWallDist;
-			float wallStart = (SCREEN_H - wallHeight) / 2.0f + player->pitch + player->posZ / hit.perpWallDist;
-			float wallEnd = (SCREEN_H + wallHeight) / 2.0f + player->pitch + player->posZ / hit.perpWallDist;
+			float wall_height = kScreenHeight / hit.perpWallDist;
+			float wall_start = (kScreenHeight - wall_height) / 2.0f + player->pitch + player->pos_z / hit.perpWallDist;
+			float wall_end = (kScreenHeight + wall_height) / 2.0f + player->pitch + player->pos_z / hit.perpWallDist;
 
 
-			float wallX = hit.isHitVert ? rayPos.x + hit.perpWallDist * rayDir.x :
-				rayPos.y + hit.perpWallDist * rayDir.y;
+			float wall_x = hit.isHitVert ? ray_position.x + hit.perpWallDist * ray_direction.x :
+				ray_position.y + hit.perpWallDist * ray_direction.y;
 
-			wallX -= floor(wallX);
-			float textureX = wallX * TEXTURE_SIZE;
+			wall_x -= floor(wall_x);
+			float texture_x = wall_x * kTextureSize;
 
-			float brightnes = 1.0f - (hit.perpWallDist / BRIGHTNESTDIST);
+			float brightnes = 1.0f - (hit.perpWallDist / kBrightnestDist);
 			if (brightnes < 0.11f) brightnes = 0.11f;
 			if (hit.isHitVert) brightnes -= 0.09f;
-			sf::Color colorShade(255 * brightnes, 255 * brightnes, 255 * brightnes);
+			sf::Color color_shade(255 * brightnes, 255 * brightnes, 255 * brightnes);
 
-			walls.append(sf::Vertex(sf::Vector2f((float)i, wallStart), colorShade,
-				sf::Vector2f(textureX + (hit.cell - 1) % (int)TEXTURE_COUNT * TEXTURE_SIZE,
-					(hit.cell - 1) / (int)TEXTURE_COUNT * TEXTURE_SIZE)));
-			walls.append(sf::Vertex(sf::Vector2f((float)i, wallEnd + 1), colorShade,
-				sf::Vector2f(textureX + (hit.cell - 1) % (int)TEXTURE_COUNT * TEXTURE_SIZE,
-					TEXTURE_SIZE + (hit.cell - 1) / (int)TEXTURE_COUNT * TEXTURE_SIZE)));
+			walls.append(sf::Vertex(sf::Vector2f((float)i, wall_start), color_shade,
+				sf::Vector2f(texture_x + (hit.cell - 1) % (int)kTextureCount * kTextureSize,
+					(hit.cell - 1) / (int)kTextureCount * kTextureSize)));
+			walls.append(sf::Vertex(sf::Vector2f((float)i, wall_end + 1), color_shade,
+				sf::Vector2f(texture_x + (hit.cell - 1) % (int)kTextureCount * kTextureSize,
+					kTextureSize + (hit.cell - 1) / (int)kTextureCount * kTextureSize)));
 
-			distanceBuffer[i] = hit.perpWallDist;
+			distance_buffer[i] = hit.perpWallDist;
 		}
 	}
 
 	//ThreadPart
-	threads.waitAll();
+	threads.WaitAll();
 
 	//DrawPart
-	floorTexture.update(screenPixels);
-	window->draw(floorSprite);
+	floor_texture.update(screen_pixels);
+	window->draw(floor_sprite);
 
 	sf::RenderStates states{ &Resources::textures };
 	window->draw(walls, states);
 
-	DrawSprite(pDirection, cameraPlane, sprites);
+	DrawSprite(player_direction, camera_plane, sprites);
 
-	spriteColumns.clear();
+	sprite_columns.clear();
 	walls.clear();
 }
 
-void Renderer::DrawSprite(const sf::Vector2f& pDirection, const sf::Vector2f& cameraPlane,
+void Renderer::DrawSprite(const sf::Vector2f& player_direction, const sf::Vector2f& camera_plane,
 	std::vector<std::shared_ptr<Sprite>>* sprites)
 {
-	float invDet = 1.0f / (cameraPlane.x * pDirection.y - cameraPlane.y * pDirection.x);
+	float invert_det = 1.0f / (camera_plane.x * player_direction.y - camera_plane.y * player_direction.x);
 	for (auto sp : *sprites)
 	{
-		if (sp->spDef.texture < 0) continue;
-		sf::Vector2f spritePos = sp->spMap.position - player->enemy->spMap.position;
-		float spDist = sqrt(SQUARE(spritePos.x) + SQUARE(spritePos.y));
-		float brightnes = 1 - spDist / BRIGHTNESTDIST;
-		auto spData = sp->getTextIndex();
+		if (sp->sprite_def.texture < 0) continue;
+		sf::Vector2f sprite_position = sp->map_sprite.position - player->enemy->map_sprite.position;
+		float sprite_dist = sqrt(SQUARE(sprite_position.x) + SQUARE(sprite_position.y));
+		float brightnes = 1 - sprite_dist / kBrightnestDist;
+		auto sprite_data = sp->GetTextIndex();
 		if (brightnes < 0.1f) brightnes = 0.1f;
-		sf::Color colorShade(255 * brightnes, 255 * brightnes, 255 * brightnes);
-		if (spData.second)
+		sf::Color color_shade(255 * brightnes, 255 * brightnes, 255 * brightnes);
+		if (sprite_data.second)
 		{
-			if (colorShade.r * 1.5f > 255) colorShade.r = 255;
-			colorShade.g /= 2;
-			colorShade.b /= 2;
+			if (color_shade.r * 1.5f > 255) color_shade.r = 255;
+			color_shade.g /= 2;
+			color_shade.b /= 2;
 		}
 
 		//transform sprite with the inverse camera matrix
@@ -204,99 +208,99 @@ void Renderer::DrawSprite(const sf::Vector2f& pDirection, const sf::Vector2f& ca
 		// [               ]     * [ ]   =  1/(planeX*dirY-dirX*planeY) *  [                 ] * [ ]
 		// [ planeY   dirY ]       [y]                                     [ -planeY  planeX ]   [y]
 
-		sf::Vector2f transforme(pDirection.y * spritePos.x - pDirection.x * spritePos.y,
-			-cameraPlane.y * spritePos.x + cameraPlane.x * spritePos.y);
-		transforme *= invDet;
+		sf::Vector2f transforme(player_direction.y * sprite_position.x - player_direction.x * sprite_position.y,
+			-camera_plane.y * sprite_position.x + camera_plane.x * sprite_position.y);
+		transforme *= invert_det;
 
-		int screenX = SCREEN_W / 2.0f * (1 + transforme.x / transforme.y);
-		int spriteSize = abs(SCREEN_H / transforme.y);
+		int screen_x = kScreenWight / 2.0f * (1 + transforme.x / transforme.y);
+		int sprite_size = abs(kScreenHeight / transforme.y);
 
-		int drawStartX = -spriteSize / 2 + screenX;
-		int drawEndX = spriteSize / 2 + screenX;
+		int draw_start_x = -sprite_size / 2 + screen_x;
+		int draw_end_x = sprite_size / 2 + screen_x;
 
-		float deltaRotateText = 0.0f;
-		if (sp->spDef.isDirectional)
+		float delta_rotate_text = 0.0f;
+		if (sp->sprite_def.isDirectional)
 		{
-			sf::Vector2f dir = spritePos;
+			sf::Vector2f dir = sprite_position;
 			float len = sqrt(dir.x * dir.x + dir.y * dir.y);
 			dir /= len;
 
-			float angle = sp->spMap.angle - atan2(dir.y, dir.x) * 180.0f / PI + 180.0f;
+			float angle = sp->map_sprite.angle - atan2(dir.y, dir.x) * 180.0f / kPI + 180.0f;
 			angle = round(angle / 45.0f) * 45.0f;
 			angle = fmod(angle, 360.0f);
 			if (angle < 0.0f)
 			{
 				angle += 360.0f;
 			}
-			deltaRotateText = sp->textSize * (angle / 45.0f);
+			delta_rotate_text = sp->texture_size * (angle / 45.0f);
 		}
 
-		int spriteStart = -spriteSize * sp->spDef.size / 2 + screenX,
-			spriteEnd = spriteSize * sp->spDef.size / 2 + screenX;
+		int sprite_start = -sprite_size * sp->sprite_def.size / 2 + screen_x,
+			spriteEnd = sprite_size * sp->sprite_def.size / 2 + screen_x;
 
-		for (int i = std::max(drawStartX, 0); i < std::min(drawEndX, (int)SCREEN_W - 1); i++)
+		for (int i = std::max(draw_start_x, 0); i < std::min(draw_end_x, (int)kScreenWight - 1); i++)
 		{
-			if (transforme.y > 0 && transforme.y < distanceBuffer[i])
+			if (transforme.y > 0 && transforme.y < distance_buffer[i])
 			{
-				float textX = (i - drawStartX) * sp->textSize / spriteSize;
-				sf::Vector2f textStart(textX + deltaRotateText, spData.first * sp->textSize);
-				sf::Vector2f textEnd(textX + deltaRotateText, (spData.first + 1) * sp->textSize);
+				float text_x = (i - draw_start_x) * sp->texture_size / sprite_size;
+				sf::Vector2f text_start(text_x + delta_rotate_text, sprite_data.first * sp->texture_size);
+				sf::Vector2f text_end(text_x + delta_rotate_text, (sprite_data.first + 1) * sp->texture_size);
 
-				sf::Vector2f vertStart(i, -spriteSize / 2.0f + SCREEN_H / 2.0f + player->pitch + player->posZ / transforme.y);
-				sf::Vector2f vertEnd(i, spriteSize / 2.0f + SCREEN_H / 2.0f + player->pitch + player->posZ / transforme.y);
+				sf::Vector2f vert_start(i, -sprite_size / 2.0f + kScreenHeight / 2.0f + player->pitch + player->pos_z / transforme.y);
+				sf::Vector2f vert_end(i, sprite_size / 2.0f + kScreenHeight / 2.0f + player->pitch + player->pos_z / transforme.y);
 
-				spriteColumns.append(sf::Vertex(vertStart, colorShade, textStart));
-				spriteColumns.append(sf::Vertex(vertEnd, colorShade, textEnd));
+				sprite_columns.append(sf::Vertex(vert_start, color_shade, text_start));
+				sprite_columns.append(sf::Vertex(vert_end, color_shade, text_end));
 			}
 		}
 		sf::RenderStates state(sp->texture);
-		window->draw(spriteColumns, state);
-		spriteColumns.clear();
+		window->draw(sprite_columns, state);
+		sprite_columns.clear();
 	}
 }
 
-void Renderer::DrawFloor(const sf::Vector2f& rayDirLeft, const sf::Vector2f& rayDirRight, const sf::Vector2f& rayPos, Map* map, int startH, int endH)
+void Renderer::DrawFloor(const sf::Vector2f& ray_direction_left, const sf::Vector2f& ray_direction_right, 
+	const sf::Vector2f& ray_position, Map* map, int start_height, int end_height)
 {
-	for (int y = startH; y < endH; y++)
+	for (int y = start_height; y < end_height; y++)
 	{
-		bool is_floor = y > SCREEN_H / 2 + player->pitch;
-		int p = is_floor ? (y - SCREEN_H / 2 - player->pitch) : (SCREEN_H / 2 - y + player->pitch);
-		float rowDist = is_floor ? (CAMERA_Z + player->posZ) / p : (CAMERA_Z - player->posZ) / p;
-		sf::Vector2f floorStep = rowDist * (rayDirRight - rayDirLeft) / (float)SCREEN_W;
-		sf::Vector2f floor = rayPos + rowDist * rayDirLeft;
-		float brightnes = 1 - rowDist / BRIGHTNESTDIST;
+		bool is_floor = y > kScreenHeight / 2 + player->pitch;
+		int p = is_floor ? (y - kScreenHeight / 2 - player->pitch) : (kScreenHeight / 2 - y + player->pitch);
+		float row_dist = is_floor ? (kCameraZ + player->pos_z) / p : (kCameraZ - player->pos_z) / p;
+		sf::Vector2f floor_step = row_dist * (ray_direction_right - ray_direction_left) / (float)kScreenWight;
+		sf::Vector2f floor = ray_position + row_dist * ray_direction_left;
+		float brightnes = 1 - row_dist / kBrightnestDist;
 		if (brightnes < 0.08f) brightnes = 0.08f;
 
-		for (int x = 0; x < SCREEN_W; x++)
+		for (int x = 0; x < kScreenWight; x++)
 		{
 			sf::Vector2i cell{ floor };
-			sf::Vector2i textCoords{ (float)TEXTURE_SIZE * (floor - (sf::Vector2f)cell) };
-			textCoords.x &= TEXTURE_SIZE - 1;
-			textCoords.y &= TEXTURE_SIZE - 1;
+			sf::Vector2i text_coords{ (float)kTextureSize * (floor - (sf::Vector2f)cell) };
+			text_coords.x &= kTextureSize - 1;
+			text_coords.y &= kTextureSize - 1;
 
-			int floorText = map->GetOnGrid(cell.x, cell.y, FLOOR_LAYER);
-			int cellingText = map->GetOnGrid(cell.x, cell.y, CELL_LAYER);
+			int floor_text = map->GetOnGrid(cell.x, cell.y, kFloorLaye);
+			int celling_text = map->GetOnGrid(cell.x, cell.y, kCellLayer);
 
 			sf::Color color;
 			if (is_floor)
 			{
-				color = floorText == 0 ? sf::Color(0, 0, 0, 0) :
-					Resources::textureImage.getPixel((floorText - 1) % TEXTURE_COUNT * TEXTURE_SIZE + textCoords.x,
-						(floorText - 1) / TEXTURE_COUNT * TEXTURE_SIZE + textCoords.y);
+				color = floor_text == 0 ? sf::Color(0, 0, 0, 0) :
+					Resources::texture_image.getPixel((floor_text - 1) % kTextureCount * kTextureSize + text_coords.x,
+						(floor_text - 1) / kTextureCount * kTextureSize + text_coords.y);
 			}
 			else
 			{
-				color = cellingText == 0 ? sf::Color(0, 0, 0, 0) :
-					Resources::textureImage.getPixel((cellingText - 1) % (int)TEXTURE_COUNT * TEXTURE_SIZE + textCoords.x,
-						(cellingText - 1) / (int)TEXTURE_COUNT * TEXTURE_SIZE + textCoords.y);
+				color = celling_text == 0 ? sf::Color(0, 0, 0, 0) :
+					Resources::texture_image.getPixel((celling_text - 1) % (int)kTextureCount * kTextureSize + text_coords.x,
+						(celling_text - 1) / (int)kTextureCount * kTextureSize + text_coords.y);
 			}
-			screenPixels[(x + y * (int)SCREEN_W) * 4 + 0] = color.r * brightnes;
-			screenPixels[(x + y * (int)SCREEN_W) * 4 + 1] = color.g * brightnes;
-			screenPixels[(x + y * (int)SCREEN_W) * 4 + 2] = color.b * brightnes;
-			screenPixels[(x + y * (int)SCREEN_W) * 4 + 3] = color.a;
+			screen_pixels[(x + y * (int)kScreenWight) * 4 + 0] = color.r * brightnes;
+			screen_pixels[(x + y * (int)kScreenWight) * 4 + 1] = color.g * brightnes;
+			screen_pixels[(x + y * (int)kScreenWight) * 4 + 2] = color.b * brightnes;
+			screen_pixels[(x + y * (int)kScreenWight) * 4 + 3] = color.a;
 
-			floor += floorStep;
+			floor += floor_step;
 		}
-
 	}
 }

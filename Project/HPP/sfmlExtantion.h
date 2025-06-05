@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SFMLEXT
 #define SFMLEXT
 
@@ -25,42 +24,15 @@ struct Vector2iCompare
 struct Group
 {
 public:
-	Group(sf::RectangleShape _shape, sf::Text _text) : shape{ _shape }, text{ _text }
-	{
-		centrlized();
-	}
-
+	Group(sf::RectangleShape shape, sf::Text text);
 	Group() = default;
-
-	void setString(std::wstring data)
-	{
-		text.setString(data);
-		centrlized();
-	}
-
-	void setPosition(sf::Vector2f position)
-	{
-		shape.setPosition(position);
-		text.setPosition({ position.x, position.y - text.getCharacterSize() / 4 });
-	}
-
-	void setSize(sf::Vector2f size)
-	{
-		shape.setSize(size);
-		centrlized();
-	}
-
-	void move(sf::Vector2f pos) { setPosition({ getPosition().x + pos.x, getPosition().y + pos.y }); }
-
-	sf::Vector2f getSize() { return shape.getSize(); }
-	sf::Vector2f getPosition() { return shape.getPosition(); }
-
-	void centrlized()
-	{
-		shape.setOrigin({ shape.getLocalBounds().width / 2, shape.getLocalBounds().height / 2 });
-		text.setOrigin({ text.getLocalBounds().width / 2, text.getLocalBounds().height / 2 });
-		text.setPosition({ shape.getPosition().x, shape.getPosition().y - text.getCharacterSize() / 4 });
-	}
+	void SetString(std::wstring data);
+	void SetPosition(sf::Vector2f position);
+	void SetSize(sf::Vector2f size);
+	void Move(sf::Vector2f pos);
+	sf::Vector2f GetSize();
+	sf::Vector2f GetPosition();
+	void Centrlized();
 
 	sf::RectangleShape shape;
 	sf::Text text;
@@ -69,29 +41,29 @@ public:
 class Button : public sf::Drawable
 {
 public:
-	Button(sf::RectangleShape _shape, sf::Text& _text);
-	Button(Group _group);
+	Button(sf::RectangleShape& shape, sf::Text& text);
+	Button(Group& group);
 	Button() = default;
 
-	void move(sf::Vector2f delta);
-	void setFillColor(sf::Color color);
-	void setPosition(sf::Vector2f);
-	void setSize(sf::Vector2f size);
-	sf::Vector2f getPosition();
-	sf::Vector2f getSize();
-	void setString(std::wstring data);
-	void setTexture(sf::Texture* text);
-	void setTextureRect(sf::IntRect rect);
+	void Move(sf::Vector2f delta);
+	void SetFillColor(sf::Color color);
+	void SetPosition(sf::Vector2f);
+	void SetSize(sf::Vector2f size);
+	sf::Vector2f GetPosition();
+	sf::Vector2f GetSize();
+	void SetString(std::wstring data);
+	void SetTexture(sf::Texture* text);
+	void SetTextureRect(sf::IntRect rect);
 
-	void setFunc(std::function<void()>&& _fn);
-	bool isClicked(sf::Vector2i& mousePos);
-	void use();
+	void SetFunc(std::function<void()>&& _fn);
+	bool IsClicked(sf::Vector2i& mouse_position);
+	void Use();
 
 	Group group;
 private:
-	std::function<void()> fn;
-
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+	std::function<void()> func;
 };
 
 #endif // !SFMLEXT

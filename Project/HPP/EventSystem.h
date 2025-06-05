@@ -1,4 +1,3 @@
-#pragma once
 #ifndef EVENT
 #define EVENT
 
@@ -17,16 +16,16 @@ public:
     template <typename T>
     using EventHandler = std::function<void(const T&)>;
 
-    static EventSystem& getInstance()
+    static EventSystem& GetInstance()
     {
         static EventSystem instance;
         return instance;
     }
 
     template <typename T>
-    std::shared_ptr<EventHandler<T>> subscribe(const std::string& eventName, EventHandler<T> handler)
+    std::shared_ptr<EventHandler<T>> Subscribe(const std::string& event_name, EventHandler<T> handler)
     {
-        auto event = getOrCreateEvent<T>(eventName);
+        auto event = GetOrCreateEvent<T>(event_name);
         auto handlerPtr = std::make_shared<EventHandler<T>>(handler);
         std::lock_guard<std::recursive_mutex> lock(mutex_);
         event->handlers.push_back(handlerPtr);
@@ -34,9 +33,9 @@ public:
     }
 
     template <typename T>
-    void unsubscribe(const std::string& eventName, const std::shared_ptr<EventHandler<T>>& handler)
+    void Unsubscribe(const std::string& event_name, const std::shared_ptr<EventHandler<T>>& handler)
     {
-        auto event = getEvent<T>(eventName);
+        auto event = GetEvent<T>(event_name);
         if (!event) return;
 
         std::lock_guard<std::recursive_mutex> lock(mutex_);
@@ -50,15 +49,15 @@ public:
     }
 
     template <typename T>
-    void trigger(const std::string& eventName, const T& eventData)
+    void Trigger(const std::string& event_name, const T& event_data)
     {
-        auto event = getEvent<T>(eventName);
+        auto event = GetEvent<T>(event_name);
         if (!event) return;
 
         std::lock_guard<std::recursive_mutex> lock(mutex_);
         for (const auto& handler : event->handlers)
         {
-            (*handler)(eventData);
+            (*handler)(event_data);
         }
     }
 
@@ -72,30 +71,30 @@ private:
         std::vector<std::shared_ptr<EventHandler<T>>> handlers;
     };
 
-    std::unordered_map<std::string, std::shared_ptr<void>> events;
-    std::recursive_mutex mutex_;
-
     template <typename T>
-    std::shared_ptr<Event<T>> getOrCreateEvent(const std::string& eventName)
+    std::shared_ptr<Event<T>> GetOrCreateEvent(const std::string& event_name)
     {
         std::lock_guard<std::recursive_mutex> lock(mutex_);
-        if (events.find(eventName) == events.end())
+        if (events.find(event_name) == events.end())
         {
-            events[eventName] = std::make_shared<Event<T>>();
+            events[event_name] = std::make_shared<Event<T>>();
         }
-        return std::static_pointer_cast<Event<T>>(events[eventName]);
+        return std::static_pointer_cast<Event<T>>(events[event_name]);
     }
 
     template <typename T>
-    std::shared_ptr<Event<T>> getEvent(const std::string& eventName)
+    std::shared_ptr<Event<T>> GetEvent(const std::string& event_name)
     {
         std::lock_guard<std::recursive_mutex> lock(mutex_);
-        if (events.find(eventName) == events.end())
+        if (events.find(event_name) == events.end())
         {
             return nullptr;
         }
-        return std::static_pointer_cast<Event<T>>(events[eventName]);
+        return std::static_pointer_cast<Event<T>>(events[event_name]);
     }
+
+    std::unordered_map<std::string, std::shared_ptr<void>> events;
+    std::recursive_mutex mutex_;
 };
 
 #endif // !EVENT

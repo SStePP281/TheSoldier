@@ -1,72 +1,112 @@
 #include "sfmlExtantion.h"
 
-Button::Button(sf::RectangleShape _shape, sf::Text& _text)
+Group::Group(sf::RectangleShape shape, sf::Text text) : shape{ shape }, text{ text }
 {
-	group.shape = _shape;
-	group.text = _text;
+	Centrlized();
 }
 
-Button::Button(Group _group) : group{ _group } {}
+void Group::SetString(std::wstring data)
+{
+	text.setString(data);
+	Centrlized();
+}
 
-sf::Vector2f Button::getPosition() { return group.getPosition(); }
+void Group::SetPosition(sf::Vector2f position)
+{
+	shape.setPosition(position);
+	text.setPosition({ position.x, position.y - text.getCharacterSize() / 4 });
+}
 
-sf::Vector2f Button::getSize() { return group.getSize(); }
+void Group::SetSize(sf::Vector2f size)
+{
+	shape.setSize(size);
+	Centrlized();
+}
 
-void Button::setString(std::wstring data) { group.setString(data); }
+void Group::Move(sf::Vector2f position) 
+{
+	SetPosition({ GetPosition().x + position.x, GetPosition().y + position.y }); 
+}
 
-void Button::move(sf::Vector2f delta)
+sf::Vector2f Group::GetSize() { return shape.getSize(); }
+
+sf::Vector2f Group::GetPosition() { return shape.getPosition(); }
+
+void Group::Centrlized()
+{
+	shape.setOrigin({ shape.getLocalBounds().width / 2, shape.getLocalBounds().height / 2 });
+	text.setOrigin({ text.getLocalBounds().width / 2, text.getLocalBounds().height / 2 });
+	text.setPosition({ shape.getPosition().x, shape.getPosition().y - text.getCharacterSize() / 4 });
+}
+
+Button::Button(sf::RectangleShape& shape, sf::Text& text)
+{
+	group.shape = shape;
+	group.text = text;
+}
+
+Button::Button(Group& group) : group{ group } {}
+
+sf::Vector2f Button::GetPosition() { return group.GetPosition(); }
+
+sf::Vector2f Button::GetSize() { return group.GetSize(); }
+
+void Button::SetString(std::wstring data) { group.SetString(data); }
+
+void Button::Move(sf::Vector2f delta)
 {
 	group.shape.move(delta);
 	group.text.move(delta);
 }
 
-void Button::setFillColor(sf::Color color)
+void Button::SetFillColor(sf::Color color)
 {
 	group.shape.setFillColor(color);
 }
 
-void Button::setPosition(sf::Vector2f pos) { group.setPosition(pos); }
+void Button::SetPosition(sf::Vector2f position) { group.SetPosition(position); }
 
-void Button::setSize(sf::Vector2f size)
+void Button::SetSize(sf::Vector2f size)
 {
-	group.setSize(size);
-	group.centrlized();
+	group.SetSize(size);
+	group.Centrlized();
 }
 
-bool Button::isClicked(sf::Vector2i& mousePos)
+bool Button::IsClicked(sf::Vector2i& mouse_position)
 {
-	if (!fn) return false;
+	if (!func) return false;
 
-	sf::Vector2f pos = group.getPosition();
-	sf::Vector2f size = { group.getSize().x * group.shape.getScale().x, group.getSize().y * group.shape.getScale().y };
+	sf::Vector2f pos = group.GetPosition();
+	sf::Vector2f size = { group.GetSize().x * group.shape.getScale().x, group.GetSize().y * group.shape.getScale().y };
 	float x0 = pos.x - size.x / 2, x1 = pos.x + size.x / 2;
 	float y0 = pos.y - size.y / 2, y1 = pos.y + size.y / 2;
 
-	if (mousePos.x >= x0 && mousePos.x <= x1 && mousePos.y >= y0 && mousePos.y <= y1)
+	if (mouse_position.x >= x0 && mouse_position.x <= x1 && mouse_position.y >= y0 && mouse_position.y <= y1)
 	{
 		return true;
 	}
+
 	return false;
 }
 
-void Button::setFunc(std::function<void()>&& _fn) { fn = _fn; }
+void Button::SetFunc(std::function<void()>&& _fn) { func = _fn; }
 
-void Button::setTexture(sf::Texture* text)
+void Button::SetTexture(sf::Texture* texture)
 {
-	group.shape.setTexture(text);
+	group.shape.setTexture(texture);
 }
 
-void Button::setTextureRect(sf::IntRect rect)
+void Button::SetTextureRect(sf::IntRect rect)
 {
 	group.shape.setTextureRect(rect);
 }
 
-void Button::use()
+void Button::Use()
 {
-	if (fn)
+	if (func)
 	{
-		fn();
-		SoundManager::playSound(Resources::buttonClick);
+		func();
+		SoundManager::PlaySounds(Resources::button_click);
 	}
 }
 

@@ -1,27 +1,27 @@
 #include "Randomizer.h"
 
-float Random::bitRandom()
+float Random::BitRandom()
 {
-	return intRandom(0, 10000) / 10000.0f;
+	return IntRandom(0, 10000) / 10000.0f;
 }
-int Random::intRandom(int a, int b)
+int Random::IntRandom(int start, int end)
 {
-	if (a > b)
+	if (start > end)
 		throw "logic_error";
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distr(a, b);
+	std::uniform_int_distribution<> distr(start, end);
 	return distr(gen);
 }
 
-std::set<sf::Vector2i, Vector2iCompare> Random::uniquePoints(sf::IntRect zone, int count)
+std::set<sf::Vector2i, Vector2iCompare> Random::UniquePoints(sf::IntRect zone, int count)
 {
 	std::set<sf::Vector2i, Vector2iCompare> points;
 
 	while (points.size() < count)
 	{
-		points.insert({ intRandom(zone.left, (zone.left + zone.width)),
-						intRandom(zone.top, (zone.top + zone.height))});
+		points.insert({ IntRandom(zone.left, (zone.left + zone.width)),
+						IntRandom(zone.top, (zone.top + zone.height))});
 	}
 	
 	return points;

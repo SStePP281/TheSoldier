@@ -1,39 +1,39 @@
 #include "MapManager.h"
 
-MapManager::MapManager(sf::RenderWindow* _window) : 
-	window{ _window }, nowMap{ nullptr }
+MapManager::MapManager(sf::RenderWindow* window) : 
+	window{ window }, now_map{ nullptr }
 {
-	auto& event = EventSystem::getInstance();
-	event.subscribe<int>("SAVE", [=](const int NON) { save(); });
+	auto& event = EventSystem::GetInstance();
+	event.Subscribe<int>("SAVE", [=](const int NON) { Save(); });
 
-	event.subscribe<int>("RESET_GAME", [&](const int NON) {
-		auto& state = GameState::getInstance(); 
+	event.Subscribe<int>("RESET_GAME", [&](const int NON) {
+		auto& state = GameState::GetInstance(); 
 		state.data.isLevelBase = true; 
 		state.data.levelNumber = 0;
-		event.trigger<int>("SWAPLOC", BASE_N);
+		event.Trigger<int>("SWAPLOC", kBaseNumber);
 		});
 
-	event.subscribe<int>("WIN_GAME", [&](const int NON) {
-		load(mapFileNames[BASE_N]);
-		auto& state = GameState::getInstance();
+	event.Subscribe<int>("WIN_GAME", [&](const int NON) {
+		Load(mapFileNames[kBaseNumber]);
+		auto& state = GameState::GetInstance();
 		state.data.isLevelBase = true;
 		state.data.levelNumber = 0;
-		event.trigger<int>("SWAPLOC", 0);
+		event.Trigger<int>("SWAPLOC", 0);
 		});
 }
 
 MapManager::~MapManager()
 {
-	delete nowMap;
+	delete now_map;
 }
 
-void MapManager::save()
+void MapManager::Save()
 {
 	std::ofstream out{ "Data/current.map", std::ios::out | std::ios::binary};
 	if (!out.is_open()) return;
-	if (nowMap->grid.empty()) return;
+	if (now_map->grid.empty()) return;
 
-	auto grid = nowMap->grid;
+	auto grid = now_map->grid;
 	size_t h = grid.size();
 	size_t w = grid[0].size();
 
@@ -45,13 +45,13 @@ void MapManager::save()
 		for (size_t x = 0; x < w; x++)
 		{
 			out.write(reinterpret_cast<char*>(grid[y][x].data()),
-				sizeof(grid[y][x][0]) * LAYER_COUNT);
+				sizeof(grid[y][x][0]) * kLayerCount);
 		}
 	}
 
-	auto sprites = nowMap->sprites;
-	size_t numSp = sprites.size();
-	out.write(reinterpret_cast<char*>(&numSp), sizeof(numSp));
+	auto sprites = now_map->sprites;
+	size_t sprite_count = sprites.size();
+	out.write(reinterpret_cast<char*>(&sprite_count), sizeof(sprite_count));
 
 	for (size_t i = 0; i < sprites.size(); i++)
 	{
@@ -62,18 +62,18 @@ void MapManager::save()
 	out.close();
 }
 
-void MapManager::load(std::string fileName)
+void MapManager::Load(std::string file_name)
 {
 	std::ifstream in;
-	if (fileName == "") { in = std::ifstream{ "Data/current.map", std::ios::in | std::ios::binary }; }
+	if (file_name == "") { in = std::ifstream{ "Data/current.map", std::ios::in | std::ios::binary }; }
 	else
 	{
-		fileName = "Data/" + fileName;
-		in = std::ifstream{ fileName, std::ios::in | std::ios::binary };
+		file_name = "Data/" + file_name;
+		in = std::ifstream{ file_name, std::ios::in | std::ios::binary };
 	}
 	if (!in.is_open()) return;
 
-	nowMap = new Map();
+	now_map = new Map();
 
 	size_t h = 0, w = 0;
 	in.read(reinterpret_cast<char*>(&w), sizeof(w));
@@ -81,46 +81,50 @@ void MapManager::load(std::string fileName)
 
 	if (h == 0 && w == 0)
 	{
-		h = SPACE_SIZE_H;
-		w = SPACE_SIZE_W;
+		h = kSpaceSizeHeight;
+		w = kSpaceSizeWight;
 	}
 
-	nowMap->grid = std::vector(h, std::vector(w, std::array<int, LAYER_COUNT>()));
-	nowMap->blockMap = std::vector(h, std::vector(w, std::set<Sprite*>()));
+	now_map->grid = std::vector(h, std::vector(w, std::array<int, kLayerCount>()));
+	now_map->block_map = std::vector(h, std::vector(w, std::set<Sprite*>()));
 
 	for (size_t y = 0; y < h; y++)
 	{
 		for (size_t x = 0; x < w; x++)
 		{
-			in.read(reinterpret_cast<char*>(nowMap->grid[y][x].data()),
-				sizeof(nowMap->grid[y][x][0]) * LAYER_COUNT);
+			in.read(reinterpret_cast<char*>(now_map->grid[y][x].data()),
+				sizeof(now_map->grid[y][x][0]) * kLayerCount);
 		}
 	}
 
-	size_t numSp;
-	in.read(reinterpret_cast<char*>(&numSp), sizeof(numSp));
+	size_t sprite_count;
+	in.read(reinterpret_cast<char*>(&sprite_count), sizeof(sprite_count));
 
-	nowMap->sprites = std::vector<MapSprite>(numSp);
-	for (size_t i = 0; i < nowMap->sprites.size(); i++)
-		in.read(reinterpret_cast<char*>(&nowMap->sprites[i]), sizeof(nowMap->sprites[i]));
+	now_map->sprites = std::vector<MapSprite>(sprite_count);
+	for (size_t i = 0; i < now_map->sprites.size(); i++)
+		in.read(reinterpret_cast<char*>(&now_map->sprites[i]), sizeof(now_map->sprites[i]));
 
 	in.close();
 }
 
-sf::Vector2f MapManager::nextLocation(int index)
+sf::Vector2f MapManager::NextLocation(int index)
 {
-	auto& state = GameState::getInstance();
-	if (index == BASE_N)
+	auto& state = GameState::GetInstance();
+
+	if (index == kBaseNumber)
 	{
 		state.data.isLevelBase = true;
-		SoundManager::playerMusic(BaseSound);
-		load(mapFileNames[BASE_N]);
-		endPos = {0.0f, 0.0f};
-		for (auto sp : nowMap->sprites)
+
+		SoundManager::PlayerMusic(MusicType::BaseSound);
+
+		Load(mapFileNames[kBaseNumber]);
+		end_position = {0.0f, 0.0f};
+
+		for (auto& sp : now_map->sprites)
 		{
 			if (sp.spriteDefId == 0)
 			{
-				startPos = sp.position;
+				start_position = sp.position;
 				break;
 			}
 		}
@@ -128,20 +132,24 @@ sf::Vector2f MapManager::nextLocation(int index)
 	else
 	{
 		state.data.isLevelBase = false;
-		SoundManager::playerMusic(LevelSound);
-		if (index == NEXT_LEVEL_N)
+
+		SoundManager::PlayerMusic(MusicType::LevelSound);
+
+		if (index == kNextLevelNumber)
 		{
 			state.data.levelNumber++;
-			generate();
+
+			Generate();
 		}
 		else
 		{
-			load(mapFileNames[index]);
-			for (auto sp : nowMap->sprites)
+			Load(mapFileNames[index]);
+
+			for (auto& sp : now_map->sprites)
 			{
 				if (sp.spriteDefId == 0)
 				{
-					startPos = sp.position;
+					start_position = sp.position;
 					break;
 				}
 			}
@@ -149,37 +157,39 @@ sf::Vector2f MapManager::nextLocation(int index)
 		}
 	}
 
-	return startPos;
+	return start_position;
 }
 
-void MapManager::rewriteSprites(std::vector<std::shared_ptr<Sprite>>* sprs)
+void MapManager::RewriteSprites(std::vector<std::shared_ptr<Sprite>>* sprites)
 {
-	nowMap->sprites.clear();
-	for (auto sp : *sprs) { nowMap->sprites.push_back(sp->spMap); }
+	now_map->sprites.clear();
+	for (auto& sp : *sprites) { now_map->sprites.push_back(sp->map_sprite); }
 }
 
-sf::Vector2f MapManager::getStartPosition() { return startPos; }
+sf::Vector2f MapManager::GetStartPosition() { return start_position; }
 
-void MapManager::drawMap(int layerNumber)
+void MapManager::DrawMap(int layer_number)
 {
-	if (nowMap->grid.empty()) return;
+	if (now_map->grid.empty()) return;
 
-	sf::RectangleShape cell(sf::Vector2f(TEXTURE_SIZE * 0.95f, TEXTURE_SIZE * 0.95f));
+	sf::RectangleShape cell(sf::Vector2f(kTextureSize * 0.95f, kTextureSize * 0.95f));
 	cell.setTexture(&Resources::textures);
 
-	if (layerNumber != SPRITE_LAYER)
+	if (layer_number != kSpeiteLayer)
 	{
-		for (size_t y = 0; y < nowMap->grid.size(); y++)
+		for (size_t y = 0; y < now_map->grid.size(); y++)
 		{
-			for (size_t x = 0; x < nowMap->grid[y].size(); x++)
+			for (size_t x = 0; x < now_map->grid[y].size(); x++)
 			{
-				int init = nowMap->grid[y][x][layerNumber];
-				if (init != 0)
+				int value = now_map->grid[y][x][layer_number];
+
+				if (value != 0)
 				{
-					cell.setTextureRect(sf::IntRect(sf::Vector2i((init - 1) % TEXTURE_COUNT * TEXTURE_SIZE,
-						(init - 1) / TEXTURE_COUNT * TEXTURE_SIZE),
-						sf::Vector2i(TEXTURE_SIZE, TEXTURE_SIZE)));
-					cell.setPosition((float)TEXTURE_SIZE * (sf::Vector2f((float)x, (float)y) + sf::Vector2f(0.025f, 0.025f)));
+					cell.setTextureRect(sf::IntRect(sf::Vector2i((value - 1) % kTextureCount * kTextureSize,
+						(value - 1) / kTextureCount * kTextureSize),
+						sf::Vector2i(kTextureSize, kTextureSize)));
+					cell.setPosition((float)kTextureSize * (sf::Vector2f((float)x, (float)y) + sf::Vector2f(0.025f, 0.025f)));
+
 					window->draw(cell);
 				}
 			}
@@ -188,229 +198,217 @@ void MapManager::drawMap(int layerNumber)
 	else
 	{
 		cell.setFillColor(sf::Color(255, 255, 255, 100));
-		for (size_t y = 0; y < nowMap->grid.size(); y++)
+
+		for (size_t y = 0; y < now_map->grid.size(); y++)
 		{
-			for (size_t x = 0; x < nowMap->grid[y].size(); x++)
+			for (size_t x = 0; x < now_map->grid[y].size(); x++)
 			{
-				int init = nowMap->grid[y][x][WALL_LAYER];
-				if (init != 0)
+				int value = now_map->grid[y][x][kWallLayer];
+
+				if (value != 0)
 				{
-					cell.setTextureRect(sf::IntRect(sf::Vector2i((init - 1) % TEXTURE_COUNT * TEXTURE_SIZE,
-						(init - 1) / TEXTURE_COUNT * TEXTURE_SIZE),
-						sf::Vector2i(TEXTURE_SIZE, TEXTURE_SIZE)));
-					cell.setPosition((float)TEXTURE_SIZE * (sf::Vector2f((float)x, (float)y) + sf::Vector2f(0.025f, 0.025f)));
+					cell.setTextureRect(sf::IntRect(sf::Vector2i((value - 1) % kTextureCount * kTextureSize,
+						(value - 1) / kTextureCount * kTextureSize),
+						sf::Vector2i(kTextureSize, kTextureSize)));
+					cell.setPosition((float)kTextureSize * (sf::Vector2f((float)x, (float)y) + sf::Vector2f(0.025f, 0.025f)));
+
 					window->draw(cell);
 				}
 			}
 		}
 
-		sf::RectangleShape spShape(sf::Vector2f(ICON_SIZE, ICON_SIZE));
-		spShape.setTexture(&Resources::spriteIcon);
+		sf::RectangleShape spite_shape(sf::Vector2f(kIconSize, kIconSize));
+		spite_shape.setTexture(&Resources::sprite_icon);
 
-		for (auto sp : nowMap->sprites)
+		for (auto sp : now_map->sprites)
 		{
 			if (sp.spriteDefId != 0)
 			{
-				spShape.setTextureRect(sf::IntRect(sf::Vector2i(ICON_SIZE * (sp.spriteDefId - 1), 0),
-					sf::Vector2i(ICON_SIZE, ICON_SIZE)));
-				spShape.setOrigin(spShape.getLocalBounds().width / 2, spShape.getLocalBounds().height / 2);
-				spShape.setPosition((float)TEXTURE_SIZE * sp.position);
-				spShape.rotate(sp.angle);
-				window->draw(spShape);
+				spite_shape.setTextureRect(sf::IntRect(sf::Vector2i(kIconSize * (sp.spriteDefId - 1), 0),
+					sf::Vector2i(kIconSize, kIconSize)));
+				spite_shape.setOrigin(spite_shape.getLocalBounds().width / 2, spite_shape.getLocalBounds().height / 2);
+				spite_shape.setPosition((float)kTextureSize * sp.position);
+				spite_shape.rotate(sp.angle);
+
+				window->draw(spite_shape);
 			}
 		}
 	}
 }
 
-void MapManager::generate()
+void MapManager::Generate()
 {
-	Leaf* root = new Leaf({ 0,0 }, { SPACE_SIZE_W, SPACE_SIZE_H });
-	std::vector<Leaf*> tempLeaf;
-	tempLeaf.push_back(root);
+	Leaf* root = new Leaf({ 0,0 }, { kSpaceSizeWight, kSpaceSizeHeight });
+	std::vector<Leaf*> temp_leafs;
+	temp_leafs.push_back(root);
 
-	bool didSplit = true;
-	while (didSplit)
+	bool did_split = true;
+
+	while (did_split)
 	{
-		didSplit = false;
-		for (int i = 0; i < tempLeaf.size(); i++)
+		did_split = false;
+
+		for (int i = 0; i < temp_leafs.size(); i++)
 		{
-			if (!tempLeaf[i]->leftChild && !tempLeaf[i]->rightChild)
+			if (!temp_leafs[i]->left_child && !temp_leafs[i]->right_child)
 			{
-				if (tempLeaf[i]->leafData.width > MAX_LEAF_SIZE || tempLeaf[i]->leafData.height > MAX_LEAF_SIZE || Random::bitRandom() > 0.25)
+				if (temp_leafs[i]->leaf_data.width > kMaxLeafSize || temp_leafs[i]->leaf_data.height > kMaxLeafSize || Random::BitRandom() > 0.25)
 				{
-					if (tempLeaf[i]->split())
+					if (temp_leafs[i]->Split())
 					{
-						tempLeaf.push_back(tempLeaf[i]->leftChild);
-						tempLeaf.push_back(tempLeaf[i]->rightChild);
-						didSplit = true;
+						temp_leafs.push_back(temp_leafs[i]->left_child);
+						temp_leafs.push_back(temp_leafs[i]->right_child);
+
+						did_split = true;
 					}
 				}
 			}
 		}
 	}
 
-	root->findRoom();
-	root->getAllChild();
+	root->FindRoom();
+	root->GetAllChild();
 
 	std::vector<sf::IntRect> rooms;
+	std::vector<std::pair<bool, sf::Vector2i>> middle_points;
 
-	std::vector<std::pair<bool, sf::Vector2i>> middlePoint;
-	for (auto l : root->getRoom())
+	for (auto l : root->GetRoom())
 	{
-		rooms.push_back(l->leafData);
-		middlePoint.push_back({ false, sf::Vector2i(l->leafData.left + l->leafData.width / 2, l->leafData.top + l->leafData.height / 2) });
+		rooms.push_back(l->leaf_data);
+		middle_points.push_back({ false, sf::Vector2i(l->leaf_data.left + l->leaf_data.width / 2, l->leaf_data.top + l->leaf_data.height / 2) });
 	}
 
 	delete root;
-	delete nowMap;
+	delete now_map;
+	temp_leafs.clear();
 
-	nowMap = new Map();
-	nowMap->grid = std::vector(SPACE_SIZE_H, std::vector(SPACE_SIZE_W, std::array<int, LAYER_COUNT>()));
-	nowMap->blockMap = std::vector(SPACE_SIZE_H, std::vector(SPACE_SIZE_W, std::set<Sprite*>()));
+	now_map = new Map();
+	now_map->grid = std::vector(kSpaceSizeHeight, std::vector(kSpaceSizeWight, std::array<int, kLayerCount>()));
+	now_map->block_map = std::vector(kSpaceSizeHeight, std::vector(kSpaceSizeWight, std::set<Sprite*>()));
 
 	for (auto rect : rooms)
 	{
-		for (auto i : std::vector<std::pair<int, int>>{ {FLOOR_LAYER, 1}, {CELL_LAYER, 2} })
+		for (auto i : std::vector<std::pair<int, int>>{ {kFloorLaye, 1}, {kCellLayer, 2} })
 		{
-			writeRoom(rect, i.first, Random::intRandom(1, TEXTURE_COUNT) + TEXTURE_COUNT * i.second);
+			WriteRoom(rect, i.first, Random::IntRandom(1, kTextureCount) + kTextureCount * i.second);
 		}
-		writeRoom(rect, WALL_LAYER, Random::intRandom(2, TEXTURE_COUNT));
 
-		sf::IntRect smalRect({ rect.left + 1, rect.top + 1 }, { rect.width - 2, rect.height - 2 });
-		writeRoom(smalRect, WALL_LAYER, 0);
+		WriteRoom(rect, kWallLayer, Random::IntRandom(2, kTextureCount));
+
+		sf::IntRect smal_rect({ rect.left + 1, rect.top + 1 }, { rect.width - 2, rect.height - 2 });
+		WriteRoom(smal_rect, kWallLayer, 0);
 	}
 
-	bool isAll = false;
-	int current = Random::intRandom(0, middlePoint.size() - 1);
-	startPos = (sf::Vector2f)middlePoint[current].second;
-	middlePoint[current].first = true;
-	while (!isAll)
+	bool is_all = false;
+
+	int current = Random::IntRandom(0, middle_points.size() - 1);
+	start_position = (sf::Vector2f)middle_points[current].second;
+	middle_points[current].first = true;
+
+	while (!is_all)
 	{
-		float minDist = INFINITY;
-		int minRoom = -1;
+		float min_dist = INFINITY;
+		int min_room = -1;
 
-		for (int i = 0; i < middlePoint.size(); i++)
+		for (int i = 0; i < middle_points.size(); i++)
 		{
-			if (!middlePoint[i].first)
+			if (!middle_points[i].first)
 			{
-				float dist = GETDIST(middlePoint[i].second, middlePoint[current].second);
+				float dist = GETDIST(middle_points[i].second, middle_points[current].second);
 
-				if (minDist > dist)
+				if (min_dist > dist)
 				{
-					minDist = dist;
-					minRoom = i;
+					min_dist = dist;
+					min_room = i;
 				}
 			}
 		}
 
-		sf::Vector2i dir = middlePoint[current].second - middlePoint[minRoom].second;
-		float angle = atan2(-dir.y, dir.x) * 180 / PI;
+		sf::Vector2i direction = middle_points[current].second - middle_points[min_room].second;
+
+		float angle = atan2(-direction.y, direction.x) * 180 / kPI;
 		angle = fmod(angle, 360.0f);
 		if (angle < 0) angle += 360.0f;
 
-		sf::IntRect rect = rooms[minRoom];
-		if ((angle >= 315.0f && angle < 360.0f) ||
-			(angle >= 0.0f && angle < 45.0f))
+		sf::IntRect rect = rooms[min_room];
+		if ((angle >= 315.0f && angle < 360.0f) || (angle >= 0.0f && angle < 45.0f))
 		{
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 3][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width - 1][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width][WALL_LAYER] = 1;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 1][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + rect.width + 3][WALL_LAYER] = 0;
+			WriteHall(sf::Vector2i(rect.left + rect.width, rect.top + rect.height / 2), false);
 		}
 		else if (angle >= 45.0f && angle < 135.0f)
 		{
-			nowMap->grid[rect.top + 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top][rect.left + rect.width / 2][WALL_LAYER] = 1;
-			nowMap->grid[rect.top - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top - 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			WriteHall(sf::Vector2i(rect.left + rect.width / 2, rect.top), true);
 		}
 		else if (angle >= 135.0f && angle < 225.0f)
 		{
-			nowMap->grid[rect.top + rect.height / 2][rect.left + 3][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left + 1][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left][WALL_LAYER] = 1;
-			nowMap->grid[rect.top + rect.height / 2][rect.left - 1][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left - 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height / 2][rect.left - 3][WALL_LAYER] = 0;
+			WriteHall(sf::Vector2i(rect.left, rect.top + rect.height / 2), false);
 		}
 		else
 		{
-			nowMap->grid[rect.top + rect.height - 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height - 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height - 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height][rect.left + rect.width / 2][WALL_LAYER] = 1;
-			nowMap->grid[rect.top + rect.height + 1][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height + 2][rect.left + rect.width / 2][WALL_LAYER] = 0;
-			nowMap->grid[rect.top + rect.height + 3][rect.left + rect.width / 2][WALL_LAYER] = 0;
+			WriteHall(sf::Vector2i(rect.left + rect.width / 2, rect.top + rect.height), true);
 		}
 
-		current = minRoom;
-		middlePoint[current].first = true;
+		current = min_room;
+		middle_points[current].first = true;
 
-		isAll = true;
-		for (auto pair : middlePoint)
+		is_all = true;
+		for (auto pair : middle_points)
 		{
 			if (!pair.first)
 			{
-				isAll = false;
+				is_all = false;
 				break;
 			}
 		}
 
-		endPos = (sf::Vector2f)middlePoint[current].second;
+		end_position = (sf::Vector2f)middle_points[current].second;
 	}
 
-	for (size_t y = 0; y < nowMap->grid.size(); y++)
+	for (size_t y = 0; y < now_map->grid.size(); y++)
 	{
-		for (size_t x = 0; x < nowMap->grid[0].size(); x++)
+		for (size_t x = 0; x < now_map->grid[0].size(); x++)
 		{
-			if (nowMap->grid[y][x][1] > 1)
+			if (now_map->grid[y][x][1] > 1)
 			{
-				if (Random::bitRandom() > 0.9f)
+				if (Random::BitRandom() > 0.9f)
 				{
-					nowMap->grid[y][x][WALL_LAYER] = Random::intRandom(1, TEXTURE_COUNT) + TEXTURE_COUNT * 3;
+					now_map->grid[y][x][kWallLayer] = Random::IntRandom(1, kTextureCount) + kTextureCount * 3;
 				}
 			}
 		}
 	}
 
-	std::vector<sf::IntRect> enemyRooms = rooms;
-	for (size_t i = 0; i < enemyRooms.size(); i++)
+	std::vector<sf::IntRect> enemy_rooms = rooms;
+
+	for (size_t i = 0; i < enemy_rooms.size(); i++)
 	{
-		if (enemyRooms[i].contains((sf::Vector2i)startPos))
+		if (enemy_rooms[i].contains((sf::Vector2i)start_position))
 		{
-			enemyRooms.erase(enemyRooms.begin() + i);
+			enemy_rooms.erase(enemy_rooms.begin() + i);
 			break;
 		}
 	}
 
-	writeEnemy(enemyRooms);
+	WriteEnemy(enemy_rooms);
 }
 
-void MapManager::writeRoom(const sf::IntRect& rect, int layer, int value)
+void MapManager::WriteRoom(const sf::IntRect& rect, int layer, int value)
 {
 	for (size_t y = rect.top; y < rect.top + rect.height; y++)
 	{
 		for (size_t x = rect.left; x < rect.left + rect.width; x++)
 		{
-			nowMap->grid[y][x][layer] = value;
+			now_map->grid[y][x][layer] = value;
 		}
 	}
 }
 
-void MapManager::writeEnemy(const std::vector<sf::IntRect>& rooms)
+void MapManager::WriteEnemy(const std::vector<sf::IntRect>& rooms)
 {
-	auto& state = GameState::getInstance();
-	int midleRoomCount = std::min(ENEMY_LEVEL_COUNT, (state.data.levelNumber + 1) * 7) / (float)rooms.size();
-	int minEnemy = std::min((int)((state.data.levelNumber + 1) * 0.5f), ENEMY_MAX_INDEX - 5);
-	int maxEnemy = std::min((int)((state.data.levelNumber + 1) * 1.2f), ENEMY_MAX_INDEX);
+	auto& state = GameState::GetInstance();
+	int midle_room_count = std::min(kEnemyLevelCount, (state.data.levelNumber + 1) * 7) / (float)rooms.size();
+	int min_enemy = std::min((int)((state.data.levelNumber + 1) * 0.5f), kEnemyMaxIndex - 5);
+	int max_enemy = std::min((int)((state.data.levelNumber + 1) * 1.2f), kEnemyMaxIndex);
 
 	for (auto r : rooms)
 	{
@@ -419,20 +417,40 @@ void MapManager::writeEnemy(const std::vector<sf::IntRect>& rooms)
 		r.height -= 4;
 		r.width -= 4;
 
-		auto points = Random::uniquePoints(r, Random::intRandom((int)(midleRoomCount * 0.8f),
-			(int)(midleRoomCount * 1.2f)));
+		auto points = Random::UniquePoints(r, Random::IntRandom((int)(midle_room_count * 0.8f),
+			(int)(midle_room_count * 1.2f)));
 
 		for (auto p : points)
 		{
-			auto index = Random::intRandom(minEnemy, maxEnemy);
+			auto index = Random::IntRandom(min_enemy, max_enemy);
 			auto def = spriteDefs[index];
-			MapSprite spMap = { def.texture + 1, (sf::Vector2f)p, (float)Random::intRandom(0,180), enemyDefs[index].maxHealpoint };
-			nowMap->setMapSprite(spMap);
+			MapSprite map_sprite = { def.texture + 1, (sf::Vector2f)p, (float)Random::IntRandom(0,180), enemyDefs[index].maxHealpoint };
+			now_map->SetMapSprite(map_sprite);
 		}
 	}
 
-	MapSprite spMap = { PORTAL_INDEX, endPos, 0.0f, 100.0f };
-	nowMap->setMapSprite(spMap);
+	MapSprite map_sprite = { kPortalIndex, end_position, 0.0f, 100.0f };
+	now_map->SetMapSprite(map_sprite);
 }
 
-Map* MapManager::getNowMap() { return nowMap; }
+void MapManager::WriteHall(sf::Vector2i start_pos, bool is_vertical)
+{
+	if (is_vertical)
+	{
+		for (int y = -3; y < 4; y++)
+		{
+			now_map->grid[start_pos.y + y][start_pos.x][kWallLayer] = 0;
+		}
+	}
+	else
+	{
+		for (int x = -3; x < 4; x++)
+		{
+			now_map->grid[start_pos.y][start_pos.x + x][kWallLayer] = 0;
+		}
+	}
+
+	now_map->grid[start_pos.y][start_pos.x][kWallLayer] = 1;
+}
+
+Map* MapManager::GetNowMap() { return now_map; }

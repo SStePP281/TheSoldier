@@ -1,58 +1,59 @@
 #include "DialogSystem.h"
 
-Dialog::Dialog(sf::RenderWindow* _window, UIManager* _uiManager,
-	ItemManager* _weaponManager) : window{ _window },
-	uiManager{ _uiManager }, weaponManager{ _weaponManager },
+Dialog::Dialog(sf::RenderWindow* window, UIManager* ui_manager,
+	ItemManager* weapon_manager) : window{ window },
+	ui_manager{ ui_manager }, weapon_manager{ weapon_manager },
 	npc{ nullptr }, player{ nullptr }, 
-	dialogState{ [=](float deltaTime) { update(); }, [=]() { draw();}} {}
+	dialog_state{ [=](float deltaTime) { Update(); }, [=]() { Draw();}} {}
 
-void Dialog::setPlayer(Player* _player) { player = _player; }
+void Dialog::SetPlayer(Player* player) { player = player; }
 
-void Dialog::start(Npc* _npc)
+void Dialog::Start(Npc* _npc)
 {
-	auto& event = EventSystem::getInstance();
-	event.trigger<RenderState*>("SWAP_STATE", &dialogState);
+	if (!_npc) return;
+	npc = _npc;
+
+	auto& event = EventSystem::GetInstance();
+	event.Trigger<RenderState*>("SWAP_STATE", &dialog_state);
 	window->setMouseCursorVisible(true);
-	if (npc = _npc, npc)
-	{
-		npc->setEndFunc([=]() {stop();});
-		npc->init();
-	}
+
+	npc->SetEndFunc([=]() {Stop();});
+	npc->Init();
 }
 
-void Dialog::stop()
+void Dialog::Stop()
 {
 	window->setMouseCursorVisible(false);
 	npc = nullptr;
-	auto& event = EventSystem::getInstance();
-	event.trigger<RenderState*>("SWAP_STATE", nullptr);
+	auto& event = EventSystem::GetInstance();
+	event.Trigger<RenderState*>("SWAP_STATE", nullptr);
 }
 
-void Dialog::update()
+void Dialog::Update()
 {
 	if (!window->hasFocus()) return;
 	
-	static bool isMouseDown = false;
-	bool isPress = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	static bool is_mouse_down = false;
+	bool is_press = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
-	if (isPress && !isMouseDown)
+	if (is_press && !is_mouse_down)
 	{
-		int key = uiManager->checkButton();
+		int key = ui_manager->CheckButton();
 
 		if (key != -1)
 		{
-			npc->update(key);
+			npc->Update(key);
 		}
 
-		isMouseDown = true;
+		is_mouse_down = true;
 	}
-	if (!isPress)
+	if (!is_press)
 	{
-		isMouseDown = false;
+		is_mouse_down = false;
 	}
 }
 
-void Dialog::draw()
+void Dialog::Draw()
 {
-	uiManager->drawNow();
+	ui_manager->DrawNow();
 }

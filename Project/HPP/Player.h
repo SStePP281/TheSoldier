@@ -1,4 +1,3 @@
-#pragma once
 #ifndef PLAYER
 #define PLAYER
 
@@ -20,49 +19,49 @@ class Inventory;
 class Player
 {
 public:
-	Player(Enemy* sprite, const PlayerDef& def, Map* _nowMap);
-	~Player();
-	void setInventory(Inventory* invent);
-	void updateMouseData(const sf::Vector2f& mousePos, float deltaTime);
-	void checkBoost(bool isPressed, float deltaTime);
-	void move(const sf::Vector2f& deltaPos, float deltaTime);
-	void jump();
-	Sprite* dialog();
-	void takeDamage(float damage);
-	void fire(int gun = -1);
-	void swapGun(bool flag);
-	void reloadingGun();
-	Gun* setGun(Gun* gun, int pos);
-	Gun* getGun(int pos);
-	float getMoveSpeed();
-	void takeItem(Itemble*, int cnt = 1);
-	void heal();
+	Player(Enemy* sprite, const PlayerDef& def, Map* nowMap);
+	~Player() = default;
+	void SetInventory(Inventory* inventory);
+	void UpdateMouseData(const sf::Vector2f& mouse_position, float delta_time);
+	void CheckBoost(bool is_pressed, float delta_time);
+	void Move(const sf::Vector2f& delta_position, float delta_time);
+	void Jump();
+	Sprite* Dialog();
+	void TakeDamage(float damage);
+	void Fire(int gun = -1);
+	void SwapGun(bool flag);
+	void ReloadingGun();
+	Gun* SetGun(Gun* gun, int position);
+	Gun* GetGun(int pos);
+	float GetMoveSpeed();
+	void TakeItem(Itemble*, int cnt = 1);
+	void Heal();
 
-	Gun* getNowGun();
-	PlayerDef getPlayerDef();
-	void setNemMap(Map* map);
+	Gun* GetNowGun();
+	PlayerDef GetPlayerDef();
+	void SetNemMap(Map* map);
 
 	Enemy* enemy;
 	Gun* kick;
-	float pitch, posZ, maxEnergy, nowEnergy;
-	float defence, nowStrenght, maxStrenght;
-	float mouseSpeed;
+	float pitch, pos_z, max_energy, now_energy;
+	float defence, now_strenght, max_strenght;
+	float mouse_speed;
 	int patrons;
 	int money;
 	int details;
-	Item* nowHeal;
+	Item* now_heal;
 	Gun* guns[3]{};
-	sf::Vector2f shakeDelta;
+	sf::Vector2f shake_delta;
 private:
-	Inventory* invent;
-	bool isJump, jumpFlag;
-	Map* nowMap;
-	int nowGun;
-	float nowSpeed, boostSpeed, shakeTime;
+	void ResetPlayer();
+	void RhakeCamera(float delta_time, bool is_run);
+	void Gravity(float delta_time);
 
-	void resetPlayer();
-	void shakeCamera(float deltaTime, bool isRun);
-	void gravity(float deltaTime);
+	Inventory* inventory;
+	bool is_jump, jump_flag;
+	Map* now_map;
+	int now_gun;
+	float now_speed, boost_speed, shake_time;
 };
 
 #endif // !PLAYER

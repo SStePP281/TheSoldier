@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MAPM
 #define MAPM
 
@@ -14,26 +13,27 @@
 class MapManager
 {
 public:
-	MapManager(sf::RenderWindow* _window);
+	MapManager(sf::RenderWindow* window);
 	~MapManager();
 
-	void save();
-	void load(std::string fileName = "");
+	void Save();
+	void Load(std::string file_name = "");
 
-	sf::Vector2f nextLocation(int index);
-	void rewriteSprites(std::vector<std::shared_ptr<Sprite>>* sprs);
-	sf::Vector2f getStartPosition();
-	void drawMap(int layer);
-	Map* getNowMap();
+	sf::Vector2f NextLocation(int index);
+	void RewriteSprites(std::vector<std::shared_ptr<Sprite>>* sprites);
+	sf::Vector2f GetStartPosition();
+	void DrawMap(int layer);
+	Map* GetNowMap();
 private:
-	Map* nowMap;
-	sf::RenderWindow* window;
-	sf::Vector2f startPos;
-	sf::Vector2f endPos;
+	void Generate();
+	void WriteRoom(const sf::IntRect& rect, int layer, int value);
+	void WriteEnemy(const std::vector<sf::IntRect>& rooms);
+	void WriteHall(sf::Vector2i start_position, bool is_vertical);
 
-	void generate();
-	void writeRoom(const sf::IntRect& rect, int layer, int value);
-	void writeEnemy(const std::vector<sf::IntRect>& rooms);
+	Map* now_map;
+	sf::RenderWindow* window;
+	sf::Vector2f start_position;
+	sf::Vector2f end_position;
 };
 
 #endif // !MAPM

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef RANDOM
 #define RANDOM
 
@@ -11,8 +10,9 @@
 class Random
 {
 public:
-	static float bitRandom();
-	static int intRandom(int, int);
-	static std::set<sf::Vector2i, Vector2iCompare> uniquePoints(sf::IntRect zone, int count);
+	static float BitRandom();
+	static int IntRandom(int start, int end);
+	static std::set<sf::Vector2i, Vector2iCompare> UniquePoints(sf::IntRect zone, int count);
 };
+
 #endif // !RANDOM

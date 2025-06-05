@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef SOUNDM
 #define SOUNDM
 
@@ -11,11 +11,11 @@ class SoundManager
 {
 public:
 	SoundManager();
-	static void playSound(const sf::SoundBuffer& buffer, bool isLoop = false);
-	static void playerMusic(MusicType type);
-	static void stopAllSound();
-	static void update();
-	static void updateVolume();
+	static void PlaySounds(const sf::SoundBuffer& buffer, bool is_loop = false);
+	static void PlayerMusic(MusicType type);
+	static void StopAllSound();
+	static void Update();
+	static void UpdateVolume();
 private:
 	static std::vector<std::unique_ptr<sf::Sound>> sounds;
 	static sf::Music music;

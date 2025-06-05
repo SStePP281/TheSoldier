@@ -11,30 +11,30 @@ int main()
 {
 	Resources::initResources();
 
-	sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H), "Game"/*, sf::Style::Fullscreen*/);
-	window.setIcon(Resources::gameIcon.getSize().x, Resources::gameIcon.getSize().y, Resources::gameIcon.getPixelsPtr());
+	sf::RenderWindow window(sf::VideoMode(kScreenWight, kScreenHeight), "Game"/*, sf::Style::Fullscreen*/);
+	window.setIcon(Resources::game_icon.getSize().x, Resources::game_icon.getSize().y, Resources::game_icon.getPixelsPtr());
 	window.setFramerateLimit(60);
 	sf::Cursor cur{};
-	cur.loadFromPixels(Resources::cursorImage.getPixelsPtr(), Resources::cursorImage.getSize(), sf::Vector2u(0, 0));
+	cur.loadFromPixels(Resources::cursor_image.getPixelsPtr(), Resources::cursor_image.getSize(), sf::Vector2u(0, 0));
 	window.setMouseCursor(cur);
 
 #ifdef REDACT_MODE
-	sf::RenderWindow editorWindow(sf::VideoMode(450,500), "Editor");
-	editorWindow.setPosition(sf::Vector2i(0, 0));
-	editorWindow.setActive(false);
-	editorWindow.setVisible(false);
+	sf::RenderWindow editor_window(sf::VideoMode(450,500), "Editor");
+	editor_window.setPosition(sf::Vector2i(0, 0));
+	editor_window.setActive(false);
+	editor_window.setVisible(false);
 #endif // REDACT_MODE
 
-	auto& event = EventSystem::getInstance();
-	event.subscribe<int>("RESET_GAME", [&](const int NON) {
+	auto& event = EventSystem::GetInstance();
+	event.Subscribe<int>("RESET_GAME", [&](const int NON) {
 		sfe::Movie movie;
 
 		if (!movie.openFromFile("Sound/startIntroVideo.mp4")) return;
 		movie.fit(0.0f, 0.0f, (float)window.getSize().x, (float)window.getSize().y);
 		movie.play();
 
-		SoundManager::stopAllSound();
-		SoundManager::playerMusic(StartIntro);
+		SoundManager::StopAllSound();
+		SoundManager::PlayerMusic(MusicType::StartIntro);
 
 		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
 		{
@@ -56,13 +56,13 @@ int main()
 		window.clear();
 		});
 
-	event.subscribe<int>("WIN_GAME", [&](const int NON) {
+	event.Subscribe<int>("WIN_GAME", [&](const int NON) {
 		sfe::Movie movie;
 		if (!movie.openFromFile("Sound/endIntroVideo.mp4")) return;
 		movie.fit(0.0f, 0.0f, (float)window.getSize().x, (float)window.getSize().y);
 		movie.play();
-		SoundManager::stopAllSound();
-		SoundManager::playerMusic(EndIntro);
+		SoundManager::StopAllSound();
+		SoundManager::PlayerMusic(MusicType::EndIntro);
 
 		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
 		{
@@ -85,15 +85,14 @@ int main()
 		});
 
 	State state = State::Game;
-	std::unique_ptr<MapManager> mapManager = std::make_unique<MapManager>(&window);
-	mapManager->load();
+	std::unique_ptr<MapManager> map_manager = std::make_unique<MapManager>(&window);
+	map_manager->Load();
 
 #ifdef REDACT_MODE
-	std::unique_ptr<Editor> editor = std::make_unique<Editor>();
-	editor->init(&window, &editorWindow, mapManager.get());
+	std::unique_ptr<Editor> editor = std::make_unique<Editor>(Editor(&window, &editor_window, map_manager.get()));
 #endif // REDACT_MODE
 
-	std::unique_ptr<Game> game = std::make_unique<Game>(&window, mapManager.get());
+	std::unique_ptr<Game> game = std::make_unique<Game>(&window, map_manager.get());
 
 	sf::Clock gameClock;
 	float deltaTime = 0;
@@ -106,7 +105,7 @@ int main()
 		{
 			if (state == State::Editor)
 			{
-				editor->takeWindowInput(event);
+				editor->TakeWindowInput(event);
 			}
 			if (event.type == sf::Event::Closed)
 			{
@@ -121,35 +120,35 @@ int main()
 						state = State::Game;
 						window.setMouseCursorVisible(false);
 						window.setView(window.getDefaultView());
-						game->editor();
-						editorWindow.setActive(false);
-						editorWindow.setVisible(false);
+						game->Editor();
+						editor_window.setActive(false);
+						editor_window.setVisible(false);
 					}
 					else
 					{
 						state = State::Editor;
 						window.setMouseCursorVisible(true);
-						editorWindow.setVisible(true);
-						editorWindow.setActive(true);
+						editor_window.setVisible(true);
+						editor_window.setActive(true);
 					}
 				}
 			}
 
 			if (state == State::Game)
 			{
-				game->getInput(event, deltaTime);
+				game->GetInput(event, deltaTime);
 			}
 		}
 
 		if (state == State::Editor)
 		{
-			while (editorWindow.pollEvent(event))
+			while (editor_window.pollEvent(event))
 			{
 				if (event.type == sf::Event::Closed)
 				{
-					editorWindow.close();
+					editor_window.close();
 				}
-				editor->takeEditInput(event);
+				editor->TakeEditInput(event);
 			}
 		}
 
@@ -157,16 +156,16 @@ int main()
 
 		if (state == State::Game)
 		{
-			game->makeCycle(deltaTime);
+			game->MakeCycle(deltaTime);
 		}
 		else
 		{	
-			editorWindow.clear();
+			editor_window.clear();
 
-			mapManager->drawMap(editor->drawerLayer());
-			editor->drawEditor();
+			map_manager->DrawMap(editor->DrawerLayer());
+			editor->DrawEditor();
 			
-			editorWindow.display();
+			editor_window.display();
 		}
 #endif // REDACT_MODE
 #ifndef REDACT_MODE
@@ -178,11 +177,11 @@ int main()
 				window.close();
 			}
 
-			game->getInput(event, deltaTime);
+			game->GetInput(event, deltaTime);
 		}
 
 		window.clear();
-		game->makeCycle(deltaTime);
+		game->MakeCycle(deltaTime);
 #endif // !REDACT_MODE
 		window.display();
 		window.setTitle("SOLDIER " + std::to_string(1.0f / deltaTime));
@@ -190,7 +189,7 @@ int main()
 		gameClock.restart();
 	}
 
-	game->save();
+	game->Save();
 
 	return 0;
 }

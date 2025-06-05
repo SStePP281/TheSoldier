@@ -1,62 +1,58 @@
 #include "Leaf.h"
 
-Leaf::Leaf(sf::Vector2i pos, sf::Vector2i size)
-{
-	leftChild = nullptr;
-	rightChild = nullptr;
-	leafData = sf::IntRect(pos.x, pos.y, size.x, size.y);
-	isRoom = false;
-}
+Leaf::Leaf(sf::Vector2i position, sf::Vector2i size) : 
+	leaf_data{ sf::IntRect(position.x, position.y, size.x, size.y) },
+	left_child{nullptr}, right_child{nullptr}, is_room{false} { }
 
 Leaf::~Leaf()
 {
-	delete leftChild;
-	delete rightChild;
+	delete left_child;
+	delete right_child;
 }
 
-std::vector<Leaf*> Leaf::getAllChild()
+std::vector<Leaf*> Leaf::GetAllChild()
 {
-	if (leftChild)
+	if (left_child)
 	{
-		if (leftChild->isRoom)
+		if (left_child->is_room)
 		{
-			allChild.push_back(leftChild);
+			all_child.push_back(left_child);
 		}
 		else
 		{
-			auto data = leftChild->getAllChild();
+			auto data = left_child->GetAllChild();
 			for (auto d : data)
 			{
-				allChild.push_back(d);
+				all_child.push_back(d);
 			}
 		}
 	}
 
-	if (rightChild)
+	if (right_child)
 	{
-		if (rightChild->isRoom)
+		if (right_child->is_room)
 		{
-			allChild.push_back(rightChild);
+			all_child.push_back(right_child);
 		}
 		else
 		{
-			auto data = rightChild->getAllChild();
+			auto data = right_child->GetAllChild();
 			for (auto d : data)
 			{
-				allChild.push_back(d);
+				all_child.push_back(d);
 			}
 		}
 	}
-	return allChild;
+	return all_child;
 }
 
-std::vector<Leaf*> Leaf::getRoom()
+std::vector<Leaf*> Leaf::GetRoom()
 {
 	std::vector<Leaf*> rooms;
 
-	for (auto l : allChild)
+	for (auto l : all_child)
 	{
-		if (l->isRoom)
+		if (l->is_room)
 		{
 			rooms.push_back(l);
 		}
@@ -65,48 +61,49 @@ std::vector<Leaf*> Leaf::getRoom()
 	return rooms;
 }
 
-bool Leaf::split()
+bool Leaf::Split()
 {
-	if (leftChild || rightChild) { return false; }
+	if (left_child || right_child) { return false; }
 
-	bool isHorRez;
-	if (leafData.width > leafData.height && leafData.width / (float)leafData.height >= 1.25f) {
-		isHorRez = false;
+	bool is_horizontal_rez;
+	if (leaf_data.width > leaf_data.height && leaf_data.width / (float)leaf_data.height >= 1.25f) {
+		is_horizontal_rez = false;
 	}
-	else if (leafData.height > leafData.width && leafData.height / (float)leafData.width >= 1.25f) {
-		isHorRez = true;
+	else if (leaf_data.height > leaf_data.width && leaf_data.height / (float)leaf_data.width >= 1.25f) {
+		is_horizontal_rez = true;
 	}
 	else
 	{
-		isHorRez = Random::bitRandom() > 0.5f;
+		is_horizontal_rez = Random::BitRandom() > 0.5f;
 	}
 
-	int max = (isHorRez ? leafData.height : leafData.width) - MIN_LEAF_SIZE;
-	if (max <= MIN_LEAF_SIZE) { return false; }
-	int valRez = Random::intRandom(MIN_LEAF_SIZE, max);
+	int max = (is_horizontal_rez ? leaf_data.height : leaf_data.width) - kMinLeafSize;
+	if (max <= kMinLeafSize) { return false; }
+	int value_rez = Random::IntRandom(kMinLeafSize, max);
 
-	if (isHorRez)
+	if (is_horizontal_rez)
 	{
-		leftChild = new Leaf({ leafData.left, leafData.top }, { leafData.width, valRez });
-		rightChild = new Leaf({ leafData.left, leafData.top + valRez }, { leafData.width, leafData.height - valRez });
+		left_child = new Leaf({ leaf_data.left, leaf_data.top }, { leaf_data.width, value_rez });
+		right_child = new Leaf({ leaf_data.left, leaf_data.top + value_rez }, { leaf_data.width, leaf_data.height - value_rez });
 	}
 	else
 	{
-		leftChild = new Leaf({ leafData.left, leafData.top }, { valRez, leafData.height });
-		rightChild = new Leaf({ leafData.left + valRez, leafData.top }, { leafData.width - valRez, leafData.height });
+		left_child = new Leaf({ leaf_data.left, leaf_data.top }, { value_rez, leaf_data.height });
+		right_child = new Leaf({ leaf_data.left + value_rez, leaf_data.top }, { leaf_data.width - value_rez, leaf_data.height });
 	}
+
 	return true;
 }
 
-void Leaf::findRoom()
+void Leaf::FindRoom()
 {
-	if (leftChild && rightChild)
+	if (left_child && right_child)
 	{
-		leftChild->findRoom();
-		rightChild->findRoom();
+		left_child->FindRoom();
+		right_child->FindRoom();
 	}
 	else
 	{
-		isRoom = true;
+		is_room = true;
 	}
 }

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef INVENT
 #define INVENT
 
@@ -10,31 +9,31 @@
 class Inventory
 {
 public:
-	Inventory(sf::RenderWindow* _window, Player* _player, UIManager* _uiManager);
+	Inventory(sf::RenderWindow* window, Player* player, UIManager* ui_manager);
 
-	Item* takeMaxHeal();
-	void takeItem(Itemble*, int cnt = 1);
-	void useItem(Itemble*, int cnt = 1);
-	void useInvent();
-	void update();
-	void drawInvent();
+	Item* TakeMaxHeal();
+	void TakeItem(Itemble* itemble, int count = 1);
+	void UseItem(Itemble* itemble, int count = 1);
+	void UseInvent();
+	void Update();
+	void DrawInvent();
 private:
-	void save();
-	void initInv();
-	void checkChose();
-	void selectedItem();
-	void selectItemById();
-	void useSelectedItem(Item* item);
-	void useSelectedGun(Gun* gun);
-	void useSelectedImprove(Improve* improve);
+	void Save();
+	void InitInv();
+	void CheckChose();
+	void SelectedItem();
+	void SelectItemById();
+	void UseSelectedItem(Item* item);
+	void UseSelectedGun(Gun* gun);
+	void UseSelectedImprove(Improve* improve);
 
-	bool isOpen;
+	bool is_open;
 	Player* player;
-	int nowKey;
-	RenderState invetState;
+	int now_key;
+	RenderState invetory_state;
 	Itemble* choose;
 	std::map<Itemble*, int> items;
-	UIManager* uiManager;
+	UIManager* ui_manager;
 	sf::RenderWindow* window;
 };
 

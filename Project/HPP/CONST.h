@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CONSTS
 #define CONSTS
 
@@ -12,41 +11,52 @@
 #define GETDIST(a,b) (SQUARE(a.x - b.x) + SQUARE(a.y - b.y))
 #define COMPARER(a, b, c) GETDIST(a, c) > GETDIST(b, c) ? true : false
 
-constexpr float ROTATION_SPEED = 80.0f, VERTICAL_MOUSE_SPEED = 25.0f;
-const int TEXTURE_SIZE = 128, ICON_SIZE = 64, TEXTURE_COUNT = 15;
-constexpr int SCREEN_W = 1280, SCREEN_H = 720;
-constexpr float PI = 3.14159265359f, TRIGER_DIST = 12.0f;
-constexpr int ENEMY_MAX_INDEX = 12, PORTAL_INDEX = 17, SPAWN_RADIUS = 8;
-constexpr int MAX_RAD = 30, MIN_RAD = 1;
-constexpr int COUNT_ROW_TEXT = 7;
-constexpr int MIN_LEAF_SIZE = 10, MAX_LEAF_SIZE = 20;
-constexpr int ALL_LAYER = 4;
-constexpr int LAYER_COUNT = 3;
-constexpr int FLOOR_LAYER = 0;
-constexpr int WALL_LAYER = 1;
-constexpr int CELL_LAYER = 2;
-constexpr int SPRITE_LAYER = 3;
-constexpr int SPACE_SIZE_W = 40, SPACE_SIZE_H = 40;
-constexpr int ENEMY_LEVEL_COUNT = 40;
-constexpr int NEXT_LEVEL_N = -1, BASE_N = 0, ARENA_1_N = 1, ARENA_2_N = 2, ARENA_3_N = 3, BOSS_N = 4;
-constexpr int MAX_DETH = 64;
-constexpr float PLAYER_FOV = 60.0f, CAMERA_Z = SCREEN_H / 2.0f, ASPECT = (float)SCREEN_W / SCREEN_H * 0.5f, BRIGHTNESTDIST = MAX_DETH / 7.0f;
-constexpr float DIALOG_W = SCREEN_W - 200, DIALOG_H = SCREEN_H - 100, INTERVAL = 40;
-constexpr int TEXTSIZE = 50;
+constexpr float kRotationSpeed = 80.0f, kVerticalMouseSpeed = 25.0f;
+constexpr int kTextureSize = 128, kIconSize = 64, kTextureCount = 15;
+constexpr int kScreenWight = 1280, kScreenHeight = 720;
+constexpr float kPI = 3.14159265359f, kTrigerDist = 12.0f;
+constexpr int kEnemyMaxIndex = 12, kPortalIndex = 17, kSpawnRadius = 8;
+constexpr int kMaxRad = 30, kMinRad = 1;
+constexpr int kCountRowTaxt = 7;
+constexpr int kMinLeafSize = 10, kMaxLeafSize = 20;
+constexpr int kAllLayerCount = 4;
+constexpr int kLayerCount = 3;
+constexpr int kFloorLaye = 0;
+constexpr int kWallLayer = 1;
+constexpr int kCellLayer = 2;
+constexpr int kSpeiteLayer = 3;
+constexpr int kSpaceSizeWight = 40, kSpaceSizeHeight = 40;
+constexpr int kEnemyLevelCount = 40;
+constexpr int kNextLevelNumber = -1, kBaseNumber = 0, kArena1Number = 1, kArena2Number = 2, kArena3Number = 3, kBossNumber = 4;
+constexpr int kMaxDeth = 64;
+constexpr float kPlayerFov = 60.0f, kCameraZ = kScreenHeight / 2.0f, kAspect = (float)kScreenWight / kScreenHeight * 0.5f, kBrightnestDist = kMaxDeth / 7.0f;
+constexpr float kDialogWight = kScreenWight - 200, kDialogHeight = kScreenHeight - 100, kInterval = 40;
+constexpr int kTextSize = 50;
 
 enum class SpriteType { Enemy, PlayerT, NPC, Convertor, Boss, Decoration };
 
-enum EnemyState { Stay, Run, Attack, Spawn, Dead };
+enum class EnemyState { Stay, Run, Attack, Spawn, Dead };
 
-enum NpcType { Dilog, TraderNpcType, Traveler, ChangerNpcType, QuestNpcType, MechanicNpcType, PortalNpcType };
+enum class NpcType { Dilog, TraderNpcType, Traveler, ChangerNpcType, QuestNpcType, MechanicNpcType, PortalNpcType };
 
-enum QuestType { KillMonster, CollectionMoney, CollectionDetails };
+enum class QuestType { KillMonster, CollectionMoney, CollectionDetails };
 
-enum MusicType { MenuSound, BaseSound, LevelSound, StartIntro, EndIntro };
+enum class MusicType { MenuSound, BaseSound, LevelSound, StartIntro, EndIntro };
 
-enum ImproveType { Damage, Spread, Magazin };
+enum class ImproveType { Damage, Spread, Magazin };
 
-enum ItemType { MaxEnergy, MaxHeal, Heal, Armor, Patrons };
+enum class ItemType { MaxEnergy, MaxHeal, Heal, Armor, Patrons };
+
+class Sprite;
+struct RayHit
+{
+	int cell;
+	sf::Vector2i mapPos;
+	bool isHitVert;
+	float perpWallDist;
+
+	Sprite* sprite;
+};
 
 struct QuestData
 {
@@ -224,21 +234,21 @@ static std::vector<ImproveDef> improveDefs {
 };
 
 static std::vector<ItemsDef> travelerDefs {
-	{29, ItemType::Heal, L"", NEXT_LEVEL_N, 1, 50,  L"Перемещение на следующий уровень"},
-	{30, ItemType::Heal, L"", ARENA_1_N,    1, 100, L"Перемещение на преобразоваетль 1"},
-	{31, ItemType::Heal, L"", ARENA_2_N,    1, 150, L"Перемещение на преобразоваетль 2"},
-	{32, ItemType::Heal, L"", ARENA_3_N,    1, 200, L"Перемещение на преобразоваетль 3"},
-	{33, ItemType::Heal, L"", BOSS_N,       1, 250, L"Поездка к боссу"}
+	{29, ItemType::Heal, L"", kNextLevelNumber, 1, 50,  L"Перемещение на следующий уровень"},
+	{30, ItemType::Heal, L"", kArena1Number,    1, 100, L"Перемещение на преобразоваетль 1"},
+	{31, ItemType::Heal, L"", kArena2Number,    1, 150, L"Перемещение на преобразоваетль 2"},
+	{32, ItemType::Heal, L"", kArena3Number,    1, 200, L"Перемещение на преобразоваетль 3"},
+	{33, ItemType::Heal, L"", kBossNumber,       1, 250, L"Поездка к боссу"}
 };
 
 static std::vector<NpcDef> npcDefs{
-	{PortalNpcType, 1},
-	{TraderNpcType, 4},
-	{TraderNpcType, 5},
-	{ChangerNpcType, 3},
-	{Traveler, 2},
-	{QuestNpcType, 6},
-	{MechanicNpcType, 7},
+	{NpcType::PortalNpcType, 1},
+	{NpcType::TraderNpcType, 4},
+	{NpcType::TraderNpcType, 5},
+	{NpcType::ChangerNpcType, 3},
+	{NpcType::Traveler, 2},
+	{NpcType::QuestNpcType, 6},
+	{NpcType::MechanicNpcType, 7},
 	{NpcType::Dilog, 8},
 	{NpcType::Dilog, 9},
 	{NpcType::Dilog, 10},

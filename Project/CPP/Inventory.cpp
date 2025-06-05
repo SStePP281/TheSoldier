@@ -1,57 +1,60 @@
 #include "Inventory.h"
 
-Inventory::Inventory(sf::RenderWindow* _window, Player* _player, UIManager* _uiManager) :
-	window{ _window }, uiManager{ _uiManager }, player{ _player }, isOpen{ false },
-	choose{nullptr}, nowKey{0}, invetState{ [=](float deltaTime) {update();}, [=]() {drawInvent();} }
+Inventory::Inventory(sf::RenderWindow* window, Player* player, UIManager* uiManager) :
+	window{ window }, ui_manager{ uiManager }, player{ player }, is_open{ false },
+	choose{nullptr}, now_key{0}, invetory_state{ [=](float delta_time) {Update();}, [=]() {DrawInvent();} }
 {	
-	auto& event = EventSystem::getInstance();
-	event.subscribe<int>("SAVE", [=](const int NON) { save(); });
+	auto& event = EventSystem::GetInstance();
+	event.Subscribe<int>("SAVE", [=](const int NON) { Save(); });
 
-	event.subscribe<int>("RESET_GAME", [=](const int NON) { items.clear(); });
+	event.Subscribe<int>("RESET_GAME", [=](const int NON) { items.clear(); });
 
-	event.subscribe<int>("WIN_GAME", [&](const int NON) { items.clear(); });
+	event.Subscribe<int>("WIN_GAME", [&](const int NON) { items.clear(); });
 }
 
-Item* Inventory::takeMaxHeal()
+Item* Inventory::TakeMaxHeal()
 {
-	Item* maxHeal = nullptr;
+	Item* max_heal = nullptr;
 
 	for (const auto& [item, count] : items)
 	{
-		auto healItem = dynamic_cast<Item*>(item);
-		if (healItem && healItem->type == Heal)
+		auto heal_item = dynamic_cast<Item*>(item);
+		if (heal_item && heal_item->type == ItemType::Heal)
 		{
-			if (!maxHeal || healItem->id > maxHeal->id)
+			if (!max_heal || heal_item->id > max_heal->id)
 			{
-				maxHeal = healItem;
+				max_heal = heal_item;
 			}
 		}
 	}
 
-	return maxHeal;
+	return max_heal;
 }
 
-void Inventory::takeItem(Itemble* item, int cnt)
+void Inventory::TakeItem(Itemble* itemble, int count)
 {
-	if (item) { items[item] += cnt; }
+	if (itemble) 
+	{ 
+		items[itemble] += count; 
+	}
 }
 
-void Inventory::useItem(Itemble* item, int cnt)
+void Inventory::UseItem(Itemble* itemble, int count)
 {
-	if (!item) return;
+	if (!itemble) return;
 
-	if (items[item] - cnt >= 0)
+	if (items[itemble] - count >= 0)
 	{
-		items[item] -= cnt;
+		items[itemble] -= count;
 
-		if (items[item] == 0)
+		if (items[itemble] == 0)
 		{
-			items.erase(item);
+			items.erase(itemble);
 		}
 	}
 }
 
-void Inventory::save()
+void Inventory::Save()
 {
 	std::vector<std::pair<int, int>> inv;
 
@@ -60,97 +63,97 @@ void Inventory::save()
 		inv.push_back({ it.first->id, it.second });
 	}
 
-	auto& data = Data::getInstance();
-	data.saveInvent(inv);
+	auto& data = Data::GetInstance();
+	data.SaveInvent(inv);
 }
 
-void Inventory::useInvent() 
+void Inventory::UseInvent() 
 { 
-	uiManager->deleteNow();
-	isOpen = !isOpen;
-	window->setMouseCursorVisible(isOpen);
+	ui_manager->DeleteNow();
+	is_open = !is_open;
+	window->setMouseCursorVisible(is_open);
 
-	auto& event = EventSystem::getInstance();
-	event.trigger<RenderState*>("SWAP_STATE", isOpen ? &invetState : nullptr);
+	auto& event = EventSystem::GetInstance();
+	event.Trigger<RenderState*>("SWAP_STATE", is_open ? &invetory_state : nullptr);
 
-	if (!isOpen)
+	if (!is_open)
 	{
 		choose = nullptr;
 	}
 	else
 	{
-		initInv();
+		InitInv();
 	}
 }
 
-void Inventory::initInv()
+void Inventory::InitInv()
 {
-	uiManager->deleteNow();
-	uiManager->initInvent(items, choose, player);
+	ui_manager->DeleteNow();
+	ui_manager->InitInvent(items, choose, player);
 }
 
-void Inventory::checkChose()
+void Inventory::CheckChose()
 {
-	if (nowKey >= 100)
+	if (now_key >= 100)
 	{
-		selectedItem();
+		SelectedItem();
 	}
 	else
 	{
-		selectItemById();
+		SelectItemById();
 	}
 }
 
-void Inventory::selectedItem()
+void Inventory::SelectedItem()
 {
 	if (auto item = dynamic_cast<Item*>(choose); item) 
-	{ useSelectedItem(item); }
+	{ UseSelectedItem(item); }
 	else if (auto gun = dynamic_cast<Gun*>(choose); gun) 
-	{ useSelectedGun(gun); }
+	{ UseSelectedGun(gun); }
 	else if (auto improve = dynamic_cast<Improve*>(choose); improve) 
-	{ useSelectedImprove(improve); }
+	{ UseSelectedImprove(improve); }
 	
 	choose = nullptr;
-	initInv();
+	InitInv();
 }
 
-void Inventory::selectItemById()
+void Inventory::SelectItemById()
 {
 	for (const auto& [item, count] : items)
 	{
-		if (item->id == nowKey)
+		if (item->id == now_key)
 		{
 			choose = item;
-			initInv();
+			InitInv();
 			break;
 		}
 	}
 }
 
-void Inventory::useSelectedItem(Item* item)
+void Inventory::UseSelectedItem(Item* item)
 {
-	item->useFunc(player);
-	useItem(choose);
+	item->use_func(player);
+	UseItem(choose);
 }
 
-void Inventory::useSelectedGun(Gun* gun)
+void Inventory::UseSelectedGun(Gun* gun)
 {
-	if (nowKey == 100)
+	if (now_key == 100)
 	{
-		if (player->getGun(2) != gun) { player->setGun(gun, 1); }
+		if (player->GetGun(2) != gun) { player->SetGun(gun, 1); }
 	}
-	else if (nowKey == 101)
+	else if (now_key == 101)
 	{
-		if (player->getGun(1) != gun) { player->setGun(gun, 2); }
+		if (player->GetGun(1) != gun) { player->SetGun(gun, 2); }
 	}
 	else
 	{
 		int i = 102;
 		for (auto it : gun->improvement)
 		{
-			if (i == nowKey)
+			if (i == now_key)
 			{
-				items[dynamic_cast<Itemble*>(gun->deleteImprove(it.first))] += 1;
+				items[dynamic_cast<Itemble*>(gun->DeleteImprove(it.first))] += 1;
 				break;
 			}
 
@@ -159,47 +162,47 @@ void Inventory::useSelectedGun(Gun* gun)
 	}
 }
 
-void Inventory::useSelectedImprove(Improve* improve)
+void Inventory::UseSelectedImprove(Improve* improve)
 {
-	Gun* targetGun = nullptr;
+	Gun* target_gun = nullptr;
 
-	if (nowKey == 100) { targetGun = player->getGun(1); }
-	else if (nowKey == 101) { targetGun = player->getGun(2); }
+	if (now_key == 100) { target_gun = player->GetGun(1); }
+	else if (now_key == 101) { target_gun = player->GetGun(2); }
 
-	if (targetGun)
+	if (target_gun)
 	{
-		useItem(choose);
-		if (auto removedImprove = targetGun->trySetImprove(improve); removedImprove)
+		UseItem(choose);
+		if (auto removed_improve = target_gun->TrySetImprove(improve); removed_improve)
 		{
-			items[dynamic_cast<Itemble*>(removedImprove)] += 1;
+			items[dynamic_cast<Itemble*>(removed_improve)] += 1;
 		}
 	}
 }
 
-void Inventory::update()
+void Inventory::Update()
 {
 	if (!window->hasFocus()) return;
 
-	static bool isMouseDown = false;
+	static bool is_mouse_down = false;
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !isMouseDown)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !is_mouse_down)
 	{
-		isMouseDown = true;
+		is_mouse_down = true;
 
-		int key = uiManager->checkButton();
+		int key = ui_manager->CheckButton();
 		if (key != -1)
 		{
-			nowKey = key;
-			checkChose();
+			now_key = key;
+			CheckChose();
 		}
 	}
 	else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		isMouseDown = false;
+		is_mouse_down = false;
 	}
 }
 
-void Inventory::drawInvent()
+void Inventory::DrawInvent()
 {
-	uiManager->drawNow();
+	ui_manager->DrawNow();
 }

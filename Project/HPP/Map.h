@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MAP_H
 #define MAP_H
 
@@ -19,29 +18,28 @@
 class Map
 {
 public:
-	void SetNewOnGrid(int x, int y, int layerNumber, int value);
-	int GetOnGrid(int x, int y, int layerNumber);
+	void SetNewOnGrid(int x, int y, int layer_number, int value);
+	int GetOnGrid(int x, int y, int layer_number);
 
-	bool isCellEmpty(const sf::Vector2i& pos);
-	void setupBlockmap(Sprite* sp);
-	void deleteInBlockMap(Sprite* sp);
-	std::set<Sprite*> getBlockMap(const sf::Vector2i& pos);
+	bool IsCellEmpty(const sf::Vector2i& position);
+	void SetupBlockmap(Sprite* sprite);
+	void DeleteInBlockMap(Sprite* sprite);
+	std::set<Sprite*> GetBlockMap(const sf::Vector2i& position);
 
-	void rotateSprite(const sf::Vector2i& pos, float angle);
+	void RotateSprite(const sf::Vector2i& position, float angle);
 
-	void setMapSprite(const MapSprite& sp);
-	void deleteMapSprite(const sf::Vector2i& pos);
-	std::vector<MapSprite>& getMapSprites();
+	void SetMapSprite(const MapSprite& map_sprite);
+	void DeleteMapSprite(const sf::Vector2i& position);
+	std::vector<MapSprite>& GetMapSprites();
 
-	std::vector<std::vector<std::array<int, LAYER_COUNT>>> grid;
-	std::vector<std::vector<std::set<Sprite*>>> blockMap;
-
+	std::vector<std::vector<std::array<int, kLayerCount>>> grid;
+	std::vector<std::vector<std::set<Sprite*>>> block_map;
 	std::vector<MapSprite> sprites;
 private:
-	bool isValidGridPos(int x, int y);
-	bool isValidBlockmapPos(int x, int y);
-	bool insertInBlockMap(sf::Vector2i pos, Sprite* sprite);
-	void removeInBlockMap(sf::Vector2i pos, Sprite* sprite);
+	bool IsValidGridPos(int x, int y);
+	bool IsValidBlockmapPos(int x, int y);
+	bool InsertInBlockMap(sf::Vector2i position, Sprite* sprite);
+	void RemoveInBlockMap(sf::Vector2i position, Sprite* sprite);
 };
 
 #endif // !MAP_H

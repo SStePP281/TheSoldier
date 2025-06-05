@@ -1,256 +1,251 @@
 #include "Player.h"
 #include "Inventory.h"
 
-Player::Player(Enemy* _sprite, const PlayerDef& def, Map* _nowMap) : 
-	nowEnergy{ def.nowEnergy }, maxEnergy { def.maxEnergy },
-	defence{ def.defence}, nowStrenght{ def.nowStrenght }, maxStrenght{ def.maxStrenght }, 
+Player::Player(Enemy* sprite, const PlayerDef& def, Map* now_map) : 
+	now_energy{ def.nowEnergy }, max_energy { def.maxEnergy },
+	defence{ def.defence}, now_strenght{ def.nowStrenght }, max_strenght{ def.maxStrenght }, 
 	patrons{ def.countpantrons }, money{ def.money }, details{ def.details },
-	nowMap{ _nowMap }, enemy{ _sprite }, nowGun{ 0 }, nowHeal{ nullptr }, kick{ nullptr },
-	invent{ nullptr }, pitch{ 0 }, shakeTime{ 0 }, posZ{ 0 }, isJump{ false }, jumpFlag{ false },
-	boostSpeed{ 8.0f }, nowSpeed{ enemy->enemyDef.speed }, mouseSpeed{1.0f}
+	now_map{ now_map }, enemy{ sprite }, now_gun{ 0 }, now_heal{ nullptr }, kick{ nullptr },
+	inventory{ nullptr }, pitch{ 0 }, shake_time{ 0 }, pos_z{ 0 }, is_jump{ false }, jump_flag{ false },
+	boost_speed{ 8.0f }, now_speed{ enemy->enemy_def.speed }, mouse_speed{1.0f}
 {
-	enemy->textSize = 0;
+	enemy->texture_size = 0;
 
-	auto& event = EventSystem::getInstance();
-	event.subscribe<int>("SAVE", [=](const int NON) {
-			auto& data = Data::getInstance();
-			data.savePlayerData(this);
-		});
+	auto& event = EventSystem::GetInstance();
+	event.Subscribe<int>("SAVE", [=](const int NON) { auto& data = Data::GetInstance(); data.SavePlayerData(this);});
 
-	event.subscribe<int>("RESET_GAME", [=](const int NON) { resetPlayer(); });
+	event.Subscribe<int>("RESET_GAME", [=](const int NON) { ResetPlayer(); });
 
-	event.subscribe<int>("WIN_GAME", [=](const int NON) { resetPlayer(); });
+	event.Subscribe<int>("WIN_GAME", [=](const int NON) { ResetPlayer(); });
 }
 
-Player::~Player() {}
-
-void Player::resetPlayer()
+void Player::ResetPlayer()
 {
-	nowEnergy = 2.0f;
-	maxEnergy = 2.0f;
+	now_energy = 2.0f;
+	max_energy = 2.0f;
 	defence = 0.0f;
-	nowStrenght = 0.0f;
-	maxStrenght = 0.0f;
+	now_strenght = 0.0f;
+	max_strenght = 0.0f;
 	patrons = 200;
 	money = 500;
 	details = 0;
-	nowHeal = nullptr;
-	enemy->enemyDef.maxHealpoint = 100.0f;
-	enemy->spMap.nowHealPoint = 100.0f;
+	now_heal = nullptr;
+	enemy->enemy_def.maxHealpoint = 100.0f;
+	enemy->map_sprite.nowHealPoint = 100.0f;
 }
 
-Gun* Player::setGun(Gun* gun, int pos) 
+Gun* Player::SetGun(Gun* gun, int position) 
 {
-	auto temp = guns[pos];
-	guns[pos] = gun;
+	auto temp = guns[position];
+	guns[position] = gun;
 	return temp;
 }
 
-Gun* Player::getGun(int pos) { return guns[pos]; }
+Gun* Player::GetGun(int position) { return guns[position]; }
 
-void Player::setInventory(Inventory* _invent) 
+void Player::SetInventory(Inventory* _inventory) 
 { 
-	if (invent = _invent; invent) { nowHeal = invent->takeMaxHeal(); }
+	if (inventory = _inventory; inventory) { now_heal = inventory->TakeMaxHeal(); }
 }
 
-void Player::updateMouseData(const sf::Vector2f& mousePos, float deltaTime)
+void Player::UpdateMouseData(const sf::Vector2f& mouse_position, float delta_time)
 {
-	enemy->spMap.angle += mouseSpeed * ROTATION_SPEED * mousePos.x * deltaTime;
+	enemy->map_sprite.angle += mouse_speed * kRotationSpeed * mouse_position.x * delta_time;
 
-	pitch = std::clamp(pitch - mousePos.y * deltaTime * VERTICAL_MOUSE_SPEED, -200.0f, 200.0f);
+	pitch = std::clamp(pitch - mouse_position.y * delta_time * kVerticalMouseSpeed, -200.0f, 200.0f);
 
-	guns[nowGun]->update(deltaTime);
-	if (kick) kick->update(deltaTime);
+	guns[now_gun]->Update(delta_time);
+	if (kick) kick->Update(delta_time);
 
-	gravity(deltaTime);
+	Gravity(delta_time);
 }
 
-void Player::checkBoost(bool isPressed, float deltaTime)
+void Player::CheckBoost(bool is_pressed, float delta_time)
 {
-	static bool boostFlag = false;
+	static bool boost_flag = false;
 
-	nowSpeed = enemy->enemyDef.speed;
+	now_speed = enemy->enemy_def.speed;
 
-	if (boostFlag) {
-		nowEnergy = std::min(nowEnergy + deltaTime, maxEnergy);
-		if (nowEnergy >= maxEnergy) {
-			boostFlag = false;
+	if (boost_flag) {
+		now_energy = std::min(now_energy + delta_time, max_energy);
+		if (now_energy >= max_energy) {
+			boost_flag = false;
 		}
 		return;
 	}
 
-	if (!isPressed) {
-		nowEnergy = std::min(nowEnergy + deltaTime, maxEnergy);
+	if (!is_pressed) {
+		now_energy = std::min(now_energy + delta_time, max_energy);
 	}
 	else {
-		if (nowEnergy > 0) {
-			nowSpeed = boostSpeed;
-			nowEnergy = std::max(nowEnergy - deltaTime * 1.2f, 0.0f);
+		if (now_energy > 0) {
+			now_speed = boost_speed;
+			now_energy = std::max(now_energy - delta_time * 1.2f, 0.0f);
 		}
 		else {
-			boostFlag = true;
+			boost_flag = true;
 		}
 	}
 }
 
-void Player::move(const sf::Vector2f& deltaPos, float deltaTime)
+void Player::Move(const sf::Vector2f& delta_position, float delta_time)
 {
-	guns[nowGun]->updateRad(deltaPos != sf::Vector2f(), deltaTime);
-	sf::Vector2f deltaMove = deltaPos * deltaTime * nowSpeed;
-	enemy->move(nowMap, deltaMove);
-	shakeCamera(deltaTime, deltaPos != sf::Vector2f());
+	guns[now_gun]->UpdateRad(delta_position != sf::Vector2f(), delta_time);
+	sf::Vector2f delta_move = delta_position * delta_time * now_speed;
+	enemy->Move(now_map, delta_move);
+	RhakeCamera(delta_time, delta_position != sf::Vector2f());
 }
 
-void Player::shakeCamera(float deltaTime, bool isRun)
+void Player::RhakeCamera(float delta_time, bool is_run)
 {
-	if (isRun)
+	if (is_run)
 	{
 		float scale = 5.0f;
-		shakeTime += deltaTime;
-		shakeDelta.x = cosf(shakeTime * nowSpeed) * scale;
-		shakeDelta.y = sinf(2 * shakeTime * nowSpeed) * scale;
+		shake_time += delta_time;
+		shake_delta.x = cosf(shake_time * now_speed) * scale;
+		shake_delta.y = sinf(2 * shake_time * now_speed) * scale;
 	}
 	else
 	{
-		shakeTime = 0;
-		if (shakeDelta == sf::Vector2f()) return;
+		shake_time = 0;
+		if (shake_delta == sf::Vector2f()) return;
 
-		shakeDelta *= 0.9f;
+		shake_delta *= 0.9f;
 
-		shakeDelta.x = std::abs(shakeDelta.x) < 0.0001f ? 0.0f : shakeDelta.x;
-		shakeDelta.y = std::abs(shakeDelta.y) < 0.0001f ? 0.0f : shakeDelta.y;
+		shake_delta.x = std::abs(shake_delta.x) < 0.0001f ? 0.0f : shake_delta.x;
+		shake_delta.y = std::abs(shake_delta.y) < 0.0001f ? 0.0f : shake_delta.y;
 	}
 }
 
-void Player::gravity(float deltaTime)
+void Player::Gravity(float delta_time)
 {
-	if (!isJump) return;
+	if (!is_jump) return;
 	
-	if (posZ < 0)
+	if (pos_z < 0)
 	{
-		isJump = false;
-		jumpFlag = false;
-		posZ = 0;
+		is_jump = false;
+		jump_flag = false;
+		pos_z = 0;
 	}
 	else
 	{
-		if (posZ > 150) jumpFlag = true;
+		if (pos_z > 150) jump_flag = true;
 
-		posZ += (jumpFlag ? -750 : 750) * deltaTime;
-		posZ = std::max(posZ, -1.0f);
+		pos_z += (jump_flag ? -750 : 750) * delta_time;
+		pos_z = std::max(pos_z, -1.0f);
 	}
 }
 
-void Player::jump() { if (posZ == 0) { isJump = true; } }
+void Player::Jump() { if (pos_z == 0) { is_jump = true; } }
 
-void Player::reloadingGun() { patrons = guns[nowGun]->resetPatron(patrons); }
+void Player::ReloadingGun() { patrons = guns[now_gun]->ResetPatron(patrons); }
 
-void Player::takeDamage(float damage)
+void Player::TakeDamage(float damage)
 {
-	if (nowStrenght > 0)
+	if (now_strenght > 0)
 	{
 		damage *= (1 - defence / 100.f);
-		nowStrenght -= damage * 10.0f / defence;
+		now_strenght -= damage * 10.0f / defence;
 
-		if (nowStrenght <= 0)
+		if (now_strenght <= 0)
 		{
-			nowStrenght = 0;
-			maxStrenght = 0;
+			now_strenght = 0;
+			max_strenght = 0;
 			defence = 0;
 		}
 	}
 
-	enemy->takeDamage(damage);
+	enemy->TakeDamage(damage);
 }
 
-void Player::fire(int gun)
+void Player::Fire(int gun)
 {
-	float radiansAngle = enemy->spMap.angle * PI / 180.0f;
-	sf::Vector2f direction(cos(radiansAngle), sin(radiansAngle));
+	float radians_angle = enemy->map_sprite.angle * kPI / 180.0f;
+	sf::Vector2f direction(cos(radians_angle), sin(radians_angle));
 
 	if (gun == -1)
 	{
-		if (kick->isCanUsed() && guns[nowGun]->isCanUsed())
+		if (kick->IsCanUsed() && guns[now_gun]->IsCanUsed())
 		{
-			RayHit hit = raycast(nowMap, enemy->spMap.position, direction, false, enemy, 1);
-			if (hit.cell == 1) nowMap->SetNewOnGrid(hit.mapPos.x, hit.mapPos.y, WALL_LAYER, 0);
-			kick->ussing(nullptr, 0);
+			RayHit hit = Raycast(now_map, enemy->map_sprite.position, direction, false, enemy, 1);
+			if (hit.cell == 1) now_map->SetNewOnGrid(hit.mapPos.x, hit.mapPos.y, kWallLayer, 0);
+			kick->Ussing(nullptr, 0);
 		}
 	}
 	else
 	{
-		if (guns[nowGun]->isCanUsed() && kick->isCanUsed())
+		if (guns[now_gun]->IsCanUsed() && kick->IsCanUsed())
 		{
-			RayHit hit = raycast(nowMap, enemy->spMap.position, direction, true, enemy, guns[nowGun]->maxDist, pitch);
-			float dist = hit.sprite && hit.sprite->spDef.type != SpriteType::NPC ? dist = sqrt(GETDIST(hit.sprite->spMap.position, enemy->spMap.position)): 0;
-			guns[nowGun]->ussing(dynamic_cast<Enemy*>(hit.sprite), dist);
+			RayHit hit = Raycast(now_map, enemy->map_sprite.position, direction, true, enemy, guns[now_gun]->maxDist, pitch);
+			float dist = hit.sprite && hit.sprite->sprite_def.type != SpriteType::NPC ? dist = sqrt(GETDIST(hit.sprite->map_sprite.position, enemy->map_sprite.position)): 0;
+			guns[now_gun]->Ussing(dynamic_cast<Enemy*>(hit.sprite), dist);
 		}
 	}
 }
 
-Sprite* Player::dialog()
+Sprite* Player::Dialog()
 {
-	float radiansAngle = enemy->spMap.angle * PI / 180.0f;
-	sf::Vector2f direction(cos(radiansAngle), sin(radiansAngle));
+	float radians_angle = enemy->map_sprite.angle * kPI / 180.0f;
+	sf::Vector2f direction(cos(radians_angle), sin(radians_angle));
 
-	RayHit hit = raycast(nowMap, enemy->spMap.position, direction, true, enemy, 1, pitch);
-	return hit.sprite && hit.sprite->spDef.type == SpriteType::NPC ? hit.sprite : nullptr;
+	RayHit hit = Raycast(now_map, enemy->map_sprite.position, direction, true, enemy, 1, pitch);
+	return hit.sprite && hit.sprite->sprite_def.type == SpriteType::NPC ? hit.sprite : nullptr;
 }
 
-void Player::swapGun(bool flag)
+void Player::SwapGun(bool flag)
 {
 	int delta = flag ? 1 : -1;
-	nowGun = (nowGun + delta + 3) % 3;
+	now_gun = (now_gun + delta + 3) % 3;
 
-	while (!guns[nowGun]) 
+	while (!guns[now_gun]) 
 	{
-		nowGun = (nowGun + delta + 3) % 3;
+		now_gun = (now_gun + delta + 3) % 3;
 	}
 }
 
-PlayerDef Player::getPlayerDef()
+PlayerDef Player::GetPlayerDef()
 {
-	std::vector<int> gunsData;
+	std::vector<int> guns_data;
 
 	for (auto it : guns)
 	{
 		if (it != nullptr && it->name != L"Кулак")
 		{
-			gunsData.push_back(it->id);
+			guns_data.push_back(it->id);
 		}
 	}
 
-	return { enemy->enemyDef.maxHealpoint,
-	enemy->spMap.nowHealPoint,
-	maxEnergy,
-	nowEnergy,
+	return { enemy->enemy_def.maxHealpoint,
+	enemy->map_sprite.nowHealPoint,
+	max_energy,
+	now_energy,
 	defence,
-	maxStrenght,
-	nowStrenght,
+	max_strenght,
+	now_strenght,
 	patrons,
 	money,
 	details,
-	gunsData };
+	guns_data };
 }
 
-void Player::setNemMap(Map* _map) { nowMap = _map; }
+void Player::SetNemMap(Map* _map) { now_map = _map; }
 
-Gun* Player::getNowGun() { return guns[nowGun]; }
+Gun* Player::GetNowGun() { return guns[now_gun]; }
 
-float Player::getMoveSpeed() { return nowSpeed; }
+float Player::GetMoveSpeed() { return now_speed; }
 
-void Player::takeItem(Itemble* item, int cnt)
+void Player::TakeItem(Itemble* item, int count)
 {
-	invent->takeItem(item, cnt);
-	nowHeal = invent->takeMaxHeal();
+	inventory->TakeItem(item, count);
+	now_heal = inventory->TakeMaxHeal();
 }
 
-void Player::heal()
+void Player::Heal()
 {
-	if (nowHeal)
+	if (now_heal)
 	{
-		nowHeal->useFunc(this);
-		invent->useItem(nowHeal);
-		nowHeal = invent->takeMaxHeal();
+		now_heal->use_func(this);
+		inventory->UseItem(now_heal);
+		now_heal = inventory->TakeMaxHeal();
 	}
 }

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ANIMATION
 #define ANIMATION
 
@@ -16,15 +15,16 @@ public:
 
 	Animation(std::vector<Keyframe> keyframess = {}) : keyframes{ keyframess },
 		duration(keyframes.empty() ? 0.0f : keyframes[keyframes.size() - 1].time) {}
-	float getDuration() const { return duration; }
 
-	void setKeyframe(float time, T value)
+	float GetDuration() const { return duration; }
+
+	void SetKeyframe(float time, T value)
 	{
 		keyframes.push_back(Keyframe{ time, value });
 		duration = keyframes[keyframes.size() - 1].time;
 	}
 
-	T get(float time) const
+	T Get(float time) const
 	{
 		if (keyframes.empty()) return T();
 		if (keyframes.size() == 1 || time < keyframes[0].time) return keyframes[0].value;
@@ -51,29 +51,29 @@ private:
 template <typename T> class Animator
 {
 public:
-	bool isLopping = false;
+	bool is_lopping = false;
 
 	Animator(T _base = T(), std::vector<Animation<T>> _animations = {}) :
 		base{ _base }, animations{ _animations }, current{ -1 }, time{ 0.0f } {}
 
-	void setAnimation(int anim, bool loop = false)
+	void SetAnimation(int anim, bool loop = false)
 	{
 		if (anim == -1 || anim < animations.size())
 		{
 			current = anim;
-			isLopping = loop;
+			is_lopping = loop;
 			time = 0.0f;
 		}
 	}
 
-	void update(float deltaT)
+	void Update(float deltaT)
 	{
 		time += deltaT;
-		if (current >= 0 && time >= animations[current].getDuration())
+		if (current >= 0 && time >= animations[current].GetDuration())
 		{
-			if (isLopping)
+			if (is_lopping)
 			{
-				time -= animations[current].getDuration();
+				time -= animations[current].GetDuration();
 			}
 			else
 			{
@@ -82,10 +82,10 @@ public:
 		}
 	}
 
-	T get()
+	T Get()
 	{
 		if (current == -1) return base;
-		else return animations[current].get(time);
+		else return animations[current].Get(time);
 	}
 private:
 	T base;
@@ -93,5 +93,5 @@ private:
 	int current;
 	float time;
 };
-#endif // !ANIMATION
 
+#endif // !ANIMATION

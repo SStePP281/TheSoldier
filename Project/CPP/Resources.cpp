@@ -1,78 +1,77 @@
 #include "Resources.h"
 #include <thread>
 
-sf::Image Resources::gameIcon{};
-sf::Image Resources::cursorImage{};
+sf::Image Resources::game_icon{};
+sf::Image Resources::cursor_image{};
+sf::Image Resources::texture_image{};
 sf::Texture Resources::textures{};
-sf::Texture Resources::dialogBackground{};
-sf::Texture Resources::tradeBackground{};
-sf::Texture Resources::menuBackground{};
-sf::Texture Resources::inventoryBackground{};
-sf::Image Resources::textureImage{};
-sf::Texture Resources::spriteIcon{};
-std::vector<sf::Texture> Resources::spritesTextures{};
-sf::SoundBuffer Resources::buttonClick{};
-sf::SoundBuffer Resources::takeDamage{};
-sf::Texture Resources::skyTextures{};
+sf::Texture Resources::dialog_background{};
+sf::Texture Resources::trade_background{};
+sf::Texture Resources::menu_background{};
+sf::Texture Resources::inventory_background{};
+sf::Texture Resources::sprite_icon{};
+sf::Texture Resources::itemble_icon{};
+sf::Texture Resources::sky_textures{};
+std::vector<sf::Texture> Resources::sprites_textures{};
+std::vector<sf::Texture> Resources::guns_base_text = std::vector<sf::Texture>(8);
+std::vector<std::vector<sf::Texture>> Resources::guns_reset_anim = std::vector<std::vector<sf::Texture>>(8);
+std::vector<std::vector<sf::Texture>> Resources::guns_fire_anim = std::vector<std::vector<sf::Texture>>(8);
+sf::SoundBuffer Resources::button_click{};
+sf::SoundBuffer Resources::take_damage{};
+sf::SoundBuffer Resources::gun_cant_shout_sound{};
+std::vector<sf::SoundBuffer> Resources::guns_shut_sound = std::vector<sf::SoundBuffer>(8);
+std::vector<sf::SoundBuffer> Resources::guns_reset_sound = std::vector<sf::SoundBuffer>(8);
+sf::Font Resources::ui_font{};
 
-sf::Texture Resources::itembleIcon{};
-sf::SoundBuffer Resources::gunCantShoutSound{};
-std::vector<std::vector<sf::Texture>> Resources::gunsResetAnim = std::vector<std::vector<sf::Texture>>(8);
-std::vector<std::vector<sf::Texture>> Resources::gunsFireAnim = std::vector<std::vector<sf::Texture>>(8);
-std::vector<sf::Texture> Resources::gunsBaseText = std::vector<sf::Texture>(8);
-std::vector<sf::SoundBuffer> Resources::gunsShutSound = std::vector<sf::SoundBuffer>(8);
-std::vector<sf::SoundBuffer> Resources::gunsResetSound = std::vector<sf::SoundBuffer>(8);
-
-sf::Font Resources::UIFont{};
-
-void loadFor(std::string baseName, std::string format, std::vector<sf::Texture>* data)
+void loadFor(std::string base_name, std::string format, std::vector<sf::Texture>* data)
 {
 	int i = 1;
 	while (true)
 	{
-		std::string tryName = baseName + std::to_string(i) + format;
+		std::string try_name = base_name + std::to_string(i) + format;
 		sf::Texture text;
-		if (!text.loadFromFile(tryName)) break;
+		if (!text.loadFromFile(try_name)) break;
 		i++;
 		data->push_back(text);
 	}
 }
 
-void Resources::loadGun(std::string baseName, int index)
+void Resources::LoadGun(std::string base_name, int index)
 {
-	std::string shutName = "Texture/" + baseName + "FireTexture";
-	loadFor(shutName, ".png", &gunsFireAnim[index]);
-	std::string resetName = "Texture/" + baseName + "ResetTexture";
-	loadFor(resetName, ".png", &gunsResetAnim[index]);
-	std::string baseTextName = "Texture/" + baseName + "BaseTexture.png";
-	gunsBaseText[index].loadFromFile(baseTextName);
-	std::string resetSoundName = "Sound/" + baseName + "ResetSound.ogg";
-	gunsResetSound[index].loadFromFile(resetSoundName);
-	std::string shutSoundName = "Sound/" + baseName + "ShutSound.ogg";
-	gunsShutSound[index].loadFromFile(shutSoundName);
+	std::string shut_name = "Texture/" + base_name + "FireTexture";
+	loadFor(shut_name, ".png", &guns_fire_anim[index]);
+
+	std::string reset_name = "Texture/" + base_name + "ResetTexture";
+	loadFor(reset_name, ".png", &guns_reset_anim[index]);
+
+	std::string base_text_name = "Texture/" + base_name + "BaseTexture.png";
+	guns_base_text[index].loadFromFile(base_text_name);
+
+	std::string reset_sound_name = "Sound/" + base_name + "ResetSound.ogg";
+	guns_reset_sound[index].loadFromFile(reset_sound_name);
+
+	std::string shut_sound_name = "Sound/" + base_name + "ShutSound.ogg";
+	guns_shut_sound[index].loadFromFile(shut_sound_name);
 }
 
 void Resources::initResources()
 {
-	if (!textureImage.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
-	if (!gameIcon.loadFromFile("Texture/gameIcon.png")) throw "TextureLoadError!";
-	if (!cursorImage.loadFromFile("Texture/cursorTexture.png")) throw "TextureLoadError!";
-	if (!dialogBackground.loadFromFile("Texture/dialogBackground.png")) throw "TextureLoadError!";
-	if (!tradeBackground.loadFromFile("Texture/tradeBackground.png")) throw "TextureLoadError!";
-	if (!menuBackground.loadFromFile("Texture/menuBackground.png")) throw "TextureLoadError!";
-	if (!inventoryBackground.loadFromFile("Texture/inventoryBackground.png")) throw "TextureLoadError!";
+	if (!texture_image.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
+	if (!game_icon.loadFromFile("Texture/gameIcon.png")) throw "TextureLoadError!";
+	if (!cursor_image.loadFromFile("Texture/cursorTexture.png")) throw "TextureLoadError!";
+	if (!dialog_background.loadFromFile("Texture/dialogBackground.png")) throw "TextureLoadError!";
+	if (!trade_background.loadFromFile("Texture/tradeBackground.png")) throw "TextureLoadError!";
+	if (!menu_background.loadFromFile("Texture/menuBackground.png")) throw "TextureLoadError!";
+	if (!inventory_background.loadFromFile("Texture/inventoryBackground.png")) throw "TextureLoadError!";
 	if (!textures.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
-	if (!skyTextures.loadFromFile("Texture/sky_texture.png")) throw "TextureLoadError!";
-	if (!spriteIcon.loadFromFile("Texture/enemysIcon.png")) throw "TextureLoadError!";
-	loadFor("Texture/enemy", ".png", & spritesTextures);
-	if (!takeDamage.loadFromFile("Sound/takeDamage.ogg")) throw "TextureLoadError!";
-	if (!buttonClick.loadFromFile("Sound/buttonClick.ogg")) throw "TextureLoadError!";
-	skyTextures.setRepeated(true);
-
-	if (!itembleIcon.loadFromFile("Texture/itemIcon.png")) throw "TextureLoadError";
-	if (!gunCantShoutSound.loadFromFile("Sound/gunCantShutSound.ogg")) throw "TextureLoadError";
-
-	for (int i = 0; i < 8; i++) { loadGun("gun" + std::to_string(i), i); }
-
-	if (!UIFont.loadFromFile("Texture/dehinted-HandveticaNeue-Regular.ttf")) throw "TextureLoadError!";
+	if (!sky_textures.loadFromFile("Texture/sky_texture.png")) throw "TextureLoadError!";
+	if (!sprite_icon.loadFromFile("Texture/enemysIcon.png")) throw "TextureLoadError!";
+	loadFor("Texture/enemy", ".png", & sprites_textures);
+	if (!take_damage.loadFromFile("Sound/takeDamage.ogg")) throw "TextureLoadError!";
+	if (!button_click.loadFromFile("Sound/buttonClick.ogg")) throw "TextureLoadError!";
+	sky_textures.setRepeated(true);
+	if (!itemble_icon.loadFromFile("Texture/itemIcon.png")) throw "TextureLoadError";
+	if (!gun_cant_shout_sound.loadFromFile("Sound/gunCantShutSound.ogg")) throw "TextureLoadError";
+	for (int i = 0; i < 8; i++) { LoadGun("gun" + std::to_string(i), i); }
+	if (!ui_font.loadFromFile("Texture/dehinted-HandveticaNeue-Regular.ttf")) throw "TextureLoadError!";
 }
