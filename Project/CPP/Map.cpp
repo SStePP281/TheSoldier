@@ -71,9 +71,10 @@ void Map::DeleteInBlockMap(Sprite* sprite)
 	}
 }
 
-std::set<Sprite*> Map::GetBlockMap(const sf::Vector2i& position) 
+std::set<Sprite*>& Map::GetBlockMap(const sf::Vector2i& position) 
 {
-	return IsValidBlockmapPos(position.x, position.y) ? block_map[position.y][position.x] : std::set<Sprite*>{};
+	std::set<Sprite*> base;
+	return IsValidBlockmapPos(position.x, position.y) ? block_map[position.y][position.x] : base;
 }
 
 std::vector<MapSprite>& Map::GetMapSprites() { return sprites; }

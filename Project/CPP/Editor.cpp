@@ -22,8 +22,8 @@ void Editor::CreateTextureButton()
 	int x = 0, y = 0;
 	for (; x < (int)Resources::textures.getSize().x / kTextureSize * 5; x++, y++)
 	{
-		b.SetPosition({ (x % kCountRowTaxt) * (float)kIconSize + kIconSize / 2, 
-						(y / kCountRowTaxt) * (float)kIconSize });
+		b.SetPosition({ (x % kCountRowTexture) * (float)kIconSize + kIconSize / 2, 
+						(y / kCountRowTexture) * (float)kIconSize });
 		b.SetTextureRect({ {(int)(x % kTextureCount * kTextureSize), 
 							(int)(x / kTextureCount * kTextureSize)},
 							{kTextureSize, kTextureSize} });
@@ -36,7 +36,7 @@ void Editor::CreateTextureButton()
 
 void Editor::CreateSpriteButton()
 {
-	int  y = (int)buttons.size() / kCountRowTaxt * kCountRowTaxt + kCountRowTaxt;
+	int  y = (int)buttons.size() / kCountRowTexture * kCountRowTexture + kCountRowTexture;
 
 	sf::RectangleShape shape(sf::Vector2f{ kIconSize, kIconSize });
 	Group base_group(shape, {});
@@ -45,8 +45,8 @@ void Editor::CreateSpriteButton()
 
 	for (int x = 0; x < spriteDefs.size() - 1; x++, y++)
 	{
-		b.SetPosition({ (float)kIconSize * (x % kCountRowTaxt) + kIconSize / 2,
-						y / kCountRowTaxt * (float)kIconSize });
+		b.SetPosition({ (float)kIconSize * (x % kCountRowTexture) + kIconSize / 2,
+						y / kCountRowTexture * (float)kIconSize });
 		b.SetTextureRect({ { kIconSize * x, 0}, {kIconSize, kIconSize} });
 
 		b.SetFunc([=]() { now_sprite_def = spriteDefs[x + 1]; });
@@ -202,11 +202,11 @@ void Editor::EditorWindowStateLeftClick()
 {
 	sf::Vector2i world_positon = (sf::Vector2i)editor_window->mapPixelToCoords(editor_mouse_position);
 
-	for (auto b : buttons)
+	for (int i = 0; i < buttons.size(); i++)
 	{
-		if (b->IsClicked(world_positon))
+		if (buttons[i]->IsClicked(world_positon))
 		{
-			b->Use();
+			buttons[i]->Use();
 			break;
 		}
 	}

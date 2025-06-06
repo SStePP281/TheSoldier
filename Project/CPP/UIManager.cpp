@@ -2,97 +2,99 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
-UIManager::UIManager(sf::RenderWindow* _window) : 
-	window{ _window }, choseBut{ -1 }, keyButton{ -1 } {}
+UIManager::UIManager(sf::RenderWindow* window) : 
+	window{ window }, chose_but{ -1 }, key_button{ -1 } {}
 
-std::wstring UIManager::SplitText(std::wstring text, int maxLen, int textSize)
+std::wstring UIManager::SplitText(std::wstring text, int max_len, int text_size)
 {
-	std::wstring result, word, curLine;
+	std::wstring result, word, cur_line;
 	std::wistringstream stream(text);
 
 	while (stream >> word)
 	{
-		sf::Text tempText;
-		tempText.setFont(Resources::ui_font);
-		tempText.setCharacterSize(textSize);
-		std::wstring testLine = curLine.empty() ? word : curLine + L" " + word;
-		tempText.setString(testLine);
+		sf::Text temp_text;
+		temp_text.setFont(Resources::ui_font);
+		temp_text.setCharacterSize(text_size);
+		std::wstring test_line = cur_line.empty() ? word : cur_line + L" " + word;
+		temp_text.setString(test_line);
 
-		if (tempText.getLocalBounds().width > maxLen)
+		if (temp_text.getLocalBounds().width > max_len)
 		{
-			result += curLine + L"\n";
-			curLine = word;
+			result += cur_line + L"\n";
+			cur_line = word;
 		}
 		else
 		{
-			curLine = testLine;
+			cur_line = test_line;
 		}
 	}
 
-	if (!curLine.empty())
+	if (!cur_line.empty())
 	{
-		result += curLine;
+		result += cur_line;
 	}
 
 	return result;
 }
 
-std::wstring UIManager::ToMax(std::wstring str, float maxW, float textSize)
+std::wstring UIManager::ToMax(std::wstring str, float max_wight, float text_size)
 {
-	sf::Text text(L"", Resources::ui_font, (int)textSize);
+	sf::Text text(L"", Resources::ui_font, (int)text_size);
 	std::wstring result = str;
+
 	while (true)
 	{
 		text.setString(result);
 
-		if (text.getLocalBounds().width > maxW)
+		if (text.getLocalBounds().width > max_wight)
 		{
 			break;
 		}
 
 		result += L" ";
 	}
+
 	return result;
 }
 
 void UIManager::InitDialog(std::map<int, std::wstring, std::greater<int>>& variants,
-	const std::wstring& npcName)
+	const std::wstring& npc_name)
 {
 	background = sf::Sprite(Resources::dialog_background);
 	background.setScale({ (float)kScreenWight / Resources::dialog_background.getSize().x,
 		(float)kScreenHeight / Resources::dialog_background.getSize().y });
 
-	sf::RectangleShape nameBase{ {kDialogWight, kTextSize + 10} };
-	nameBase.setFillColor(sf::Color(100, 100, 100));
-	sf::Text nameText(npcName, Resources::ui_font, kTextSize);
-	Group g(nameBase, nameText);
-	g.SetPosition({ (float)kScreenWight / 2, kInterval});
-	buttons.push_back(g);
+	sf::RectangleShape name_base{ {kDialogWight, kTextSize + 10} };
+	name_base.setFillColor(sf::Color(100, 100, 100));
+	sf::Text name_text(npc_name, Resources::ui_font, kTextSize);
+	Group group(name_base, name_text);
+	group.SetPosition({ (float)kScreenWight / 2, kInterval});
+	buttons.push_back(group);
 
-	sf::RectangleShape dataBase{ {kDialogWight, kDialogHeight / 1.5f} };
-	dataBase.setFillColor(sf::Color(100, 100, 100));
-	sf::Text dataText(SplitText(variants[-1], (int)kDialogWight, 40), Resources::ui_font, kTextSize - 10);
-	Group g1(dataBase, dataText);
-	g1.SetPosition({ (float)kScreenWight / 2, g.GetPosition().y + g1.GetSize().y / 2 + kInterval});
-	buttons.push_back(g1);
+	sf::RectangleShape data_base{ {kDialogWight, kDialogHeight / 1.5f} };
+	data_base.setFillColor(sf::Color(100, 100, 100));
+	sf::Text data_text(SplitText(variants[-1], (int)kDialogWight, 40), Resources::ui_font, kTextSize - 10);
+	Group group_1(data_base, data_text);
+	group_1.SetPosition({ (float)kScreenWight / 2, group.GetPosition().y + group_1.GetSize().y / 2 + kInterval});
+	buttons.push_back(group_1);
 
-	sf::Vector2f pos((float)kScreenWight / 2, g1.GetPosition().y + g1.GetSize().y / 2 + kInterval);
+	sf::Vector2f position((float)kScreenWight / 2, group_1.GetPosition().y + group_1.GetSize().y / 2 + kInterval);
 	
-	for (auto var : variants)
+	for (auto& var : variants)
 	{
 		if (var.first == -1) continue;
 		sf::Text text(var.second, Resources::ui_font, kTextSize);
 		sf::RectangleShape rect({ kDialogWight, kTextSize + 10 });
 		rect.setFillColor(sf::Color(50, 50, 50));
-		Group g2(rect, text);
-		g2.SetPosition(pos);
+		Group group_2(rect, text);
+		group_2.SetPosition(position);
 		
-		buttons.push_back(Button(g2));
-		buttons.back().SetFunc([=]() { keyButton = var.first;});
+		buttons.push_back(Button(group_2));
+		buttons.back().SetFunc([=]() { key_button = var.first;});
 
-		pos.y +=  kInterval + g2.shape.getSize().y / 2;
+		position.y +=  kInterval + group_2.shape.getSize().y / 2;
 	}
 }
 
@@ -108,12 +110,12 @@ void UIManager::InitResetMenu()
 	Group base_group(shape, text);
 	Button button(base_group);
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f - 35.0f });
-	button.SetFunc([=]() { keyButton = 0;});
+	button.SetFunc([=]() { key_button = 0;});
 	buttons.push_back(button);
 
 	button.SetString(L"ВЫХОД");
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f + 35.0f });
-	button.SetFunc([=]() { keyButton = 1;});
+	button.SetFunc([=]() { key_button = 1;});
 	buttons.push_back(button);
 }
 
@@ -129,18 +131,18 @@ void UIManager::InitStartMenu()
 	Group base_group(shape, text);
 	Button button(base_group);
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f - 35.0f });
-	button.SetFunc([=]() { keyButton = 0;});
+	button.SetFunc([=]() { key_button = 0;});
 	auto& state = GameState::GetInstance();
 	if (!state.data.isFirstGame) buttons.push_back(button);
 
 	button.SetString(L"НОВАЯ ИГРА");
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f + 35.0f });
-	button.SetFunc([=]() { keyButton = 1;});
+	button.SetFunc([=]() { key_button = 1;});
 	buttons.push_back(button);
 
 	button.SetString(L"ВЫХОД");
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f + 105.0f });
-	button.SetFunc([=]() { keyButton = 2;});
+	button.SetFunc([=]() { key_button = 2;});
 	buttons.push_back(button);
 }
 
@@ -156,17 +158,17 @@ void UIManager::InitGameMenu()
 	Group base_group(shape, text);
 	Button button(base_group);
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f - 35.0f });
-	button.SetFunc([=]() { keyButton = 0; });
+	button.SetFunc([=]() { key_button = 0; });
 	buttons.push_back(button);
 
 	button.SetString(L"НАСТРОЙКИ");
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f + 35.0f });
-	button.SetFunc([=]() { keyButton = 1;});
+	button.SetFunc([=]() { key_button = 1;});
 	buttons.push_back(button);
 
 	button.SetString(L"ВЫХОД");
 	button.SetPosition({ (float)kScreenWight / 2.0f, 2.0f * (float)kScreenHeight / 3.0f + 105.0f });
-	button.SetFunc([=]() { keyButton = 2;});
+	button.SetFunc([=]() { key_button = 2;});
 	buttons.push_back(button);
 }
 
@@ -182,14 +184,14 @@ void UIManager::InitSetting()
 	Group base_group(shape, text);
 	Button button(base_group);
 	button.SetPosition({ (float)kScreenWight / 2.0f, 80.0f });
-	button.SetFunc([=]() { keyButton = 0; });
+	button.SetFunc([=]() { key_button = 0; });
 	buttons.push_back(button);
 
 	text.setString(L"+");
-	sf::RectangleShape funcShape({ 60.0f, 60.0f });
-	funcShape.setFillColor(sf::Color(50, 50, 50));
+	sf::RectangleShape func_shape({ 60.0f, 60.0f });
+	func_shape.setFillColor(sf::Color(50, 50, 50));
 	base_group = Group(shape, text);
-	Button funcButton(base_group);
+	Button func_button(base_group);
 	
 	auto& state = GameState::GetInstance();
 
@@ -200,48 +202,48 @@ void UIManager::InitSetting()
 	button = Button(base_group);
 	button.SetPosition({ (float)kScreenWight / 2.0f, 150.0f});
 	buttons.push_back(button);
-	funcButton.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.effectVolume++;keyButton = 1;});
-	buttons.push_back(funcButton);
-	funcButton.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.effectVolume--;keyButton = 1;});
-	funcButton.SetString(L"-");
-	buttons.push_back(funcButton);
+	func_button.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.effectVolume++;key_button = 1;});
+	buttons.push_back(func_button);
+	func_button.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.effectVolume--;key_button = 1;});
+	func_button.SetString(L"-");
+	buttons.push_back(func_button);
 
 	button.SetString(L"ГРОМКОСТЬ МУЗЫКИ: " + std::to_wstring(state.data.soundVolume));
 	button.SetPosition({ (float)kScreenWight / 2.0f, 220.0f});
 	buttons.push_back(button);
-	funcButton.SetString(L"+");
-	funcButton.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.soundVolume++;keyButton = 1;});
-	buttons.push_back(funcButton);
-	funcButton.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.soundVolume--; keyButton = 1;});
-	funcButton.SetString(L"-");
-	buttons.push_back(funcButton);
+	func_button.SetString(L"+");
+	func_button.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.soundVolume++;key_button = 1;});
+	buttons.push_back(func_button);
+	func_button.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.soundVolume--; key_button = 1;});
+	func_button.SetString(L"-");
+	buttons.push_back(func_button);
 
-	std::wstring std = std::to_wstring(state.data.mouseSpeed + 1.0f);
-	button.SetString(L"CКОРОСТЬ МЫШИ: " + std.substr(0, std.find(L".") + 3));
+	std::wstring str = std::to_wstring(state.data.mouseSpeed + 1.0f);
+	button.SetString(L"CКОРОСТЬ МЫШИ: " + str.substr(0, str.find(L".") + 3));
 	button.SetPosition({ (float)kScreenWight / 2.0f, 290.0f });
 	buttons.push_back(button);
-	funcButton.SetString(L"+");
-	funcButton.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.mouseSpeed += 0.01f; keyButton = 2;});
-	buttons.push_back(funcButton);
-	funcButton.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
-	funcButton.SetFunc([&]() {state.data.mouseSpeed -= 0.01f; keyButton = 2;});
-	funcButton.SetString(L"-");
-	buttons.push_back(funcButton);
+	func_button.SetString(L"+");
+	func_button.SetPosition({ button.GetPosition().x + button.GetSize().x / 2 + 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.mouseSpeed += 0.01f; key_button = 2;});
+	buttons.push_back(func_button);
+	func_button.SetPosition({ button.GetPosition().x - button.GetSize().x / 2 - 30.0f, button.GetPosition().y });
+	func_button.SetFunc([&]() {state.data.mouseSpeed -= 0.01f; key_button = 2;});
+	func_button.SetString(L"-");
+	buttons.push_back(func_button);
 	
-	funcButton.SetFunc(nullptr);
+	func_button.SetFunc(nullptr);
 	shape = sf::RectangleShape({shape.getSize().x / 2, 30.0f});
 	shape.setFillColor(sf::Color(100, 100, 100));
 	text = sf::Text(L"", Resources::ui_font, 20);
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	funcShape.setSize({ 30.0f, 30.0f });
-	Group func_group(funcShape, text);
-	funcButton = Button(func_group);
+	func_shape.setSize({ 30.0f, 30.0f });
+	Group func_group(func_shape, text);
+	func_button = Button(func_group);
 	sf::Vector2f pos{ (float)kScreenWight / 2.0f - shape.getSize().x / 2 - 15.0f, 350.0f };
 
 	std::vector<std::pair<std::wstring, std::wstring>> keys = {
@@ -262,19 +264,19 @@ void UIManager::InitSetting()
 	for (size_t i = 0; i < keys.size(); i++)
 	{
 		button.SetString(keys[i].second);
-		funcButton.SetString(keys[i].first);
+		func_button.SetString(keys[i].first);
 		button.SetPosition(pos);
-		funcButton.SetPosition({ pos.x - button.GetSize().x / 2 - funcShape.getSize().x / 2, pos.y });
+		func_button.SetPosition({ pos.x - button.GetSize().x / 2 - func_shape.getSize().x / 2, pos.y });
 		buttons.push_back(button);
-		buttons.push_back(funcButton);
+		buttons.push_back(func_button);
 
 		if (i % 2 == 0)
 		{
-			pos.x += shape.getSize().x + 15.0f + funcButton.GetSize().x; 
+			pos.x += shape.getSize().x + 15.0f + func_button.GetSize().x; 
 		}
 		else
 		{
-			pos.x -= shape.getSize().x + 15.0f + funcButton.GetSize().x;
+			pos.x -= shape.getSize().x + 15.0f + func_button.GetSize().x;
 			pos.y += 40.0f;
 		}
 	}
@@ -297,19 +299,19 @@ void UIManager::InitQuest(Quest* quest, Player* player)
 	text.setString(L"Взять новый квест");
 	shape.setSize({text.getLocalBounds().width + 10.0f, text.getLocalBounds().height + 10.0f});
 	base_group = Group(shape, text);
-	Button newQuest(base_group);
-	newQuest.SetFillColor(sf::Color(50, 50, 50));
-	newQuest.SetFunc([=]() {keyButton = -300; });
+	Button new_quest(base_group);
+	new_quest.SetFillColor(sf::Color(50, 50, 50));
+	new_quest.SetFunc([=]() {key_button = -300; });
 
 	text.setCharacterSize(30);
 	shape.setSize({kDialogWight / 3, kDialogHeight / 3 - 20.0f});
 	shape.setPosition({shape.getSize().x, shape.getSize().y / 2 + 90.0f});
 	base_group = Group(shape, text);
-	Button totalQuest(base_group);
-	totalQuest.SetFillColor(sf::Color(50, 50, 50));
+	Button total_quest(base_group);
+	total_quest.SetFillColor(sf::Color(50, 50, 50));
 
-	auto& questM = QuestManager::GetInstance();
-	auto total = questM.quests;
+	auto& quest_manager = QuestManager::GetInstance();
+	auto total = quest_manager.quests;
 	std::wstringstream oss;
 	for (size_t i = 0; i < total.size(); i++)
 	{
@@ -341,46 +343,46 @@ void UIManager::InitQuest(Quest* quest, Player* player)
 			oss << L"\n";
 			oss << L"Прогресс: " << total[i]->data.progress << L" / " << total[i]->data.target;
 
-			totalQuest.SetString(oss.str());
-			totalQuest.SetFunc([=]() {keyButton = (int)(i + 1);});
+			total_quest.SetString(oss.str());
+			total_quest.SetFunc([=]() {key_button = (int)(i + 1);});
 
 			if (total[i] == quest)
 			{
-				totalQuest.SetFillColor(sf::Color(128, 128, 0));
+				total_quest.SetFillColor(sf::Color(128, 128, 0));
 			}
 
-			buttons.push_back(totalQuest);
-			totalQuest.SetFillColor(sf::Color(50, 50, 50));
+			buttons.push_back(total_quest);
+			total_quest.SetFillColor(sf::Color(50, 50, 50));
 			oss.clear();
 			oss.str(L"");
 		}
 		else // квеста нет
 		{
-			newQuest.SetPosition(totalQuest.GetPosition());
-			buttons.push_back(newQuest);
+			new_quest.SetPosition(total_quest.GetPosition());
+			buttons.push_back(new_quest);
 		}
 
-		totalQuest.Move({0, totalQuest.GetSize().y + 5.0f});
+		total_quest.Move({0, total_quest.GetSize().y + 5.0f});
 	}
 
 	if (quest)
 	{
 		base_group = Group(shape, text);
-		Button dataButton(base_group);
-		dataButton.SetFillColor(sf::Color(50, 50, 50));
+		Button data_button(base_group);
+		data_button.SetFillColor(sf::Color(50, 50, 50));
 		if (quest->IsCompleted())
 		{
-			dataButton.SetString(L"Получить награду");
-			dataButton.SetFunc([=]() {keyButton = -200;});
+			data_button.SetString(L"Получить награду");
+			data_button.SetFunc([=]() {key_button = -200;});
 		}
 		else
 		{
-			dataButton.SetString(L"Задание не выполнено");
+			data_button.SetString(L"Задание не выполнено");
 		}
 
-		dataButton.SetSize({dataButton.group.text.getLocalBounds().width + 10.0f, dataButton.group.text.getLocalBounds().height + 10.0f});
-		dataButton.SetPosition({ totalQuest.GetPosition().x + totalQuest.GetSize().x / 2 + dataButton.GetSize().x / 2 + 10.0f , kScreenHeight / 2});
-		buttons.push_back(dataButton);
+		data_button.SetSize({data_button.group.text.getLocalBounds().width + 10.0f, data_button.group.text.getLocalBounds().height + 10.0f});
+		data_button.SetPosition({ total_quest.GetPosition().x + total_quest.GetSize().x / 2 + data_button.GetSize().x / 2 + 10.0f , kScreenHeight / 2});
+		buttons.push_back(data_button);
 	}
 
 	text.setCharacterSize(50);
@@ -390,7 +392,7 @@ void UIManager::InitQuest(Quest* quest, Player* player)
 	shape.setPosition({ (float)kScreenWight - shape.getSize().x - 5.0f, (float)kScreenHeight / 2 });
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	button.SetFunc([=]() { keyButton = -100; });
+	button.SetFunc([=]() { key_button = -100; });
 	buttons.push_back(button);
 }
 
@@ -403,85 +405,85 @@ void UIManager::InitTrade(const std::map<int, Itemble*>& variants, Player* playe
 	float interval = 5.0f;
 	float size = 44.0f;
 
-	float maxName = 0.0f, maxDisc = 0.0f, maxCost = 0.0f;
+	float max_name = 0.0f, max_disc = 0.0f, max_cost = 0.0f;
 	sf::Text text(L"", Resources::ui_font, (int)size - 25);
 	
-	for (auto pair : variants)
+	for (auto& pair : variants)
 	{
 		if (!pair.second) continue;
 		
 		text.setString(pair.second->name);
-		maxName = std::fmaxf(text.getLocalBounds().width, maxName);
+		max_name = std::fmaxf(text.getLocalBounds().width, max_name);
 
 		text.setString(pair.second->disc);
-		maxDisc = std::fmaxf(text.getLocalBounds().width, maxDisc);
+		max_disc = std::fmaxf(text.getLocalBounds().width, max_disc);
 
 		text.setString(std::to_wstring(pair.second->cost) + L" руб");
-		maxCost = std::fmaxf(text.getLocalBounds().width, maxCost);
+		max_cost = std::fmaxf(text.getLocalBounds().width, max_cost);
 	}
 	
 	sf::Vector2f pos((float)kScreenWight / 2, size + interval * 2.0f);
-	sf::Vector2f textPos(((float)kScreenWight - kDialogWight) / 2 - kIconSize / 2, size + interval * 2.0f);
+	sf::Vector2f text_pos(((float)kScreenWight - kDialogWight) / 2 - kIconSize / 2, size + interval * 2.0f);
 
 	sf::RectangleShape rect({ kDialogWight, size });
 	sf::RectangleShape texture({ kIconSize, kIconSize });
-	sf::RectangleShape texture1({ kIconSize, size });
+	sf::RectangleShape texture_1({ kIconSize, size });
 	Group base_group (texture, {});
-	Button b5(base_group);
-	base_group = Group(texture1, {});
-	Button b6(base_group);
-	b5.SetTexture(&Resources::itemble_icon);
-	b6.SetFillColor(sf::Color(70,70,70));
+	Button button_5(base_group);
+	base_group = Group(texture_1, {});
+	Button button_6(base_group);
+	button_5.SetTexture(&Resources::itemble_icon);
+	button_6.SetFillColor(sf::Color(70,70,70));
 
 	rect.setFillColor(sf::Color(50, 50, 50));
-	Group g2(rect, text);
+	Group group_2(rect, text);
 
-	for (auto var : variants)
+	for (auto& var : variants)
 	{
 		if (!var.second) continue;
 
-		std::wstring line = ToMax(var.second->name, maxName, size - 25) + L" | " + 
-			ToMax(std::to_wstring(var.second->cost) + L" руб", maxCost, size - 25) + L" | " +
-			ToMax(var.second->disc, maxDisc, size - 25);
+		std::wstring line = ToMax(var.second->name, max_name, size - 25) + L" | " + 
+			ToMax(std::to_wstring(var.second->cost) + L" руб", max_cost, size - 25) + L" | " +
+			ToMax(var.second->disc, max_disc, size - 25);
 
-		g2.SetString(line);
-		g2.SetPosition(pos);
+		group_2.SetString(line);
+		group_2.SetPosition(pos);
 
-		b6.SetPosition(textPos);
-		b5.SetPosition(textPos);
-		b5.SetTextureRect({ {kIconSize * var.second->id, 0}, {kIconSize, kIconSize} });
+		button_6.SetPosition(text_pos);
+		button_5.SetPosition(text_pos);
+		button_5.SetTextureRect({ {kIconSize * var.second->id, 0}, {kIconSize, kIconSize} });
 
-		buttons.push_back(Button(g2));
-		buttons.back().SetFunc([=]() { keyButton = var.first;});
-		buttons.push_back(b6);
-		buttons.push_back(b5);
+		buttons.push_back(Button(group_2));
+		buttons.back().SetFunc([=]() { key_button = var.first;});
+		buttons.push_back(button_6);
+		buttons.push_back(button_5);
 
-		pos.y += interval + g2.shape.getSize().y;
-		textPos.y = pos.y;
+		pos.y += interval + group_2.shape.getSize().y;
+		text_pos.y = pos.y;
 	}
 
-	sf::RectangleShape rect2(rect);
-	rect2.setSize({ kDialogWight, size - 20.0f });
-	Group g9(rect2, text);
-	g9.SetString(L"Баланс: " + std::to_wstring(player->money) + L" | Запчасти: " + std::to_wstring(player->details));
-	g9.SetPosition({ (float)kScreenWight / 2, g9.GetSize().y / 2 + interval});
-	buttons.push_back(g9);
+	sf::RectangleShape rect_2(rect);
+	rect_2.setSize({ kDialogWight, size - 20.0f });
+	Group group_9(rect_2, text);
+	group_9.SetString(L"Баланс: " + std::to_wstring(player->money) + L" | Запчасти: " + std::to_wstring(player->details));
+	group_9.SetPosition({ (float)kScreenWight / 2, group_9.GetSize().y / 2 + interval});
+	buttons.push_back(group_9);
 
-	sf::Text text1(text);
-	text1.setString(L"К\nУ\nП\nИ\nТ\nЬ");
-	text1.setCharacterSize(50);
-	sf::RectangleShape rect1({ size + 10.0f, 350.0f });
-	rect1.setFillColor(sf::Color(50, 50, 50));
-	Group g3(rect1, text1);
-	g3.SetPosition({ ((float)kScreenWight + kDialogWight) / 2 + g3.GetSize().x, g3.GetSize().y / 2 + 5.0f});
+	sf::Text text_1(text);
+	text_1.setString(L"К\nУ\nП\nИ\nТ\nЬ");
+	text_1.setCharacterSize(50);
+	sf::RectangleShape rect_1({ size + 10.0f, 350.0f });
+	rect_1.setFillColor(sf::Color(50, 50, 50));
+	Group group_3(rect_1, text_1);
+	group_3.SetPosition({ ((float)kScreenWight + kDialogWight) / 2 + group_3.GetSize().x, group_3.GetSize().y / 2 + 5.0f});
 
-	buttons.push_back(Button(g3));
-	buttons.back().SetFunc([=]() { keyButton = -200; });
+	buttons.push_back(Button(group_3));
+	buttons.back().SetFunc([=]() { key_button = -200; });
 
-	g3.SetString(L"В\nЫ\nХ\nО\nД");
-	g3.SetPosition({ ((float)kScreenWight + kDialogWight) / 2 + g3.GetSize().x , (float)kScreenHeight - g3.GetSize().y/2 - 5.0f});
-	buttons.push_back(Button(g3));
-	buttons.back().SetFunc([=]() { keyButton = -100; });
+	group_3.SetString(L"В\nЫ\nХ\nО\nД");
+	group_3.SetPosition({ ((float)kScreenWight + kDialogWight) / 2 + group_3.GetSize().x , (float)kScreenHeight - group_3.GetSize().y/2 - 5.0f});
+	buttons.push_back(Button(group_3));
+	buttons.back().SetFunc([=]() { key_button = -100; });
 }
 
 void UIManager::InitMechanic(Player* player, Gun* choose)
@@ -494,45 +496,45 @@ void UIManager::InitMechanic(Player* player, Gun* choose)
 	Button button(base_group);
 	buttons.push_back(button);
 
-	sf::RectangleShape dataShape({ kDialogWight / 4 + 15, kDialogHeight / 2 });
-	dataShape.setFillColor(sf::Color(50, 50, 50));
-	Group dataGroup(dataShape, {});
-	dataGroup.SetPosition({ shape.getPosition().x - shape.getSize().x / 2 + dataShape.getSize().x / 2, shape.getPosition().y / 2 + kInterval + dataGroup.GetSize().y / 2});
+	sf::RectangleShape data_shape({ kDialogWight / 4 + 15, kDialogHeight / 2 });
+	data_shape.setFillColor(sf::Color(50, 50, 50));
+	Group data_group(data_shape, {});
+	data_group.SetPosition({ shape.getPosition().x - shape.getSize().x / 2 + data_shape.getSize().x / 2, shape.getPosition().y / 2 + kInterval + data_group.GetSize().y / 2});
 
-	sf::RectangleShape textureShape({ kIconSize, kIconSize });
-	textureShape.setScale({ 2, 2 });
-	Group textureGroup(textureShape, {});
+	sf::RectangleShape texture_shape({ kIconSize, kIconSize });
+	texture_shape.setScale({ 2, 2 });
+	Group texture_group(texture_shape, {});
 	
 	std::wostringstream oss;
 	for (size_t i = 1; i <= 2; i++)
 	{
 		if (player->guns[i])
 		{
-			if (player->guns[i] == choose) dataGroup.shape.setFillColor(sf::Color(128, 128, 0));
-			buttons.push_back(dataGroup);
-			buttons.back().SetFunc([=]() { keyButton = (int)i; });
+			if (player->guns[i] == choose) data_group.shape.setFillColor(sf::Color(128, 128, 0));
+			buttons.push_back(data_group);
+			buttons.back().SetFunc([=]() { key_button = (int)i; });
 
-			textureGroup.SetPosition({ dataGroup.GetPosition().x, dataGroup.GetPosition().y - dataGroup.GetSize().y / 2 + kIconSize + 20.0f });
-			buttons.push_back(Button(textureGroup));
+			texture_group.SetPosition({ data_group.GetPosition().x, data_group.GetPosition().y - data_group.GetSize().y / 2 + kIconSize + 20.0f });
+			buttons.push_back(Button(texture_group));
 			buttons.back().SetTexture(&Resources::itemble_icon);
 			buttons.back().SetTextureRect({ {kIconSize * player->guns[i]->id, 0},{kIconSize, kIconSize} });
 
 			oss << L"Урон: " << std::fixed << std::setprecision(2) << player->guns[i]->damage << "\n";
-			oss << L"Обойма: " << std::fixed << std::setprecision(2) << player->guns[i]->maxCount << "\n";
-			oss << L"Разброс: " << std::fixed << std::setprecision(2) << player->guns[i]->maxImpRad << "\n";
-			oss << L"Количество улучшений: " << player->guns[i]->upgradeCount << L"/ 5" << "\n";
+			oss << L"Обойма: " << std::fixed << std::setprecision(2) << player->guns[i]->max_count << "\n";
+			oss << L"Разброс: " << std::fixed << std::setprecision(2) << player->guns[i]->max_imp_rad << "\n";
+			oss << L"Количество улучшений: " << player->guns[i]->upgrade_count << L"/ 5" << "\n";
 
 			text.setCharacterSize(20);
 			text.setString(oss.str());
 			shape.setSize({ text.getLocalBounds().width + 10.0f, text.getLocalBounds().height + 10.0f });
-			shape.setPosition({ textureGroup.GetPosition().x, textureGroup.GetPosition().y + textureGroup.GetSize().y + 60.0f });
+			shape.setPosition({ texture_group.GetPosition().x, texture_group.GetPosition().y + texture_group.GetSize().y + 60.0f });
 			base_group = Group(shape, text);
 			buttons.push_back(Button(base_group));
 
 			oss.clear();
 			oss.str(L"");
-			dataGroup.Move({ 0, dataGroup.GetSize().y + 10.0f });
-			dataGroup.shape.setFillColor(sf::Color(50, 50, 50));
+			data_group.Move({ 0, data_group.GetSize().y + 10.0f });
+			data_group.shape.setFillColor(sf::Color(50, 50, 50));
 		}
 	}
 	text.setCharacterSize(30);
@@ -543,36 +545,36 @@ void UIManager::InitMechanic(Player* player, Gun* choose)
 	shape.setFillColor(sf::Color(50, 50, 50));
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	button.SetFunc([=]() { keyButton = -200; });
+	button.SetFunc([=]() { key_button = -200; });
 	buttons.push_back(button);
 
 	text.setString(L"В\nЫ\nХ\nО\nД");
 	shape.setPosition({ ((float)kScreenWight + kDialogWight) / 2 + shape.getSize().x, (float)kScreenHeight / 2 + shape.getSize().y / 2 + 5.0f });
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	button.SetFunc([=]() { keyButton = -100; });
+	button.SetFunc([=]() { key_button = -100; });
 	buttons.push_back(button);
 
 	if (choose)
 	{
-		sf::RectangleShape percShape({ kDialogWight / 2 + 15.0f, kDialogHeight / 4 });
-		percShape.setPosition(dataGroup.GetPosition().x + dataGroup.GetSize().x / 2 + percShape.getSize().x / 2 + 10.0f, (float)kScreenHeight / 3 - percShape.getSize().y / 3 + 10.0f);
-		percShape.setFillColor(sf::Color(50, 50, 50));
-		Group percGroup(percShape, text);
+		sf::RectangleShape perc_shape({ kDialogWight / 2 + 15.0f, kDialogHeight / 4 });
+		perc_shape.setPosition(data_group.GetPosition().x + data_group.GetSize().x / 2 + perc_shape.getSize().x / 2 + 10.0f, (float)kScreenHeight / 3 - perc_shape.getSize().y / 3 + 10.0f);
+		perc_shape.setFillColor(sf::Color(50, 50, 50));
+		Group perc_group(perc_shape, text);
 
-		percGroup.SetString(L"УВЕЛИЧИТЬ УРОН НА +3");
-		buttons.push_back(percGroup);
-		buttons.back().SetFunc([=]() {keyButton = 101;});
-		percGroup.Move({0.0f, percGroup.GetSize().y + 10.0f});
+		perc_group.SetString(L"УВЕЛИЧИТЬ УРОН НА +3");
+		buttons.push_back(perc_group);
+		buttons.back().SetFunc([=]() {key_button = 101;});
+		perc_group.Move({0.0f, perc_group.GetSize().y + 10.0f});
 
-		percGroup.SetString(L"УВЕЛИЧИТЬ РАЗМЕР ОБОЙМЫ НА +5");
-		buttons.push_back(percGroup);
-		buttons.back().SetFunc([=]() {keyButton = 102;});
-		percGroup.Move({ 0.0f, percGroup.GetSize().y + 10.0f });
+		perc_group.SetString(L"УВЕЛИЧИТЬ РАЗМЕР ОБОЙМЫ НА +5");
+		buttons.push_back(perc_group);
+		buttons.back().SetFunc([=]() {key_button = 102;});
+		perc_group.Move({ 0.0f, perc_group.GetSize().y + 10.0f });
 
-		percGroup.SetString(L"УМЕНЬШИТЬ РАЗБРОС НА +2");
-		buttons.push_back(percGroup);
-		buttons.back().SetFunc([=]() {keyButton = 103;});
+		perc_group.SetString(L"УМЕНЬШИТЬ РАЗБРОС НА +2");
+		buttons.push_back(perc_group);
+		buttons.back().SetFunc([=]() {key_button = 103;});
 	}
 }
 
@@ -609,14 +611,14 @@ void UIManager::InitChanger(int coef, Player* player)
 	shape.setPosition({ shape.getSize().x + 5.0f, (float)kScreenHeight / 2});
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	button.SetFunc([=]() { keyButton = -200; });
+	button.SetFunc([=]() { key_button = -200; });
 	buttons.push_back(button);
 
 	text.setString(L"В\nЫ\nХ\nО\nД");
 	shape.setPosition({ (float)kScreenWight - shape.getSize().x - 5.0f, (float)kScreenHeight / 2 });
 	base_group = Group(shape, text);
 	button = Button(base_group);
-	button.SetFunc([=]() { keyButton = -100; });
+	button.SetFunc([=]() { key_button = -100; });
 	buttons.push_back(button);
 }
 
@@ -626,37 +628,37 @@ void UIManager::InitInvent(const std::map<Itemble*, int>& items, Itemble* choose
 	background.setScale({ (float)kScreenWight / Resources::inventory_background.getSize().x,
 		(float)kScreenHeight / Resources::inventory_background.getSize().y });
 
-	sf::RectangleShape baseShape({ kDialogWight / 2 + 15, kDialogHeight + 10});
-	baseShape.setFillColor(sf::Color(70, 70, 70));
-	Group baseGroup(baseShape, {});
-	baseGroup.SetPosition({ kInterval + baseShape.getSize().x / 2 - 5,
-							kInterval + baseShape.getSize().y / 2 - 5});
-	buttons.push_back(baseGroup);
+	sf::RectangleShape base_shape({ kDialogWight / 2 + 15, kDialogHeight + 10});
+	base_shape.setFillColor(sf::Color(70, 70, 70));
+	Group base_group(base_shape, {});
+	base_group.SetPosition({ kInterval + base_shape.getSize().x / 2 - 5,
+							kInterval + base_shape.getSize().y / 2 - 5});
+	buttons.push_back(base_group);
 	
-	sf::RectangleShape invShape({ kDialogWight / 4, kIconSize / 2  });
-	invShape.setFillColor(sf::Color(50, 50, 50));
-	sf::Text invText(L"", Resources::ui_font, kIconSize / 2 - 20);
-	Group invGroup(invShape, invText);
-	Button invBut(invGroup);
+	sf::RectangleShape inv_shape({ kDialogWight / 4, kIconSize / 2  });
+	inv_shape.setFillColor(sf::Color(50, 50, 50));
+	sf::Text inv_text(L"", Resources::ui_font, kIconSize / 2 - 20);
+	Group inv_group(inv_shape, inv_text);
+	Button inv_button(inv_group);
 
-	sf::Vector2f pos{ kDialogWight / 8 + kInterval, kInterval + invGroup.GetSize().y / 2 };
+	sf::Vector2f pos{ kDialogWight / 8 + kInterval, kInterval + inv_group.GetSize().y / 2 };
 	int i = 0;
 
 	for (auto pair : items)
 	{
-		invBut.SetPosition(pos);
-		invBut.SetString(pair.first->name + L" | " + std::to_wstring(pair.second) + L" шт");
-		invBut.SetFunc([=]() { keyButton = pair.first->id;});
+		inv_button.SetPosition(pos);
+		inv_button.SetString(pair.first->name + L" | " + std::to_wstring(pair.second) + L" шт");
+		inv_button.SetFunc([=]() { key_button = pair.first->id;});
 
-		buttons.push_back(invBut);
+		buttons.push_back(inv_button);
 
 		if (i % 2 == 0)
 		{
-			pos.x = kDialogWight / 8 + invGroup.GetSize().x + kInterval + 5;
+			pos.x = kDialogWight / 8 + inv_group.GetSize().x + kInterval + 5;
 		}
 		else
 		{
-			pos.y += invGroup.GetSize().y + 5;
+			pos.y += inv_group.GetSize().y + 5;
 			pos.x = kDialogWight / 8 + kInterval;
 		}
 		i++;
@@ -664,47 +666,47 @@ void UIManager::InitInvent(const std::map<Itemble*, int>& items, Itemble* choose
 
 	if (choose)
 	{
-		sf::RectangleShape dataShape({ kDialogWight / 4 + 15, kDialogHeight / 3 });
-		dataShape.setFillColor(sf::Color(70, 70, 70));
-		Group dataGroup(dataShape, {});
-		dataGroup.SetPosition({ baseGroup.GetPosition().x, kInterval + dataGroup.GetSize().y / 2 });
-		dataGroup.Move({ dataGroup.GetSize().x / 2 + baseGroup.GetSize().x / 2 + kInterval, 0 });
-		buttons.push_back(dataGroup);
+		sf::RectangleShape data_shape({ kDialogWight / 4 + 15, kDialogHeight / 3 });
+		data_shape.setFillColor(sf::Color(70, 70, 70));
+		Group data_group(data_shape, {});
+		data_group.SetPosition({ base_group.GetPosition().x, kInterval + data_group.GetSize().y / 2 });
+		data_group.Move({ data_group.GetSize().x / 2 + base_group.GetSize().x / 2 + kInterval, 0 });
+		buttons.push_back(data_group);
 
-		sf::RectangleShape textureShape({ kIconSize, kIconSize });
-		textureShape.setScale({ 2, 2 });
-		Group textureGroup(textureShape, {});
-		textureGroup.SetPosition({ dataGroup.GetPosition().x, kInterval + kIconSize / 2 + 10 });
-		buttons.push_back(Button(textureGroup));
+		sf::RectangleShape texture_shape({ kIconSize, kIconSize });
+		texture_shape.setScale({ 2, 2 });
+		Group texture_group(texture_shape, {});
+		texture_group.SetPosition({ data_group.GetPosition().x, kInterval + kIconSize / 2 + 10 });
+		buttons.push_back(Button(texture_group));
 		buttons.back().SetTexture(&Resources::itemble_icon);
 		buttons.back().SetTextureRect({ {kIconSize * choose->id, 0},{kIconSize, kIconSize} });
 
-		Group dataGroup1(invGroup);
-		dataGroup1.SetPosition(textureGroup.GetPosition());
-		dataGroup1.Move({ 0, textureGroup.GetSize().y / 2 + dataGroup1.GetSize().y + 5 });
-		dataGroup1.SetString(choose->name);
-		buttons.push_back(dataGroup1);
+		Group data_group_1(inv_group);
+		data_group_1.SetPosition(texture_group.GetPosition());
+		data_group_1.Move({ 0, texture_group.GetSize().y / 2 + data_group_1.GetSize().y + 5 });
+		data_group_1.SetString(choose->name);
+		buttons.push_back(data_group_1);
 
-		float oldSize = dataGroup1.GetSize().y;
-		dataGroup1.SetSize({ dataGroup1.GetSize().x, dataGroup1.GetSize().y * 2 });
-		dataGroup1.Move({ 0, oldSize / 2 + dataGroup1.GetSize().y / 2 + 5 });
+		float old_size = data_group_1.GetSize().y;
+		data_group_1.SetSize({ data_group_1.GetSize().x, data_group_1.GetSize().y * 2 });
+		data_group_1.Move({ 0, old_size / 2 + data_group_1.GetSize().y / 2 + 5 });
 
-		oldSize = dataGroup.GetSize().y;
-		dataGroup.SetSize({ dataGroup.GetSize().x, kDialogHeight * 2 / 3 - kInterval });
-		dataGroup.Move({ 0, oldSize / 2 + dataGroup.GetSize().y / 2 + kInterval });
-		buttons.push_back(Button(dataGroup));
+		old_size = data_group.GetSize().y;
+		data_group.SetSize({ data_group.GetSize().x, kDialogHeight * 2 / 3 - kInterval });
+		data_group.Move({ 0, old_size / 2 + data_group.GetSize().y / 2 + kInterval });
+		buttons.push_back(Button(data_group));
 
-		Group makeGroup(invGroup);
-		sf::Vector2f pos = dataGroup.GetPosition();
-		pos.y -= dataGroup.GetSize().y / 2 - 5 - makeGroup.GetSize().y / 2;
-		makeGroup.SetPosition(pos);
+		Group make_group(inv_group);
+		sf::Vector2f position = data_group.GetPosition();
+		position.y -= data_group.GetSize().y / 2 - 5 - make_group.GetSize().y / 2;
+		make_group.SetPosition(position);
 
 		std::wostringstream oss;
 		if (auto item = dynamic_cast<Item*>(choose); item)
 		{
-			makeGroup.SetString(L"Использовать");
-			buttons.push_back(Button(makeGroup));
-			buttons.back().SetFunc([&]() { keyButton = 100;});
+			make_group.SetString(L"Использовать");
+			buttons.push_back(Button(make_group));
+			buttons.back().SetFunc([&]() { key_button = 100;});
 
 			oss << choose->disc;
 		}
@@ -712,100 +714,102 @@ void UIManager::InitInvent(const std::map<Itemble*, int>& items, Itemble* choose
 		{
 			if (player->guns[1] != nullptr)
 			{
-				makeGroup.SetString(L"Надеть вместо " + player->guns[1]->name);
+				make_group.SetString(L"Надеть вместо " + player->guns[1]->name);
 			}
 			else
 			{
-				makeGroup.SetString(L"Надеть на первый слот");
+				make_group.SetString(L"Надеть на первый слот");
 			}
-			buttons.push_back(makeGroup);
-			buttons.back().SetFunc([&]() { keyButton = 100;});
-			makeGroup.Move({ 0, makeGroup.GetSize().y + 5 });
+			buttons.push_back(make_group);
+			buttons.back().SetFunc([&]() { key_button = 100;});
+			make_group.Move({ 0, make_group.GetSize().y + 5 });
 
 			if (player->guns[2] != nullptr)
 			{
-				makeGroup.SetString(L"Надеть вместо " + player->guns[2]->name);
+				make_group.SetString(L"Надеть вместо " + player->guns[2]->name);
 			}
 			else
 			{
-				makeGroup.SetString(L"Надеть на второй слот");
+				make_group.SetString(L"Надеть на второй слот");
 			}
-			buttons.push_back(makeGroup);
-			buttons.back().SetFunc([&]() { keyButton = 101;});
+			buttons.push_back(make_group);
+			buttons.back().SetFunc([&]() { key_button = 101;});
 
 			int i = 102;
 			for (auto it : gun->improvement)
 			{
 				if (!it.second) continue;
 
-				makeGroup.Move({ 0, makeGroup.GetSize().y + 5 });
-				makeGroup.SetString(L"Снять " + it.second->name);
-				buttons.push_back(Button(makeGroup));
-				buttons.back().SetFunc([=]() { keyButton = i;});
+				make_group.Move({ 0, make_group.GetSize().y + 5 });
+				make_group.SetString(L"Снять " + it.second->name);
+				buttons.push_back(Button(make_group));
+				buttons.back().SetFunc([=]() { key_button = i;});
 				i++;
 			}
 
 			oss << L"Урон: " << std::fixed << std::setprecision(2) << gun->damage;
 			oss << " | ";
-			oss << L"Обойма: " << std::fixed << std::setprecision(2) << gun->maxCount;
+			oss << L"Обойма: " << std::fixed << std::setprecision(2) << gun->max_count;
 			oss << " | ";
-			oss << L"Разброс: " << std::fixed << std::setprecision(2) << gun->maxImpRad;
+			oss << L"Разброс: " << std::fixed << std::setprecision(2) << gun->max_imp_rad;
 		}
 		else if (auto imp = dynamic_cast<Improve*>(choose); imp)
 		{
 			if (player->guns[1] != nullptr)
 			{
-				makeGroup.SetString(L"Надеть на " + player->guns[1]->name);
-				buttons.push_back(Button(makeGroup));
-				buttons.back().SetFunc([&]() { keyButton = 100;});
-				makeGroup.Move({ 0, makeGroup.GetSize().y + 5 });
+				make_group.SetString(L"Надеть на " + player->guns[1]->name);
+				buttons.push_back(Button(make_group));
+				buttons.back().SetFunc([&]() { key_button = 100;});
+				make_group.Move({ 0, make_group.GetSize().y + 5 });
 			}
 
 			if (player->guns[2] != nullptr)
 			{
-				makeGroup.SetString(L"Надеть на " + player->guns[2]->name);
-				buttons.push_back(Button(makeGroup));
-				buttons.back().SetFunc([&]() { keyButton = 101;});
+				make_group.SetString(L"Надеть на " + player->guns[2]->name);
+				buttons.push_back(Button(make_group));
+				buttons.back().SetFunc([&]() { key_button = 101;});
 			}
 
 			oss << choose->disc;
 		}
 
-		dataGroup1.SetString(SplitText(oss.str(), (int)dataGroup1.GetSize().x, dataGroup1.text.getCharacterSize()));
-		buttons.push_back(dataGroup1);
+		data_group_1.SetString(SplitText(oss.str(), (int)data_group_1.GetSize().x, data_group_1.text.getCharacterSize()));
+		buttons.push_back(data_group_1);
 	}
 }
 
 void UIManager::DeleteNow() 
 { 
 	buttons.clear();
-	choseBut = -1;
+	chose_but = -1;
 }
 
 int UIManager::CheckButton()
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	sf::Vector2i worldPos = (sf::Vector2i)window->mapPixelToCoords(mousePos);
+	sf::Vector2i mouse_position = sf::Mouse::getPosition(*window);
+	sf::Vector2i world_position = (sf::Vector2i)window->mapPixelToCoords(mouse_position);
 
 	for (size_t i = 0; i < buttons.size(); i++)
 	{
-		if (buttons[i].IsClicked(worldPos))
+		if (buttons[i].IsClicked(world_position))
 		{
-			if (choseBut != -1) buttons[choseBut].SetFillColor(sf::Color(50, 50, 50));
-			choseBut = i;
+			if (chose_but != -1) buttons[chose_but].SetFillColor(sf::Color(50, 50, 50));
+			chose_but = i;
 			buttons[i].SetFillColor(sf::Color(128, 128, 0));
 			buttons[i].Use();
 
-			return keyButton;
+			return key_button;
 		}
 	}
+
 	return -1;
 }
 
 void UIManager::DrawNow()
 {
 	window->draw(background);
-	for (auto b : buttons)
+
+	for (auto& b : buttons)
 	{
 		window->draw(b);
 	}
@@ -813,51 +817,51 @@ void UIManager::DrawNow()
 
 void UIManager::DrawPlayerUI(Player* player)
 {
-	sf::Text weaponInfo;
+	sf::Text weapon_info;
 
 	if (!player->kick->IsCanUsed())
 	{
-		sf::Vector2f deltaPos{};
-		player->kick->DrawWeapon(window, deltaPos);
+		sf::Vector2f delta_position{};
+		player->kick->DrawWeapon(window, delta_position);
 	}
 	else
 	{
 		auto gun = player->GetNowGun();
 		gun->DrawWeapon(window, player->shake_delta);
 
-		if (gun->isReset)
+		if (gun->is_reset)
 		{
-			weaponInfo = sf::Text(std::to_string(player->patrons), Resources::ui_font, 30);
-			auto b = weaponInfo.getLocalBounds();
-			weaponInfo.setOrigin({ b.width / 2, b.height / 2 });
-			weaponInfo.setPosition({ (float)kScreenWight / 2, (float)kScreenHeight / 2 - weaponInfo.getCharacterSize() / 4 });
-			weaponInfo.setPosition({ (float)kScreenWight - b.width / 2 - 20, (float)kScreenHeight - 30 });
-			weaponInfo.setFillColor({ 0, 0, 0 });
-			window->draw(weaponInfo);
+			weapon_info = sf::Text(std::to_string(player->patrons), Resources::ui_font, 30);
+			auto b = weapon_info.getLocalBounds();
+			weapon_info.setOrigin({ b.width / 2, b.height / 2 });
+			weapon_info.setPosition({ (float)kScreenWight / 2, (float)kScreenHeight / 2 - weapon_info.getCharacterSize() / 4 });
+			weapon_info.setPosition({ (float)kScreenWight - b.width / 2 - 20, (float)kScreenHeight - 30 });
+			weapon_info.setFillColor({ 0, 0, 0 });
+			window->draw(weapon_info);
 
-			weaponInfo.setString(std::to_string(gun->nowCount) + " / " + std::to_string(gun->maxCount));
-			b = weaponInfo.getLocalBounds();
-			weaponInfo.setOrigin({ b.width / 2, b.height / 2 });
-			weaponInfo.setPosition({ (float)kScreenWight / 2, (float)kScreenHeight / 2 - weaponInfo.getCharacterSize() / 4 });
-			weaponInfo.setPosition({ (float)kScreenWight - b.width / 2 - 20, (float)kScreenHeight - 60 });
-			window->draw(weaponInfo);
+			weapon_info.setString(std::to_string(gun->now_count) + " / " + std::to_string(gun->max_count));
+			b = weapon_info.getLocalBounds();
+			weapon_info.setOrigin({ b.width / 2, b.height / 2 });
+			weapon_info.setPosition({ (float)kScreenWight / 2, (float)kScreenHeight / 2 - weapon_info.getCharacterSize() / 4 });
+			weapon_info.setPosition({ (float)kScreenWight - b.width / 2 - 20, (float)kScreenHeight - 60 });
+			window->draw(weapon_info);
 		}
 	}
 	float baseX = 300;
-	sf::RectangleShape baseShape({ baseX, 40 });
-	baseShape.setFillColor(sf::Color(128, 128, 128));
+	sf::RectangleShape base_shape({ baseX, 40 });
+	base_shape.setFillColor(sf::Color(128, 128, 128));
 	sf::Text text("", Resources::ui_font, 30);
-	Group group1(baseShape, text);
-	group1.SetPosition({ 170, (float)kScreenHeight - 120 });
-	window->draw(group1.shape);
+	Group group_1(base_shape, text);
+	group_1.SetPosition({ 170, (float)kScreenHeight - 120 });
+	window->draw(group_1.shape);
 
-	Group group2(group1);
-	group2.SetPosition({ group2.GetPosition().x, group2.GetPosition().y + 40 });
-	window->draw(group2.shape);
+	Group group_2(group_1);
+	group_2.SetPosition({ group_2.GetPosition().x, group_2.GetPosition().y + 40 });
+	window->draw(group_2.shape);
 
-	Group group3(group1);
-	group3.SetPosition({ group3.GetPosition().x, group3.GetPosition().y + 80 });
-	window->draw(group3.shape);
+	Group group_3(group_1);
+	group_3.SetPosition({ group_3.GetPosition().x, group_3.GetPosition().y + 80 });
+	window->draw(group_3.shape);
 
 	std::wostringstream oss;
 	oss << std::fixed << std::setprecision(2) << player->enemy->map_sprite.nowHealPoint;
@@ -865,13 +869,13 @@ void UIManager::DrawPlayerUI(Player* player)
 	oss << std::fixed << std::setprecision(2) << player->enemy->enemy_def.maxHealpoint;
 	std::wstring str = oss.str();
 
-	group1.shape.setFillColor(sf::Color(255, 23, 23));
-	float newXH = baseX * (player->enemy->map_sprite.nowHealPoint <= 0 ? 0 :
+	group_1.shape.setFillColor(sf::Color(255, 23, 23));
+	float new_healpoint = baseX * (player->enemy->map_sprite.nowHealPoint <= 0 ? 0 :
 		player->enemy->map_sprite.nowHealPoint) / player->enemy->enemy_def.maxHealpoint;
-	group1.shape.setSize({ newXH, 40 });
-	group1.SetString(str);
-	window->draw(group1.shape);
-	window->draw(group1.text);
+	group_1.shape.setSize({ new_healpoint, 40 });
+	group_1.SetString(str);
+	window->draw(group_1.shape);
+	window->draw(group_1.text);
 
 	oss.str(L"");
 	oss.clear();
@@ -880,12 +884,12 @@ void UIManager::DrawPlayerUI(Player* player)
 	oss << std::fixed << std::setprecision(2) << player->max_strenght;
 	str = oss.str();
 
-	group2.shape.setFillColor(sf::Color(70, 130, 80));
-	float newXD = baseX * player->now_strenght / player->max_strenght;
-	group2.shape.setSize({ newXD, 40 });
-	group2.SetString(str);
-	window->draw(group2.shape);
-	window->draw(group2.text);
+	group_2.shape.setFillColor(sf::Color(70, 130, 80));
+	float new_armore = baseX * player->now_strenght / player->max_strenght;
+	group_2.shape.setSize({ new_armore, 40 });
+	group_2.SetString(str);
+	window->draw(group_2.shape);
+	window->draw(group_2.text);
 
 	oss.str(L"");
 	oss.clear();
@@ -894,12 +898,12 @@ void UIManager::DrawPlayerUI(Player* player)
 	oss << std::fixed << std::setprecision(2) << player->max_energy;
 	str = oss.str();
 
-	group3.shape.setFillColor(sf::Color(44, 148, 15));
-	float newXB = baseX * player->now_energy / player->max_energy;
-	group3.shape.setSize({ newXB, 40 });
-	group3.SetString(str);
-	window->draw(group3.shape);
-	window->draw(group3.text);
+	group_3.shape.setFillColor(sf::Color(44, 148, 15));
+	float new_energy = baseX * player->now_energy / player->max_energy;
+	group_3.shape.setSize({ new_energy, 40 });
+	group_3.SetString(str);
+	window->draw(group_3.shape);
+	window->draw(group_3.text);
 
 	if (player->now_heal)
 	{
@@ -908,18 +912,19 @@ void UIManager::DrawPlayerUI(Player* player)
 		rect.setTextureRect({ {player->now_heal->id * kIconSize, 0},{kIconSize, kIconSize} });
 		auto b = rect.getLocalBounds();
 		rect.setOrigin({ b.width / 2, b.height / 2 });
-		if (weaponInfo.getString() != "")
+		if (weapon_info.getString() != "")
 		{
-			rect.setPosition({ (float)kScreenWight - kIconSize - weaponInfo.getLocalBounds().width,  (float)kScreenHeight - kIconSize / 2 });
+			rect.setPosition({ (float)kScreenWight - kIconSize - weapon_info.getLocalBounds().width,  (float)kScreenHeight - kIconSize / 2 });
 		}
 		else
 		{
 			rect.setPosition({ (float)kScreenWight - b.width / 2 - 20, (float)kScreenHeight - kIconSize / 2 });
 		}
+
 		window->draw(rect);
 	}
 
-	sf::CircleShape aim(player->GetNowGun()->nowRad, 16);
+	sf::CircleShape aim(player->GetNowGun()->now_rad, 16);
 	aim.setOrigin({ aim.getRadius(), aim.getRadius() });
 	aim.setFillColor(sf::Color(0, 0, 0, 0));
 	aim.setOutlineColor(sf::Color::Black);

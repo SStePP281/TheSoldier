@@ -1,4 +1,3 @@
-#pragma once
 #ifndef WEAPON
 #define WEAPON
 
@@ -24,8 +23,9 @@ class Player;
 class Itemble
 {
 public:
-	Itemble(const std::wstring& name, const std::wstring& disc, int cost, int textureId);
+	Itemble(const std::wstring& name, const std::wstring& disc, int cost, int texture_id);
 	virtual ~Itemble() = default;
+
 	std::wstring name;
 	std::wstring disc;
 	int cost;
@@ -35,60 +35,62 @@ public:
 class Item : public Itemble
 {
 public:
-	Item(const ItemsDef& def);
+	Item(const ItemsDef& item_def);
 	Item() = default;
-	void SetFunc(std::function<void(Player* player)>&& _useFunc);
+	void SetFunc(std::function<void(Player* player)>&& use_func);
 	void UseItem(Player* sprite);
+
 	ItemType type;
-	int maxUsing;
+	int max_using;
 	std::function<void(Player* sprite)> use_func;
 };
 
 class Improve : public Itemble
 {
 public:
-	Improve(const ImproveDef& def);
+	Improve(const ImproveDef& improve_def);
 	Improve() = default;
-	void SetGetFunc(std::function<void(Gun* gun)>&& setEffect);
-	void SetDelFunc(std::function<void(Gun* gun)>&& delEffect);
+	void SetGetFunc(std::function<void(Gun* gun)>&& set_effect);
+	void SetDelFunc(std::function<void(Gun* gun)>&& del_effect);
+
 	ImproveType type;
-	std::function<void(Gun* gun)> getImprove;
-	std::function<void(Gun* gun)> deleteImprove;
+	std::function<void(Gun* gun)> get_improve;
+	std::function<void(Gun* gun)> delete_improve;
 };
 
 class Weapon
 {
 public:
-	Weapon(float _timeBetewen, float maxDist);
+	Weapon(float time_betewen, float max_dist);
 	Weapon() = default;
 	virtual ~Weapon() = default;
-	virtual void Update(float dt);
+	virtual void Update(float delta_time);
 	virtual void DrawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta);
 	virtual bool IsCanUsed();
 	virtual void SetAnimator(Animator<sf::Texture*>&& anim);
 
-	float maxDist;
+	float max_dist;
 protected:
 	virtual void StartAnimation(int number);
-	virtual void Ussing(Enemy* sp, float dist) = 0;
+	virtual void Ussing(Enemy* enemy, float dist) = 0;
 
-	Animator<sf::Texture*> weaponAnimator;
-	float timeBetwen, nowTime;
+	Animator<sf::Texture*> weapon_animator;
+	float time_betwen, now_time;
 };
 
 class Gun : public Weapon, public Itemble
 {
 public:
-	Gun(const GunDef& def, bool isReset, int dunId);
+	Gun(const GunDef& gun_def, bool is_reset, int dun_id);
 	Gun() = default;
 
 	Improve* TrySetImprove(Improve* improve);
 
 	Improve* DeleteImprove(ImproveType type);
 
-	void Update(float dt) override;
+	void Update(float delta_time) override;
 
-	void UpdateRad(bool isRun, float deltaTime);
+	void UpdateRad(bool is_run, float delta_ime);
 
 	int ResetPatron(int count);
 
@@ -96,17 +98,17 @@ public:
 
 	void Ussing(Enemy* sp, float dist) override;
 
-	bool isReset;
-	int nowCount;
-	int maxCount;
+	bool is_reset;
+	int now_count;
+	int max_count;
 	int damage;
-	int upgradeCount;
-	float nowRad, maxImpRad;
-	int maxRad;
+	int upgrade_count;
+	float now_rad, max_imp_rad;
+	int max_rad;
 	std::map<ImproveType, Improve*> improvement;
 private:
-	int gunId;
-	float timeBetwenReset, nowTimeBetwenReset;
+	int gun_id;
+	float time_betwen_reset, now_time_betwen_reset;
 };
 
 #endif // !WEAPON

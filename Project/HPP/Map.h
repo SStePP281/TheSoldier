@@ -24,7 +24,7 @@ public:
 	bool IsCellEmpty(const sf::Vector2i& position);
 	void SetupBlockmap(Sprite* sprite);
 	void DeleteInBlockMap(Sprite* sprite);
-	std::set<Sprite*> GetBlockMap(const sf::Vector2i& position);
+	std::set<Sprite*>& GetBlockMap(const sf::Vector2i& position);
 
 	void RotateSprite(const sf::Vector2i& position, float angle);
 

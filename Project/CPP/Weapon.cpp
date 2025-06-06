@@ -1,161 +1,158 @@
 #include "Weapon.h"
 #include "Player.h"
 
-Weapon::Weapon(float _timeBetewen, float _maxDist)
-	: timeBetwen{ _timeBetewen }, maxDist{ _maxDist } {
-	nowTime = _timeBetewen;
+Weapon::Weapon(float time_betewen, float max_dist) : time_betwen{ time_betewen }, 
+now_time{ time_betewen }, max_dist{ max_dist } {}
+
+void Weapon::Update(float delta_time)
+{
+	weapon_animator.Update(delta_time);
+	if (now_time >= time_betwen) return;
+	now_time += delta_time;
 }
 
-void Weapon::Update(float dt)
-{
-	weaponAnimator.Update(dt);
-	if (nowTime >= timeBetwen) return;
-	nowTime += dt;
-}
+void Weapon::SetAnimator(Animator<sf::Texture*>&& animator) { weapon_animator = animator; }
 
-void Weapon::SetAnimator(Animator<sf::Texture*>&& anim) { weaponAnimator = anim; }
-
-void Weapon::DrawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta)
+void Weapon::DrawWeapon(sf::RenderTarget* window, const sf::Vector2f& delta_shake)
 {
-	sf::Texture* tex = weaponAnimator.Get();
-	if (tex)
+	sf::Texture* texture = weapon_animator.Get();
+
+	if (texture)
 	{
-		sf::Sprite weapon{ *tex };
-		weapon.setOrigin(tex->getSize().x / 2.0f, (float)tex->getSize().y);
+		sf::Sprite weapon{ *texture };
+		weapon.setOrigin(texture->getSize().x / 2.0f, (float)texture->getSize().y);
 		weapon.scale(2.5f, 2.5f);
-		weapon.setPosition(kScreenWight / 2.0f - 20 + delta.x, kScreenHeight + delta.y + 10);
+		weapon.setPosition(kScreenWight / 2.0f - 20 + delta_shake.x, kScreenHeight + delta_shake.y + 10);
 		window->draw(weapon);
 	}
 }
 
 bool Weapon::IsCanUsed()
 {
-	if (nowTime >= timeBetwen) return true;
-	return false;
+	return now_time >= time_betwen;
 }
 
 void Weapon::StartAnimation(int number)
 {
-	nowTime = 0.0f;
-	weaponAnimator.SetAnimation(number);
+	now_time = 0.0f;
+	weapon_animator.SetAnimation(number);
 }
 
-Itemble::Itemble(const std::wstring& _name, const std::wstring& _disc, int _cost, int _textureId) :
-	name{ _name }, disc{ _disc }, cost{ _cost }, id{ _textureId } {}
+Itemble::Itemble(const std::wstring& name, const std::wstring& disc, int cost, int texture_id) :
+	name{ name }, disc{ disc }, cost{ cost }, id{ texture_id } {}
 
-Improve::Improve(const ImproveDef& def) :
-	Itemble(def.name, def.disc, def.cost, def.id), type{ def.type }
+Improve::Improve(const ImproveDef& improve_def) :
+	Itemble(improve_def.name, improve_def.disc, improve_def.cost, improve_def.id), type{ improve_def.type }
 {
 	if (type == ImproveType::Damage)
 	{
-		SetGetFunc([=](Gun* gun) {gun->damage = (int)round(gun->damage * def.effect);});
+		SetGetFunc([=](Gun* gun) {gun->damage = (int)round(gun->damage * improve_def.effect);});
 
-		SetDelFunc([=](Gun* gun) {gun->damage = (int)round(gun->damage / def.effect);});
+		SetDelFunc([=](Gun* gun) {gun->damage = (int)round(gun->damage / improve_def.effect);});
 	}
 	else if (type == ImproveType::Spread)
 	{
-		SetGetFunc([=](Gun* gun) {gun->maxImpRad = round(gun->maxImpRad / def.effect);
-		gun->nowRad = std::min(gun->maxImpRad, gun->nowRad);});
+		SetGetFunc([=](Gun* gun) {gun->max_imp_rad = round(gun->max_imp_rad / improve_def.effect);
+		gun->now_rad = std::min(gun->max_imp_rad, gun->now_rad);});
 
-		SetDelFunc([=](Gun* gun) {gun->maxImpRad = round(gun->maxImpRad * def.effect);
-		gun->nowRad = std::min(gun->maxImpRad, gun->nowRad);});
+		SetDelFunc([=](Gun* gun) {gun->max_imp_rad = round(gun->max_imp_rad * improve_def.effect);
+		gun->now_rad = std::min(gun->max_imp_rad, gun->now_rad);});
 	}
 	else if (type == ImproveType::Magazin)
 	{
-		SetGetFunc([=](Gun* gun) {gun->maxCount = (int)round(gun->maxCount * def.effect);
-		gun->nowCount = std::min(gun->maxCount, gun->nowCount);});
+		SetGetFunc([=](Gun* gun) {gun->max_count = (int)round(gun->max_count * improve_def.effect);
+		gun->now_count = std::min(gun->max_count, gun->now_count);});
 
-		SetDelFunc([=](Gun* gun) {gun->maxCount = (int)round(gun->maxCount / def.effect);
-		gun->nowCount = std::min(gun->maxCount, gun->nowCount);});
+		SetDelFunc([=](Gun* gun) {gun->max_count = (int)round(gun->max_count / improve_def.effect);
+		gun->now_count = std::min(gun->max_count, gun->now_count);});
 	}
 }
 
-void Improve::SetGetFunc(std::function<void(Gun* gun)>&& _setEffect) { getImprove = _setEffect; }
+void Improve::SetGetFunc(std::function<void(Gun* gun)>&& set_effect) { get_improve = set_effect; }
 
-void Improve::SetDelFunc(std::function<void(Gun* gun)>&& _delEffect) { deleteImprove = _delEffect; }
+void Improve::SetDelFunc(std::function<void(Gun* gun)>&& del_effect) { delete_improve = del_effect; }
 
-Item::Item(const ItemsDef& def) : Itemble(def.name, def.disc, def.cost, def.id),
-type{ def.type }, maxUsing{ def.maxUSing }
+Item::Item(const ItemsDef& item_def) : Itemble(item_def.name, item_def.disc, item_def.cost, item_def.id),
+type{ item_def.type }, max_using{ item_def.maxUSing }
 {
-	if (def.type == ItemType::Heal)
+	if (item_def.type == ItemType::Heal)
 	{
-		SetFunc([=](Player* pl) {pl->enemy->map_sprite.nowHealPoint += def.effect;
+		SetFunc([=](Player* pl) {pl->enemy->map_sprite.nowHealPoint += item_def.effect;
 		pl->enemy->map_sprite.nowHealPoint = std::min(pl->enemy->enemy_def.maxHealpoint, pl->enemy->map_sprite.nowHealPoint);});
 	}
-	else if (def.type == ItemType::MaxHeal)
+	else if (item_def.type == ItemType::MaxHeal)
 	{
 		SetFunc([=](Player* pl) {
 			if (Random::BitRandom() > 0.2f)
-				pl->enemy->enemy_def.maxHealpoint += def.effect;
+				pl->enemy->enemy_def.maxHealpoint += item_def.effect;
 			else
-				pl->enemy->enemy_def.maxHealpoint -= def.effect / 2;
+				pl->enemy->enemy_def.maxHealpoint -= item_def.effect / 2;
 			pl->enemy->map_sprite.nowHealPoint = std::min(pl->enemy->enemy_def.maxHealpoint, pl->enemy->map_sprite.nowHealPoint);});
 	}
-	else if (def.type == ItemType::MaxEnergy)
+	else if (item_def.type == ItemType::MaxEnergy)
 	{
 		SetFunc([=](Player* pl) {
 			if (Random::BitRandom() > 0.2f)
-				pl->max_energy += def.effect;
+				pl->max_energy += item_def.effect;
 			else
-				pl->max_energy -= def.effect / 2;
+				pl->max_energy -= item_def.effect / 2;
 			pl->now_energy = std::min(pl->max_energy, pl->now_energy);});
 	}
-	else if (def.type == ItemType::Armor)
+	else if (item_def.type == ItemType::Armor)
 	{
-		SetFunc([=](Player* pl) {pl->defence = (float)def.effect;
-		pl->max_strenght = (float)def.maxUSing;
-		pl->now_strenght = (float)def.maxUSing;});
+		SetFunc([=](Player* pl) {pl->defence = (float)item_def.effect;
+		pl->max_strenght = (float)item_def.maxUSing;
+		pl->now_strenght = (float)item_def.maxUSing;});
 	}
-	else if (def.type == ItemType::Patrons)
+	else if (item_def.type == ItemType::Patrons)
 	{
-		SetFunc([=](Player* pl) {pl->patrons += def.effect;});
-	}
-}
-
-void Item::SetFunc(std::function<void(Player* sprite)>&& _useFunc) { use_func = _useFunc; }
-
-void Item::UseItem(Player* sprite) { use_func(sprite); }
-
-Gun::Gun(const GunDef& def, bool _isReset, int _gunId) : Weapon(def.shutTime, def.maxDist),
-Itemble(def.name, def.disc, def.cost, def.id),
-damage{ def.damage }, maxCount{ def.maxCount }, nowCount{ def.nowCount },
-nowTimeBetwenReset{ def.resetTime }, timeBetwenReset{ def.resetTime }, 
-isReset{ _isReset }, gunId{ _gunId }, upgradeCount{0}
-{
-	maxRad = kMaxRad;
-	nowRad = kMinRad;
-	maxImpRad = kMaxRad;
-}
-
-void Gun::Update(float dt)
-{
-	Weapon::Update(dt);
-	if (isReset)
-	{
-		if (nowTimeBetwenReset >= timeBetwenReset) return;
-		nowTimeBetwenReset += dt;
+		SetFunc([=](Player* pl) {pl->patrons += item_def.effect;});
 	}
 }
 
-void Gun::UpdateRad(bool isRun, float deltaTime)
+void Item::SetFunc(std::function<void(Player* sprite)>&& _use_func) { use_func = _use_func; }
+
+void Item::UseItem(Player* sprite) 
+{ 
+	use_func(sprite); 
+}
+
+Gun::Gun(const GunDef& gun_def, bool is_reset, int gun_id) : Weapon(gun_def.shutTime, gun_def.maxDist),
+Itemble(gun_def.name, gun_def.disc, gun_def.cost, gun_def.id), damage{ gun_def.damage }, upgrade_count{ 0 },
+max_count{ gun_def.maxCount }, now_count{ gun_def.nowCount },now_time_betwen_reset{ gun_def.resetTime }, 
+time_betwen_reset{ gun_def.resetTime }, is_reset{ is_reset }, gun_id{ gun_id }, max_rad{kMaxRad}, now_rad{kMinRad},
+max_imp_rad{kMaxRad} {}
+
+void Gun::Update(float delta_time)
 {
-	if (isRun)
+	Weapon::Update(delta_time);
+
+	if (is_reset)
 	{
-		nowRad = std::min(nowRad + kMaxRad * deltaTime * 2, maxImpRad);
+		if (now_time_betwen_reset >= time_betwen_reset) return;
+		now_time_betwen_reset += delta_time;
+	}
+}
+
+void Gun::UpdateRad(bool is_run, float delta_time)
+{
+	if (is_run)
+	{
+		now_rad = std::min(now_rad + kMaxRad * delta_time * 2, max_imp_rad);
 	}
 	else
 	{
-		nowRad = std::max(nowRad - kMaxRad * deltaTime * 2, 1.0f);
+		now_rad = std::max(now_rad - kMaxRad * delta_time * 2, 1.0f);
 	}
 }
 
 int Gun::ResetPatron(int count)
 {
-	if (!isReset) return count;
+	if (!is_reset) return count;
 	
-	if (nowTimeBetwenReset < timeBetwenReset && nowCount >= maxCount && !IsCanUsed()) return count;
+	if (now_time_betwen_reset < time_betwen_reset && now_count >= max_count && !IsCanUsed()) return count;
 	
-	auto delta = maxCount - nowCount;
+	auto delta = max_count - now_count;
 
 	if (delta <= 0 || count == 0)
 	{
@@ -164,39 +161,39 @@ int Gun::ResetPatron(int count)
 	else if (delta < count)
 	{
 		count -= delta;
-		nowCount = maxCount;
+		now_count = max_count;
 	}
 	else if (count > 0)
 	{
-		nowCount += count;
+		now_count += count;
 		count = 0;
 	}
 
-	nowTimeBetwenReset = 0;
-	SoundManager::PlaySounds(Resources::guns_reset_sound[gunId]);
+	now_time_betwen_reset = 0;
+	SoundManager::PlaySounds(Resources::guns_reset_sound[gun_id]);
 	StartAnimation(1);
 	return count;
 }
 
-void Gun::Ussing(Enemy* sp, float dist)
+void Gun::Ussing(Enemy* enemy, float dist)
 {
-	if (nowCount == 0 && isReset)
+	if (now_count == 0 && is_reset)
 	{
 		SoundManager::PlaySounds(Resources::gun_cant_shout_sound);
 		return;
 	}
-	else if (IsCanUsed() && (nowTimeBetwenReset >= timeBetwenReset || !isReset))
+	else if (IsCanUsed() && (now_time_betwen_reset >= time_betwen_reset || !is_reset))
 	{
-		if (sp)
+		if (enemy)
 		{
-			if (Random::BitRandom() > (nowRad - 0.05f) / kMaxRad - 0.35f || nowRad == kMinRad)
+			if (Random::BitRandom() > (now_rad - 0.05f) / kMaxRad - 0.35f || now_rad == kMinRad)
 			{
-				sp->TakeDamage((float)damage * (dist < maxDist ? 1 : 0));
+				enemy->TakeDamage((float)damage * (dist < max_dist ? 1 : 0));
 			}
 		}
 
-		nowCount--;
-		SoundManager::PlaySounds(Resources::guns_shut_sound[gunId]);
+		now_count--;
+		SoundManager::PlaySounds(Resources::guns_shut_sound[gun_id]);
 		StartAnimation(0);
 	}
 }
@@ -206,10 +203,10 @@ Improve* Gun::TrySetImprove(Improve* improve)
 	if (!improve) return nullptr;
 
 	auto temp = improvement[improve->type];
-	if (temp) { temp->deleteImprove(this); }
+	if (temp) { temp->delete_improve(this); }
 
 	improvement[improve->type] = improve;
-	improve->getImprove(this);
+	improve->get_improve(this);
 
 	return temp;
 }
@@ -219,7 +216,7 @@ Improve* Gun::DeleteImprove(ImproveType type)
 	auto temp = improvement[type];
 	if (temp != nullptr)
 	{
-		temp->deleteImprove(this);
+		temp->delete_improve(this);
 		improvement.erase(type);
 	}
 	return temp;
@@ -236,12 +233,12 @@ GunData Gun::GetGunData()
 		}
 	}
 	data.id = id;
-	data.upgradeCount = upgradeCount;
-	data.nowCount = nowCount;
+	data.upgradeCount = upgrade_count;
+	data.nowCount = now_count;
 
 	Improve* imp;
 	imp = DeleteImprove(ImproveType::Magazin);
-	data.nowMaxCount = maxCount;
+	data.nowMaxCount = max_count;
 	TrySetImprove(imp);
 
 	imp = DeleteImprove(ImproveType::Damage);
@@ -249,7 +246,7 @@ GunData Gun::GetGunData()
 	TrySetImprove(imp);
 
 	imp = DeleteImprove(ImproveType::Spread);
-	data.nowMaxRad = maxRad;
+	data.nowMaxRad = max_rad;
 	TrySetImprove(imp);
 
 	return data;

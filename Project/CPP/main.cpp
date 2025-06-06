@@ -89,7 +89,7 @@ int main()
 	map_manager->Load();
 
 #ifdef REDACT_MODE
-	std::unique_ptr<Editor> editor = std::make_unique<Editor>(Editor(&window, &editor_window, map_manager.get()));
+	std::unique_ptr<Editor> editor = std::make_unique<Editor>(&window, &editor_window, map_manager.get());
 #endif // REDACT_MODE
 
 	std::unique_ptr<Game> game = std::make_unique<Game>(&window, map_manager.get());

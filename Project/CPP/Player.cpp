@@ -176,7 +176,7 @@ void Player::Fire(int gun)
 	{
 		if (guns[now_gun]->IsCanUsed() && kick->IsCanUsed())
 		{
-			RayHit hit = Raycast(now_map, enemy->map_sprite.position, direction, true, enemy, guns[now_gun]->maxDist, pitch);
+			RayHit hit = Raycast(now_map, enemy->map_sprite.position, direction, true, enemy, guns[now_gun]->max_dist, pitch);
 			float dist = hit.sprite && hit.sprite->sprite_def.type != SpriteType::NPC ? dist = sqrt(GETDIST(hit.sprite->map_sprite.position, enemy->map_sprite.position)): 0;
 			guns[now_gun]->Ussing(dynamic_cast<Enemy*>(hit.sprite), dist);
 		}

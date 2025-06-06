@@ -5,11 +5,12 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
-//#define REDACT_MODE
+#define REDACT_MODE
 
 #define SQUARE(a) ((a) * (a))
 #define GETDIST(a,b) (SQUARE(a.x - b.x) + SQUARE(a.y - b.y))
 #define COMPARER(a, b, c) GETDIST(a, c) > GETDIST(b, c) ? true : false
+#define DOT(a,b) (a.x * b.x + a.y * b.y)
 
 constexpr float kRotationSpeed = 80.0f, kVerticalMouseSpeed = 25.0f;
 constexpr int kTextureSize = 128, kIconSize = 64, kTextureCount = 15;
@@ -17,7 +18,7 @@ constexpr int kScreenWight = 1280, kScreenHeight = 720;
 constexpr float kPI = 3.14159265359f, kTrigerDist = 12.0f;
 constexpr int kEnemyMaxIndex = 12, kPortalIndex = 17, kSpawnRadius = 8;
 constexpr int kMaxRad = 30, kMinRad = 1;
-constexpr int kCountRowTaxt = 7;
+constexpr int kCountRowTexture = 7;
 constexpr int kMinLeafSize = 10, kMaxLeafSize = 20;
 constexpr int kAllLayerCount = 4;
 constexpr int kLayerCount = 3;

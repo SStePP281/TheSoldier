@@ -1,4 +1,3 @@
-#pragma once
 #ifndef UIM
 #define UIM
 
@@ -15,10 +14,10 @@
 class UIManager
 {
 public:
-	UIManager(sf::RenderWindow* _window);
+	UIManager(sf::RenderWindow* window);
 	void DrawPlayerUI(Player* player);
 	void InitDialog(std::map<int, std::wstring, std::greater<int>>& variants,
-		const std::wstring& npcName);
+		const std::wstring& npc_name);
 	void InitResetMenu();
 	void InitStartMenu();
 	void InitGameMenu();
@@ -27,19 +26,19 @@ public:
 	void InitTrade(const std::map<int, Itemble*>& variants, Player* player);
 	void InitMechanic(Player* player, Gun* choose);
 	void InitChanger(int coef, Player* player);
-	void InitInvent(const std::map<Itemble*, int>& items, Itemble* chose, Player* player);
+	void InitInvent(const std::map<Itemble*, int>& items, Itemble* choose, Player* player);
 	void DeleteNow();
 	void DrawNow();
 	int CheckButton();
 private:
-	std::wstring SplitText(std::wstring text, int maxLen, int textSize);
-	std::wstring ToMax(std::wstring str, float maxW, float textSize);
+	std::wstring SplitText(std::wstring text, int max_len, int text_size);
+	std::wstring ToMax(std::wstring text, float max_wight, float text_size);
 
 	sf::RenderWindow* window;
 	sf::Sprite background;
-	int choseBut;
+	int chose_but;
 	std::vector<Button> buttons;
-	int keyButton;
-	std::function<void(Player* player)> playerUI;
+	int key_button;
+	std::function<void(Player* player)> player_ui;
 };
 #endif // !UIM
