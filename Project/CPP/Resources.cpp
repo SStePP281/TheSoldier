@@ -1,5 +1,4 @@
-#include "Resources.h"
-#include <thread>
+#include "resources.h"
 
 sf::Image Resources::game_icon{};
 sf::Image Resources::cursor_image{};
@@ -23,11 +22,9 @@ std::vector<sf::SoundBuffer> Resources::guns_shut_sound = std::vector<sf::SoundB
 std::vector<sf::SoundBuffer> Resources::guns_reset_sound = std::vector<sf::SoundBuffer>(8);
 sf::Font Resources::ui_font{};
 
-void loadFor(std::string base_name, std::string format, std::vector<sf::Texture>* data)
-{
+void loadFor(std::string base_name, std::string format, std::vector<sf::Texture>* data) {
 	int i = 1;
-	while (true)
-	{
+	while (true) {
 		std::string try_name = base_name + std::to_string(i) + format;
 		sf::Texture text;
 		if (!text.loadFromFile(try_name)) break;
@@ -36,8 +33,7 @@ void loadFor(std::string base_name, std::string format, std::vector<sf::Texture>
 	}
 }
 
-void Resources::LoadGun(std::string base_name, int index)
-{
+void Resources::LoadGun(std::string base_name, int index) {
 	std::string shut_name = "Texture/" + base_name + "FireTexture";
 	loadFor(shut_name, ".png", &guns_fire_anim[index]);
 
@@ -54,8 +50,7 @@ void Resources::LoadGun(std::string base_name, int index)
 	guns_shut_sound[index].loadFromFile(shut_sound_name);
 }
 
-void Resources::initResources()
-{
+void Resources::initResources() {
 	if (!texture_image.loadFromFile("Texture/wall_texture.png")) throw "TextureLoadError!";
 	if (!game_icon.loadFromFile("Texture/gameIcon.png")) throw "TextureLoadError!";
 	if (!cursor_image.loadFromFile("Texture/cursorTexture.png")) throw "TextureLoadError!";

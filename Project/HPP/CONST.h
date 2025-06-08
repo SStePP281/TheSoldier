@@ -5,7 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 
-#define REDACT_MODE
+//#define REDACT_MODE
 
 #define SQUARE(a) ((a) * (a))
 #define GETDIST(a,b) (SQUARE(a.x - b.x) + SQUARE(a.y - b.y))
@@ -49,77 +49,69 @@ enum class ImproveType { Damage, Spread, Magazin };
 enum class ItemType { MaxEnergy, MaxHeal, Heal, Armor, Patrons };
 
 class Sprite;
-struct RayHit
-{
+struct RayHit {
 	int cell;
-	sf::Vector2i mapPos;
-	bool isHitVert;
-	float perpWallDist;
-
+	sf::Vector2i map_position;
+	bool is_vertical_hit;
+	float perp_wall_dist;
 	Sprite* sprite;
 };
 
-struct QuestData
-{
+struct QuestData {
 	QuestType type;
 	int progress;
 	int target;
-	int rewardCoins;
+	int reward_coins;
 };
 
-struct PlayerDef
-{
-	float maxHp;
-	float nowHp;
-	float maxEnergy;
-	float nowEnergy;
+struct PlayerDef {
+	float max_healpoint;
+	float now_healpoint;
+	float max_energy;
+	float now_energy;
 	float defence;
-	float maxStrenght;
-	float nowStrenght;
-	int countpantrons;
+	float max_strenght;
+	float now_strenght;
+	int patrons_count;
 	int money;
 	int details;
-	std::vector<int> gunsData;
+	std::vector<int> guns_data;
 };
 
-struct GunData
-{
+struct GunData {
 	int id;
-	int nowCount;
-	int nowMaxCount;
-	int nowMaxRad;
-	int nowDamage;
-	int upgradeCount;
-	std::vector<int> improveId;
+	int now_count;
+	int now_max_ount;
+	int now_max_rad;
+	int now_damage;
+	int upgrade_count;
+	std::vector<int> improve_id;
 };
 
-struct GunDef
-{
+struct GunDef {
 	int id;
 	int damage;
-	int maxCount;
-	int nowCount;
-	float shutTime;
-	float maxDist;
-	float resetTime;
+	int max_count;
+	int now_count;
+	float shut_time;
+	float max_dist;
+	float reset_time;
 	int cost;
 	std::wstring name;
 	std::wstring disc;
 };
 
-struct ItemsDef
-{
+struct ItemsDef {
 	int id;
 	ItemType type;
 	std::wstring name;
 	int effect;
-	int maxUSing;
+	int max_using;
 	int cost;
 	std::wstring disc;
 };
 
-struct ImproveDef
-{
+struct ImproveDef {
 	int id;
 	ImproveType type;
 	std::wstring name;
@@ -128,67 +120,60 @@ struct ImproveDef
 	std::wstring disc;
 };
 
-struct MapSprite
-{
-	int spriteDefId;
+struct MapSprite {
+	int sprite_def_id;
 	sf::Vector2f position;
 	float angle;
-	float nowHealPoint;
+	float now_heal_point;
 };
 
-struct SpriteDef
-{
+struct SpriteDef {
 	std::wstring name;
 	SpriteType type;
 	float size;
 	int texture;
-	bool isDirectional;
+	bool is_directional;
 };
 
-struct EnemyDef
-{
-	bool isCanRun;
-	float attackDist;
+struct EnemyDef {
+	bool is_can_run;
+	float attack_dist;
 	float damage;
-	int midleDrop;
-	float timeBettwenAtack;
+	int midle_drop;
+	float time_bettwen_attack;
 	float speed;
-	float maxHealpoint;
+	float max_healpoint;
 };
 
-struct ConverterDef
-{
-	std::vector<int> callingIndex;
-	int maxSpawnCount;
+struct ConverterDef {
+	std::vector<int> calling_index;
+	int max_spawn_count;
 };
 
-struct NpcDef
-{
+struct NpcDef {
 	NpcType type;
-	int idKey;
+	int id_key;
 };
 
-struct TraderDef
-{
-	int startKey;
+struct TraderDef {
+	int start_key;
 	std::vector<int> title;
 };
 
-struct GameStateData
-{
-	bool isFirstGame;
-	int effectVolume;
-	int soundVolume;
-	int levelNumber;
-	bool isLevelBase;
-	int changerCoef;
-	float mouseSpeed;
-	bool killFirst;
-	bool killSecond;
-	bool killTherd;
+struct GameStateData {
+	bool is_first_game;
+	int effect_volume;
+	int sound_volume;
+	int level_number;
+	bool is_level_base;
+	int changer_coef;
+	float mouse_speed;
+	bool kill_first_converter;
+	bool kill_second_converter;
+	bool kill_therd_converter;
 };
 
-static std::vector<std::string> mapFileNames {
+static const std::vector<std::string> map_file_names {
 	"base.map",
 	"converter1.map",
 	"converter2.map",
@@ -196,22 +181,22 @@ static std::vector<std::string> mapFileNames {
 	"boss.map" 
 };
 
-static std::vector<ItemsDef> itemsDefs {
-	{9,  ItemType::Heal, L"Малая аптечка", 20, 1, 10, L"Востанавливает 20 HP"},
-	{10, ItemType::Heal, L"Средняя аптечка", 50, 1, 20, L"Востанавливает 50 HP"},
-	{11, ItemType::Heal, L"Большая аптечка", 100, 1, 30, L"Востанавливает 100 HP"},
-	{12, ItemType::MaxHeal, L"Эксперементальное снадобье 1", 20, 1, 300, L"80% что +20 к maxHP, 20% - -10 maxHP"},
-	{13, ItemType::MaxEnergy, L"Эксперементальное снадобье 2", 2, 1, 300, L"80% что +2 к maxEnergy, 20% - -1 maxEnergy"},
-	{14, ItemType::Armor, L"Железная пластина", 10, 50, 50, L"-10% получаемого урона, 50 использований"},
-	{15, ItemType::Armor, L"Стальная пластина", 20, 70, 80, L"-20% получаемого урона, 70 использований"},
-	{16, ItemType::Armor, L"Кевларовая пластина", 30, 90, 100, L"-30% получаемого урона, 90 использований"},
-	{17, ItemType::Armor, L"Карбоновая пластина", 50, 110, 200, L"-50% получаемого урона, 110 использований"},
-	{18, ItemType::Patrons, L"Малый ящик патронов", 50, 1, 20, L"Содержит 50 патронов"},
-	{19, ItemType::Patrons, L"Средний ящик патронов", 100, 1, 35, L"Содержит 100 патронов"},
-	{20, ItemType::Patrons, L"Большой ящик патронов", 150, 1, 50, L"Содержит 150 патронов"}
+static const std::vector<ItemsDef> items_defs {
+	{9,  ItemType::Heal,      L"Малая аптечка",                20,  1,   10,  L"Востанавливает 20 HP"},
+	{10, ItemType::Heal,      L"Средняя аптечка",              50,  1,   20,  L"Востанавливает 50 HP"},
+	{11, ItemType::Heal,      L"Большая аптечка",              100, 1,   30,  L"Востанавливает 100 HP"},
+	{12, ItemType::MaxHeal,   L"Эксперементальное снадобье 1", 20,  1,   300, L"80% что +20 к maxHP, 20% - -10 maxHP"},
+	{13, ItemType::MaxEnergy, L"Эксперементальное снадобье 2", 2,   1,   300, L"80% что +2 к maxEnergy, 20% - -1 maxEnergy"},
+	{14, ItemType::Armor,     L"Железная пластина",            10,  50,  50,  L"-10% получаемого урона, 50 использований"},
+	{15, ItemType::Armor,     L"Стальная пластина",            20,  70,  80,  L"-20% получаемого урона, 70 использований"},
+	{16, ItemType::Armor,     L"Кевларовая пластина",          30,  90,  100, L"-30% получаемого урона, 90 использований"},
+	{17, ItemType::Armor,     L"Карбоновая пластина",          50,  110, 200, L"-50% получаемого урона, 110 использований"},
+	{18, ItemType::Patrons,   L"Малый ящик патронов",          50,  1,   20,  L"Содержит 50 патронов"},
+	{19, ItemType::Patrons,   L"Средний ящик патронов",        100, 1,   35,  L"Содержит 100 патронов"},
+	{20, ItemType::Patrons,   L"Большой ящик патронов",        150, 1,   50,  L"Содержит 150 патронов"}
 };
 
-static std::vector<GunDef> gunsDef {
+static const std::vector<GunDef> guns_def {
 	{21, 10, 100, 100, 0.5f, 2.0f, 0, 0,       L"Нога",        L"Урон - 10  | Обойма - 100 пт | Скорострельность - 0.5 сек | Дистанция - 1  м"},
 	{22, 10, 100, 100, 0.3f, 2.0f, 0, 0,       L"Кулак",       L"Урон - 10  | Обойма - 100 пт | Скорострельность - 0.3 сек | Дистанция - 1  м"},
 	{23, 10, 20, 20, 0.4f, 20.0f, 1.5f, 0,     L"Пистолет",    L"Урон - 10  | Обойма - 20  пт | Скорострельность - 0.4 сек | Дистанция - 20 м"},
@@ -222,27 +207,27 @@ static std::vector<GunDef> gunsDef {
 	{28, 10, 100, 100, 0.1f, 10.0f, 4.0f, 800, L"Миниган",     L"Урон - 10  | Обойма - 100 пт | Скорострельность - 0.1 сек | Дистанция - 10 м"},
 };
 
-static std::vector<ImproveDef> improveDefs {
-	{0, ImproveType::Magazin, L"Малый магазин", 1.2f, 200,   L"+20% к объему магазина"},
-	{1, ImproveType::Magazin, L"Средний магазин", 1.3f, 300, L"+30% к объему магазина"},
-	{2, ImproveType::Magazin, L"Большой магазин", 1.5f, 400, L"+50% к объему магазина"},
-	{3, ImproveType::Spread,  L"Лазерный прицел", 1.4f, 150, L"-40% к разбросу"},
+static const std::vector<ImproveDef> improve_defs {
+	{0, ImproveType::Magazin, L"Малый магазин",          1.2f, 200, L"+20% к объему магазина"},
+	{1, ImproveType::Magazin, L"Средний магазин",        1.3f, 300, L"+30% к объему магазина"},
+	{2, ImproveType::Magazin, L"Большой магазин",        1.5f, 400, L"+50% к объему магазина"},
+	{3, ImproveType::Spread,  L"Лазерный прицел",        1.4f, 150, L"-40% к разбросу"},
 	{4, ImproveType::Spread,  L"Голографический прицел", 1.6f, 250, L"-60% к разбросу"},
-	{5, ImproveType::Spread,  L"Оптический прицел", 1.8f, 350, L"-80% к разбросу"},
-	{6, ImproveType::Damage,  L"Пламягаситель", 1.3f, 250, L"+30% к урону"},
-	{7, ImproveType::Damage,  L"Упор", 1.4f, 350, L"+40% к урону"},
-	{8, ImproveType::Damage,  L"Приклад", 1.5f, 450, L"+50% к урону"}
+	{5, ImproveType::Spread,  L"Оптический прицел",      1.8f, 350, L"-80% к разбросу"},
+	{6, ImproveType::Damage,  L"Пламягаситель",          1.3f, 250, L"+30% к урону"},
+	{7, ImproveType::Damage,  L"Упор",                   1.4f, 350, L"+40% к урону"},
+	{8, ImproveType::Damage,  L"Приклад",                1.5f, 450, L"+50% к урону"}
 };
 
-static std::vector<ItemsDef> travelerDefs {
+static const std::vector<ItemsDef> traveler_defs {
 	{29, ItemType::Heal, L"", kNextLevelNumber, 1, 50,  L"Перемещение на следующий уровень"},
 	{30, ItemType::Heal, L"", kArena1Number,    1, 100, L"Перемещение на преобразоваетль 1"},
 	{31, ItemType::Heal, L"", kArena2Number,    1, 150, L"Перемещение на преобразоваетль 2"},
 	{32, ItemType::Heal, L"", kArena3Number,    1, 200, L"Перемещение на преобразоваетль 3"},
-	{33, ItemType::Heal, L"", kBossNumber,       1, 250, L"Поездка к боссу"}
+	{33, ItemType::Heal, L"", kBossNumber,      1, 250, L"Поездка к боссу"}
 };
 
-static std::vector<NpcDef> npcDefs{
+static const std::vector<NpcDef> npc_defs {
 	{NpcType::PortalNpcType, 1},
 	{NpcType::TraderNpcType, 4},
 	{NpcType::TraderNpcType, 5},
@@ -258,17 +243,17 @@ static std::vector<NpcDef> npcDefs{
 	{NpcType::Dilog, 13},
 };
 
-static std::vector<TraderDef> traderDefs {
+static const std::vector<TraderDef> trader_defs {
 	{4, {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}},
 	{5, {24, 25, 26, 27, 28, 0, 1, 2, 3, 4, 5, 6, 7, 8}}
 };
 
-static std::vector<EnemyDef> enemyDefs {
-	{true,  0.0f,   0.0f,  0,  0.0f, 5.0f, 0.0f },
-	{true,  3.0f,  5.0f,  3, 1.5f, 3.0f, 70.0f  },
-	{true,  3.0f,  8.0f,  5, 1.0f, 4.0f, 90.0f  },
-	{true,  3.0f,  10.0f, 7, 1.5f, 5.0f, 100.0f },
-	{true,  7.0f,  8.0f,  9, 1.0f, 4.0f, 120.0f },
+static const std::vector<EnemyDef> enemy_defs {
+	{true,  0.0f,   0.0f, 0,  0.0f, 5.0f, 0.0f },
+	{true,  3.0f,  5.0f,  3,  1.5f, 3.0f, 70.0f  },
+	{true,  3.0f,  8.0f,  5,  1.0f, 4.0f, 90.0f  },
+	{true,  3.0f,  10.0f, 7,  1.5f, 5.0f, 100.0f },
+	{true,  7.0f,  8.0f,  9,  1.0f, 4.0f, 120.0f },
 	{true,  7.0f,  10.0f, 10, 1.0f, 5.0f, 200.0f },
 	{true,  3.0f,  12.0f, 13, 1.5f, 6.0f, 150.0f },
 	{true,  7.0f,  20.0f, 14, 1.5f, 3.0f, 300.0f },
@@ -283,14 +268,14 @@ static std::vector<EnemyDef> enemyDefs {
 	{false, 6.0f,  0.0f,  60, 3.0f, 0.0f, 100.0f}
 };
 
-static std::vector<ConverterDef> converterDefs {
+static const std::vector<ConverterDef> converter_defs {
 	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, 40},
 	{{1, 2, 3, 4, 5}, 10},
 	{{5, 6, 7, 8, 9}, 20},
 	{{8, 9, 10, 11, 12}, 30}
 };
 
-static std::vector<SpriteDef> spriteDefs {
+static const std::vector<SpriteDef> sprite_defs {
 	{ L"player",           SpriteType::PlayerT,   0.3f, -1,  false},
 	{ L"Бабл",             SpriteType::Enemy,     1.0f,  0,  true},
 	{ L"Синчик",           SpriteType::Enemy,     1.0f,  1,  true},

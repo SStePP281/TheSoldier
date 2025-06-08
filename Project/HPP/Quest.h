@@ -1,27 +1,23 @@
 #ifndef QUEST
 #define QUEST
 
-#include "EventSystem.h"
-#include "CONST.h"
+#include "event_system.h"
+#include "const.h"
 #include <iostream>
 #include <vector>
 
-class Quest 
-{
+class Quest {
 public:
     Quest(const QuestData& data);
-
     ~Quest() = default;
-
     void UpdateProgress(int value);
-
-    bool IsCompleted();
-
-    QuestData data;
+    const bool IsCompleted() const;
+    const QuestData GetData() const;
+private:
+    QuestData data_;
 };
 
-class QuestManager
-{
+class QuestManager {
 public:
     QuestManager(const QuestManager&) = delete;
     QuestManager& operator=(const QuestManager&) = delete;
@@ -33,17 +29,15 @@ public:
     }
 
     void DeleteAllQuest();
-
     void AddQuest(const QuestData& data);
-
     void UpdateQuests(QuestType type, int value);
-
-    int DeleteQuest(Quest* quest);
-
-    std::vector<Quest*> quests;
+    const int DeleteQuest(Quest* quest);
+    const std::vector<Quest*>& GetQuests() const;
 private:
     QuestManager();
     ~QuestManager();
+
+    std::vector<Quest*> quests_;
 };
 
 #endif // !QUEST

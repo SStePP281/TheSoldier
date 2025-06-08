@@ -7,8 +7,7 @@
 #include <SFML/Audio.hpp>
 #include <array>
 
-class Resources
-{
+class Resources {
 public:
 	static void initResources();
 

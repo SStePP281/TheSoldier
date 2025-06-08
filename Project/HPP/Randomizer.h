@@ -1,14 +1,13 @@
 #ifndef RANDOM
 #define RANDOM
 
-#include "sfmlExtantion.h"
+#include "sfml_extantion.h"
 #include <random>
 #include <set>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-class Random
-{
+class Random {
 public:
 	static float BitRandom();
 	static int IntRandom(int start, int end);

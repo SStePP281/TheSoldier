@@ -1,14 +1,13 @@
-#include "Editor.h"
-#include "Resources.h"
-#include "Game.h"
-#include "MapManager.h"
+#include "editor.h"
+#include "resources.h"
+#include "game.h"
+#include "map_manager.h"
 #include <sfeMovie/Movie.hpp>
 #include <SFML/Window/Cursor.hpp>
 
 enum class State{Editor, Game};
 
-int main()
-{
+int main() {
 	Resources::initResources();
 
 	sf::RenderWindow window(sf::VideoMode(kScreenWight, kScreenHeight), "Game"/*, sf::Style::Fullscreen*/);
@@ -36,17 +35,15 @@ int main()
 		SoundManager::StopAllSound();
 		SoundManager::PlayerMusic(MusicType::StartIntro);
 
-		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
-		{
+		while (movie.getStatus() == sfe::Status::Playing) {
 			sf::Event event;
-			while (window.pollEvent(event)) 
-			{
-				if (event.type == sf::Event::Closed)
-				{
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed) {
 					window.close();
 					return;
 				}
 			}
+
 			window.clear();	
 			movie.update();
 			window.draw(movie);
@@ -64,17 +61,15 @@ int main()
 		SoundManager::StopAllSound();
 		SoundManager::PlayerMusic(MusicType::EndIntro);
 
-		while (movie.getStatus() == sfe::Status::Playing) // Вернуть в итоговой версии
-		{
+		while (movie.getStatus() == sfe::Status::Playing) {
 			sf::Event event;
-			while (window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed) {
 					window.close();
 					return;
 				}
 			}
+
 			window.clear();
 			movie.update();
 			window.draw(movie);
@@ -97,35 +92,25 @@ int main()
 	sf::Clock gameClock;
 	float deltaTime = 0;
 
-	while (window.isOpen())
-	{
+	while (window.isOpen()) {
 #ifdef REDACT_MODE
 		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (state == State::Editor)
-			{
+		while (window.pollEvent(event)) {
+			if (state == State::Editor) {
 				editor->TakeWindowInput(event);
 			}
-			if (event.type == sf::Event::Closed)
-			{
+			if (event.type == sf::Event::Closed) {
 				window.close();
-			}
-			else if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::RControl)
-				{
-					if (state == State::Editor)
-					{
+			} else if (event.type == sf::Event::KeyPressed) {
+				if (event.key.code == sf::Keyboard::RControl) {
+					if (state == State::Editor) {
 						state = State::Game;
 						window.setMouseCursorVisible(false);
 						window.setView(window.getDefaultView());
 						game->Editor();
 						editor_window.setActive(false);
 						editor_window.setVisible(false);
-					}
-					else
-					{
+					} else {
 						state = State::Editor;
 						window.setMouseCursorVisible(true);
 						editor_window.setVisible(true);
@@ -134,32 +119,26 @@ int main()
 				}
 			}
 
-			if (state == State::Game)
-			{
+			if (state == State::Game) {
 				game->GetInput(event, deltaTime);
 			}
 		}
 
-		if (state == State::Editor)
-		{
-			while (editor_window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
+		if (state == State::Editor) {
+			while (editor_window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed) {
 					editor_window.close();
 				}
+
 				editor->TakeEditInput(event);
 			}
 		}
 
 		window.clear();
 
-		if (state == State::Game)
-		{
+		if (state == State::Game) {
 			game->MakeCycle(deltaTime);
-		}
-		else
-		{	
+		} else {	
 			editor_window.clear();
 
 			map_manager->DrawMap(editor->DrawerLayer());
@@ -170,10 +149,8 @@ int main()
 #endif // REDACT_MODE
 #ifndef REDACT_MODE
 		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
 

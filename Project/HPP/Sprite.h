@@ -1,9 +1,9 @@
 #ifndef SPRITE
 #define SPRITE
 
-#include "CONST.h"
-#include "Animation.h"
-#include "Quest.h"
+#include "const.h"
+#include "animation.h"
+#include "quest.h"
 #include <SFML/Graphics/Texture.hpp>
 #include <functional>
 #include <algorithm>
@@ -16,88 +16,107 @@ class Player;
 class UIManager;
 class ItemManager;
 
-class Sprite
-{
+class Sprite {
 public:
 	Sprite(const SpriteDef& sprite_def, const MapSprite& map_sprite, int id);
 	Sprite() = default;
 	virtual ~Sprite() = default;
-	virtual std::pair<int, bool> GetTextIndex();
-
-	int id;
-	int texture_size;
-	SpriteDef sprite_def;
-	MapSprite map_sprite;
-	sf::Texture* texture;
-	std::set<std::tuple<int, int>> blockmap_coords;
+	virtual const std::pair<int, bool> GetTextIndex() const;
+	void SetPosition(const sf::Vector2f& new_position);
+	const sf::Vector2f& GetPosition() const;
+	const float GetTextureSize() const;
+	void SetAngle(float new_angle);
+	const float GetAngle() const;
+	const float GetSize() const;
+	const int GetId() const;
+	const SpriteType& GetSpriteType() const;
+	const MapSprite& GetMapSprite() const;
+	const sf::Texture* const GetTexture() const;
+	const int GetTextureId() const;
+	void SetTextureSize(int new_size);
+	const bool IsDirectional() const;
+	void SetBlockmapCoords(std::set<std::tuple<int, int>> coords);
+	const std::set<std::tuple<int, int>>& GetBlockmapCoords() const;
+protected:
+	int texture_size_;
+	SpriteDef sprite_def_;
+	MapSprite map_sprite_;
+	sf::Texture* texture_;
+	std::set<std::tuple<int, int>> blockmap_coords_;
+private:
+	int id_;
 };
 
-class Enemy : public Sprite
-{
+class Enemy : public Sprite {
 public:
 	Enemy(const SpriteDef& sprite_def, const MapSprite& map_sprite, const EnemyDef& enemy_def, int id);
 	virtual ~Enemy() = default;
-	virtual std::pair<int, bool> GetTextIndex() override;
+	virtual const std::pair<int, bool> GetTextIndex() const override;
 	virtual void Death();
-	virtual void Attack(Player* player);
+	virtual void Attack(Player* const player);
 	void Update(float delta_time);
-	void Move(Map* map, const sf::Vector2f& move);
+	void Move(Map* const map, const sf::Vector2f& move);
 	virtual void TakeDamage(float damage);
-	virtual EnemyState DetermineNewState(float dist);
-	virtual void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* now_map, float delta_time);
-	virtual bool CanChangeState();
+	virtual void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* const now_map, float delta_time);
 	virtual void ChangeState(EnemyState new_state);
-
-	EnemyDef enemy_def;
-	bool is_can_attack = false;
-	bool is_attack = false;
-	Animator<int> animr;
-	float time_atecked, now_time_attack;
+	void SetHealpoint(float now_healpoint);
+	const float GetHealpoint() const;
+	void SetMaxHealPoint(float new_healpoint);
+	const float GetMaxHealpoint() const;
+	const float GetMoveSpeed() const;
+	const float GetAttackDistance() const;
+	const int GetMidleDrop() const;
+	void SetIsCanAttcak(bool value);
+	const bool GetIsCanAttack() const;
+	void SetIsAttcak(bool value);
+	const bool GetIsAttack() const;
 protected:
 	void UpdateTimeSinceLastAttack(float delta_time);
 	void UpdateTimeSinceDamaged(float delta_time);
-	bool CheckCollision(Map* map, const sf::Vector2f& new_pos, bool x_axis);
+	const bool CheckCollision(Map* const map, const sf::Vector2f& new_pos, bool x_axis) const;
+	virtual const EnemyState DetermineNewState(float dist) const;
+	virtual const bool CanChangeState() const;
 
-	bool is_damaged;
-	EnemyState state;
+	bool is_damaged_;
+	bool is_can_attack_;
+	bool is_attack_;
+	EnemyState state_;
+	EnemyDef enemy_def_;
+	Animator<int> animr_;
+	float time_atecked_, now_time_attack_;
 };
 
-class Converter : public Enemy
-{
+class Converter : public Enemy {
 public:
 	Converter(const SpriteDef& sprite_def, const MapSprite& map_sprite, const EnemyDef& enemy_def, const ConverterDef& converter_def, int id);
 	void TakeDamage(float damege) override;
 	void Death() override;
-	void Attack(Player* plaer) override;
+	void Attack(Player* const plaer) override;
 	void ChangeState(EnemyState new_state) override;
-	bool CanChangeState() override;
-	void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* now_map, float delta_time) override;
-	EnemyState DetermineNewState(float dist) override;
-
-	ConverterDef converter_def;
-private:
-	int now_spawn_count;
+	const bool CanChangeState() const override;
+	void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* const now_map, float delta_time) override;
+	const EnemyState DetermineNewState(float dist) const override;
+protected:
+	int now_spawn_count_;
+	ConverterDef converter_def_;
 };
 
-class Boss : public Enemy
-{
+class Boss : public Enemy {
 public:
 	Boss(const SpriteDef& sprite_def, const MapSprite& map_sprite, const EnemyDef& enemy_def, const ConverterDef& converter_def, int id);
 	void Death() override;
-	void Attack(Player* plaer) override;
+	void Attack(Player* const plaer) override;
 	void ChangeState(EnemyState new_state) override;
-	void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* now_map, float delta_time) override;
-	EnemyState DetermineNewState(float dist) override;
-
-	ConverterDef converter_def;
+	void EnemyMechenic(float dist, const sf::Vector2f& to_player_dir, Map* const now_map, float delta_time) override;
+	const EnemyState DetermineNewState(float dist) const override;
 private:
-	int now_spawn_count;
+	int now_spawn_count_;
+	ConverterDef converter_def_;
 };
 
-class Npc : public Sprite
-{
+class Npc : public Sprite {
 public:
-	Npc(const SpriteDef& sprite_def, const MapSprite& map_sprite, UIManager* ui_manager, Player* player, const NpcDef& npc_def, int id);
+	Npc(const SpriteDef& sprite_def, const MapSprite& map_sprite, UIManager* const ui_manager, Player* const player, const NpcDef& npc_def, int id);
 	Npc() = default;
 	virtual ~Npc() = default;
 	void SetEndFunc(std::function<void()>&& endFunc);
@@ -108,19 +127,17 @@ public:
 protected:
 	virtual void Check();
 
-	int now_key;
-	std::function<void()> end_func;
-	Player* player;
-	UIManager* ui_manager;
-	NpcDef npc_def;
+	int now_key_;
+	std::function<void()> end_func_;
+	Player* const player_;
+	UIManager* const ui_manager_;
+	NpcDef npc_def_;
 };
 
-class FuncNpc : public Npc
-{
+class FuncNpc : public Npc {
 public:
-	FuncNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, ItemManager* item_manager,
-		UIManager* ui_manager, Player* player, int id);
-
+	FuncNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, ItemManager* const item_manager,
+		UIManager* const ui_manager, Player* const player, int id);
 	virtual void Init() override = 0;
 	virtual void Stop() override;
 	virtual void Use() override = 0;
@@ -128,71 +145,64 @@ public:
 protected:
 	virtual void Check() override;
 
-	ItemManager* item_manager;
-	int choose;
-	bool is_func;
+	ItemManager* const item_manager_;
+	int choose_;
+	bool is_func_;
 };
 
-class TradeNpc : public FuncNpc
-{
+class TradeNpc : public FuncNpc {
 public:
 	TradeNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const TraderDef& trade_def, const NpcDef& npc_def,
-		ItemManager* item_manager, UIManager* ui_manager, Player* player, int id);
+		ItemManager* const item_manager, UIManager* const ui_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 private:
-
-	TraderDef trade_def;
+	TraderDef trade_def_;
 };
 
-class TravelerNpc : public FuncNpc
-{
+class TravelerNpc : public FuncNpc {
 public:
 	TravelerNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def,
-		UIManager* ui_manager, ItemManager* item_manager, Player* player, int id);
+		UIManager* const ui_manager, ItemManager* const item_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 };
 
-class ChangerNpc : public FuncNpc
-{
+class ChangerNpc : public FuncNpc {
 public:
-	ChangerNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* ui_manager,
-		ItemManager* item_manager, Player* player, int id);
+	ChangerNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* const ui_manager,
+		ItemManager* const item_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 private:
-	int coef;
+	int coef_;
 };
 
-class PortalNpc : public FuncNpc
-{
+class PortalNpc : public FuncNpc {
 public:
-	PortalNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* ui_manager,
-		ItemManager* item_manager, Player* player, int id);
+	PortalNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* const ui_manager,
+		ItemManager* const item_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 };
 
-class MechanicNpc : public FuncNpc
-{
+class MechanicNpc : public FuncNpc {
 public:
-	MechanicNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* ui_manager,
-		ItemManager* item_manager, Player* player, int id);
+	MechanicNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* const ui_manager,
+		ItemManager* const item_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 	virtual void Stop() override;
 private:
 	void Check() override;
 
-	int type_upgade;
+	int type_upgade_;
 };
 
-class QuestNpc : public FuncNpc
-{
+class QuestNpc : public FuncNpc {
 public:
-	QuestNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* ui_manager,
-		ItemManager* item_manager, Player* player, int id);
+	QuestNpc(const SpriteDef& sprite_def, const MapSprite& map_sprite, const NpcDef& npc_def, UIManager* const ui_manager,
+		ItemManager* const item_manager, Player* const player, int id);
 	void Init() override;
 	void Use() override;
 private:

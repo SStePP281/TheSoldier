@@ -1,18 +1,18 @@
 #ifndef GAME
 #define GAME
 
-#include "Sprite.h"
-#include "DataBase.h"
-#include "DialogSystem.h"
-#include "Player.h"
-#include "Renderer.h"
-#include "SpriteManager.h"
-#include "ItemManager.h"
-#include "UIManeger.h"
-#include "Inventory.h"
-#include "MapManager.h"
-#include "SoundManager.h"
-#include "RenderState.h"
+#include "sprite.h"
+#include "data_base.h"
+#include "dialog_system.h"
+#include "player.h"
+#include "renderer.h"
+#include "sprite_manager.h"
+#include "item_manager.h"
+#include "ui_maneger.h"
+#include "inventory.h"
+#include "map_manager.h"
+#include "sound_manager.h"
+#include "render_state.h"
 #include "Menu.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
@@ -20,37 +20,35 @@
 #include <vector>
 #include <Windows.h>
 
-class Game
-{
+class Game {
 public:
-public:
-	Game(sf::RenderWindow* window, MapManager* map_manager);
+	Game(sf::RenderWindow* window, MapManager* const map_manager);
 	~Game();
-	void GetInput(const sf::Event& event, float delta_time);
-	void MakeCycle(float delta_time);
-	void Save();
-	void Editor(); 
+	void GetInput(const sf::Event& event, float delta_time) const;
+	void MakeCycle(float delta_time) const;
+	void Save() const;
+	void Editor() const;
 private:
 	void Init();
 	void SubscribeEvent();
-	void ResetGame();
-	void GetInput(float delta_time);
-	void InitPlayer();
+	void ResetGame() const;
+	void GetInput(float delta_time) const;
+	void InitPlayer() const;
 
-	bool is_key_pressed;
-	Menu* menu;
-	RenderState* current_state;
-	RenderState play_state;
-	Inventory* inventory;
-	Dialog* dialog_system;
-	sf::Vector2i screen_midle_position;
-	SpriteManager* sprite_manager;
-	UIManager* ui_manager;
-	ItemManager* item_manager;
-	Player* player;
-	Renderer* renderer;
-	MapManager* map_manager;
-	sf::RenderWindow* window;
+	bool is_key_pressed_;
+	Menu* menu_;
+	RenderState* current_state_;
+	RenderState play_state_;
+	Inventory* inventory_;
+	Dialog* dialog_system_;
+	sf::Vector2i screen_midle_position_;
+	SpriteManager* sprite_manager_;
+	UIManager* ui_manager_;
+	ItemManager* item_manager_;
+	Player* player_;
+	Renderer* renderer_;
+	MapManager* const map_manager_;
+	sf::RenderWindow* window_;
 };
 
 #endif // !GAME

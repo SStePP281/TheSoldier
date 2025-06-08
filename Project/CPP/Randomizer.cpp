@@ -1,11 +1,10 @@
-#include "Randomizer.h"
+#include "randomizer.h"
 
-float Random::BitRandom()
-{
+float Random::BitRandom() {
 	return IntRandom(0, 10000) / 10000.0f;
 }
-int Random::IntRandom(int start, int end)
-{
+
+int Random::IntRandom(int start, int end) {
 	if (start > end)
 		throw "logic_error";
 	std::random_device rd;
@@ -14,12 +13,10 @@ int Random::IntRandom(int start, int end)
 	return distr(gen);
 }
 
-std::set<sf::Vector2i, Vector2iCompare> Random::UniquePoints(sf::IntRect zone, int count)
-{
+std::set<sf::Vector2i, Vector2iCompare> Random::UniquePoints(sf::IntRect zone, int count) {
 	std::set<sf::Vector2i, Vector2iCompare> points;
 
-	while (points.size() < count)
-	{
+	while (points.size() < count) {
 		points.insert({ IntRandom(zone.left, (zone.left + zone.width)),
 						IntRandom(zone.top, (zone.top + zone.height))});
 	}

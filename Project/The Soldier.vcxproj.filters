@@ -86,85 +86,85 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HPP\Animation.h">
+    <ClInclude Include="HPP\animation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\DataBase.h">
+    <ClInclude Include="HPP\data_base.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\DialogSystem.h">
+    <ClInclude Include="HPP\dialog_system.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Editor.h">
+    <ClInclude Include="HPP\editor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\EventSystem.h">
+    <ClInclude Include="HPP\event_system.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Game.h">
+    <ClInclude Include="HPP\game.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\ItemManager.h">
+    <ClInclude Include="HPP\item_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Inventory.h">
+    <ClInclude Include="HPP\inventory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Leaf.h">
+    <ClInclude Include="HPP\leaf.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Map.h">
+    <ClInclude Include="HPP\map.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\MapManager.h">
+    <ClInclude Include="HPP\map_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Menu.h">
+    <ClInclude Include="HPP\menu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Player.h">
+    <ClInclude Include="HPP\player.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Randomizer.h">
+    <ClInclude Include="HPP\randomizer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Raycast.h">
+    <ClInclude Include="HPP\raycast.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Renderer.h">
+    <ClInclude Include="HPP\renderer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\RenderState.h">
+    <ClInclude Include="HPP\render_state.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Resources.h">
+    <ClInclude Include="HPP\resources.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\sfmlExtantion.h">
+    <ClInclude Include="HPP\sfml_extantion.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\SoundManager.h">
+    <ClInclude Include="HPP\sound_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Sprite.h">
+    <ClInclude Include="HPP\sprite.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\SpriteManager.h">
+    <ClInclude Include="HPP\sprite_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\UIManeger.h">
+    <ClInclude Include="HPP\ui_maneger.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\Weapon.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="HPP\Quest.h">
+    <ClInclude Include="HPP\quest.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="HPP\resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\CONST.h">
+    <ClInclude Include="HPP\const.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="HPP\weapon.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

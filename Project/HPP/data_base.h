@@ -6,18 +6,16 @@
 #include <tuple>
 #include <codecvt>
 #include <locale>
-#include "Player.h"
-#include "Quest.h"
-#include "CONST.h"
+#include "player.h"
+#include "quest.h"
+#include "const.h"
 
-class Data
-{
+class Data {
 public:
 	Data(const Data&) = delete;
 	Data& operator=(const Data&) = delete;
 
-	static Data& GetInstance()
-	{
+	static Data& GetInstance() {
 		static Data instance;
 		return instance;
 	}
@@ -47,14 +45,12 @@ private:
 	std::vector<std::tuple<int, std::wstring, int>> LoadTextData(int startKey);
 };
 
-class GameState
-{
+class GameState {
 public:
 	GameState(const GameState&) = delete;
 	GameState& operator=(const GameState&) = delete;
 
-	static GameState& GetInstance()
-	{
+	static GameState& GetInstance() {
 		static GameState instanceGame;
 		return instanceGame;
 	}

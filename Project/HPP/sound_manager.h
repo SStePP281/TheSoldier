@@ -1,14 +1,12 @@
-
 #ifndef SOUNDM
 #define SOUNDM
 
-#include "CONST.h"
+#include "const.h"
 #include <memory>
 #include <SFML/System/Vector3.hpp>
 #include <SFML/Audio.hpp>
 
-class SoundManager
-{
+class SoundManager {
 public:
 	SoundManager();
 	static void PlaySounds(const sf::SoundBuffer& buffer, bool is_loop = false);
@@ -17,7 +15,7 @@ public:
 	static void Update();
 	static void UpdateVolume();
 private:
-	static std::vector<std::unique_ptr<sf::Sound>> sounds;
-	static sf::Music music;
+	static std::vector<std::unique_ptr<sf::Sound>> sounds_;
+	static sf::Music music_;
 };
 #endif // !SOUNDM
