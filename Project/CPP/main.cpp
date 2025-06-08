@@ -10,7 +10,7 @@ enum class State{Editor, Game};
 int main() {
 	Resources::initResources();
 
-	sf::RenderWindow window(sf::VideoMode(kScreenWight, kScreenHeight), "Game"/*, sf::Style::Fullscreen*/);
+	sf::RenderWindow window(sf::VideoMode(kScreenWight, kScreenHeight), "Game", sf::Style::Fullscreen);
 	window.setIcon(Resources::game_icon.getSize().x, Resources::game_icon.getSize().y, Resources::game_icon.getPixelsPtr());
 	window.setFramerateLimit(60);
 	sf::Cursor cur{};
