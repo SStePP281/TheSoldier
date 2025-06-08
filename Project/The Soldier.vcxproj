@@ -141,29 +141,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\DataBase.cpp" />
-    <ClCompile Include="CPP\DialigSystem.cpp" />
-    <ClCompile Include="CPP\Editor.cpp" />
-    <ClCompile Include="CPP\Game.cpp" />
-    <ClCompile Include="CPP\ItemManager.cpp" />
-    <ClCompile Include="CPP\Inventory.cpp" />
-    <ClCompile Include="CPP\Leaf.cpp" />
-    <ClCompile Include="CPP\Map.cpp" />
-    <ClCompile Include="CPP\MapManager.cpp" />
-    <ClCompile Include="CPP\Menu.cpp" />
-    <ClCompile Include="CPP\Player.cpp" />
+    <ClCompile Include="CPP\data_base.cpp" />
+    <ClCompile Include="CPP\dialig_system.cpp" />
+    <ClCompile Include="CPP\editor.cpp" />
+    <ClCompile Include="CPP\game.cpp" />
+    <ClCompile Include="CPP\item_manager.cpp" />
+    <ClCompile Include="CPP\inventory.cpp" />
+    <ClCompile Include="CPP\leaf.cpp" />
+    <ClCompile Include="CPP\map.cpp" />
+    <ClCompile Include="CPP\map_manager.cpp" />
+    <ClCompile Include="CPP\menu.cpp" />
+    <ClCompile Include="CPP\player.cpp" />
     <ClCompile Include="CPP\main.cpp" />
-    <ClCompile Include="CPP\Quest.cpp" />
-    <ClCompile Include="CPP\Randomizer.cpp" />
-    <ClCompile Include="CPP\Raycast.cpp" />
-    <ClCompile Include="CPP\Renderer.cpp" />
-    <ClCompile Include="CPP\Resources.cpp" />
-    <ClCompile Include="CPP\sfmlExtetion.cpp" />
-    <ClCompile Include="CPP\SoundManager.cpp" />
-    <ClCompile Include="CPP\Sprite.cpp" />
-    <ClCompile Include="CPP\SpriteManager.cpp" />
-    <ClCompile Include="CPP\UIManager.cpp" />
-    <ClCompile Include="CPP\Weapon.cpp" />
+    <ClCompile Include="CPP\quest.cpp" />
+    <ClCompile Include="CPP\randomizer.cpp" />
+    <ClCompile Include="CPP\raycast.cpp" />
+    <ClCompile Include="CPP\renderer.cpp" />
+    <ClCompile Include="CPP\resources.cpp" />
+    <ClCompile Include="CPP\sfml_extention.cpp" />
+    <ClCompile Include="CPP\sound_manager.cpp" />
+    <ClCompile Include="CPP\sprite.cpp" />
+    <ClCompile Include="CPP\sprite_manager.cpp" />
+    <ClCompile Include="CPP\ui_manager.cpp" />
+    <ClCompile Include="CPP\weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HPP\animation.h" />

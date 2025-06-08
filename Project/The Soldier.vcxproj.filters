@@ -15,73 +15,73 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\DataBase.cpp">
+    <ClCompile Include="CPP\data_base.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\DialigSystem.cpp">
+    <ClCompile Include="CPP\dialig_system.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Editor.cpp">
+    <ClCompile Include="CPP\editor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Game.cpp">
+    <ClCompile Include="CPP\game.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\ItemManager.cpp">
+    <ClCompile Include="CPP\item_manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Inventory.cpp">
+    <ClCompile Include="CPP\inventory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Leaf.cpp">
+    <ClCompile Include="CPP\leaf.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Map.cpp">
+    <ClCompile Include="CPP\map.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\MapManager.cpp">
+    <ClCompile Include="CPP\map_manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Menu.cpp">
+    <ClCompile Include="CPP\menu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Player.cpp">
+    <ClCompile Include="CPP\player.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="CPP\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Randomizer.cpp">
+    <ClCompile Include="CPP\randomizer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Raycast.cpp">
+    <ClCompile Include="CPP\raycast.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Renderer.cpp">
+    <ClCompile Include="CPP\renderer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Resources.cpp">
+    <ClCompile Include="CPP\resources.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\sfmlExtetion.cpp">
+    <ClCompile Include="CPP\sfml_extention.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\SoundManager.cpp">
+    <ClCompile Include="CPP\sound_manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Sprite.cpp">
+    <ClCompile Include="CPP\sprite.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\SpriteManager.cpp">
+    <ClCompile Include="CPP\sprite_manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\UIManager.cpp">
+    <ClCompile Include="CPP\ui_manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Weapon.cpp">
+    <ClCompile Include="CPP\weapon.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CPP\Quest.cpp">
+    <ClCompile Include="CPP\quest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
