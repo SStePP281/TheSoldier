@@ -152,7 +152,7 @@
     <ClInclude Include="HPP\sprite_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="HPP\ui_maneger.h">
+    <ClInclude Include="HPP\ui_manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="HPP\quest.h">

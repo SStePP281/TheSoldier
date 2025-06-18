@@ -26,9 +26,11 @@ int main() {
 
 	auto& event = EventSystem::GetInstance();
 	event.Subscribe<int>("RESET_GAME", [&](const int NON) {
-		sfe::Movie movie;
+		sf::Text skipText("Press esc to skip...", Resources::ui_font, 20.0f);
+		skipText.setPosition(sf::Vector2f(kScreenWight - skipText.getLocalBounds().width - 50, kScreenHeight - skipText.getLocalBounds().height - 50));
 
-		if (!movie.openFromFile("Sound/startIntroVideo.mp4")) return;
+		sfe::Movie movie;
+		if (!movie.openFromFile("Sound/startIntroVideo.mp4")) { return; }
 		movie.fit(0.0f, 0.0f, (float)window.getSize().x, (float)window.getSize().y);
 		movie.play();
 
@@ -42,11 +44,18 @@ int main() {
 					window.close();
 					return;
 				}
+				else if (event.type == sf::Event::KeyPressed) {
+					if (event.key.code == sf::Keyboard::Escape)
+					{
+						movie.stop();
+					}
+				}
 			}
 
 			window.clear();	
 			movie.update();
 			window.draw(movie);
+			window.draw(skipText);
 			window.display();
 		}
 
@@ -54,10 +63,14 @@ int main() {
 		});
 
 	event.Subscribe<int>("WIN_GAME", [&](const int NON) {
+		sf::Text skipText("Press esc to skip...", Resources::ui_font, 20.0f);
+		skipText.setPosition(sf::Vector2f(kScreenWight - skipText.getLocalBounds().width - 50, kScreenHeight - skipText.getLocalBounds().height - 50));
+
 		sfe::Movie movie;
 		if (!movie.openFromFile("Sound/endIntroVideo.mp4")) return;
 		movie.fit(0.0f, 0.0f, (float)window.getSize().x, (float)window.getSize().y);
 		movie.play();
+
 		SoundManager::StopAllSound();
 		SoundManager::PlayerMusic(MusicType::EndIntro);
 
@@ -68,11 +81,18 @@ int main() {
 					window.close();
 					return;
 				}
+				else if (event.type == sf::Event::KeyPressed) {
+					if (event.key.code == sf::Keyboard::Escape)
+					{
+						movie.stop();
+					}
+				}
 			}
 
 			window.clear();
 			movie.update();
 			window.draw(movie);
+			window.draw(skipText);
 			window.display();
 		}
 

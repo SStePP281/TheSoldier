@@ -1,4 +1,4 @@
-#include "ui_maneger.h"
+#include "ui_manager.h"
 
 UIManager::UIManager(sf::RenderWindow* window) : 
 	window_{ window }, choose_button_{ -1 }, key_button_{ -1 } {}

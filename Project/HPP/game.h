@@ -8,7 +8,7 @@
 #include "renderer.h"
 #include "sprite_manager.h"
 #include "item_manager.h"
-#include "ui_maneger.h"
+#include "ui_manager.h"
 #include "inventory.h"
 #include "map_manager.h"
 #include "sound_manager.h"

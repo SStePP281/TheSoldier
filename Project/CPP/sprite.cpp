@@ -1,5 +1,5 @@
 #include "sprite.h"
-#include "ui_maneger.h"
+#include "ui_manager.h"
 #include "item_manager.h"
 #include "map.h"
 #include "weapon.h"

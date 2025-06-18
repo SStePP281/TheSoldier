@@ -1,7 +1,7 @@
 #ifndef DIALOG
 #define DIALOG
 
-#include "ui_maneger.h"
+#include "ui_manager.h"
 #include "item_manager.h"
 #include "render_state.h"
 #include "event_system.h"

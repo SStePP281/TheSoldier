@@ -191,7 +191,7 @@
     <ClInclude Include="HPP\sound_manager.h" />
     <ClInclude Include="HPP\sprite.h" />
     <ClInclude Include="HPP\sprite_manager.h" />
-    <ClInclude Include="HPP\ui_maneger.h" />
+    <ClInclude Include="HPP\ui_manager.h" />
     <ClInclude Include="HPP\weapon.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #ifndef INVENT
 #define INVENT
 
-#include "ui_maneger.h"
+#include "ui_manager.h"
 #include "item_manager.h"
 #include "data_base.h"
 #include "render_state.h"

@@ -3,7 +3,7 @@
 
 #include "render_state.h"
 #include "event_system.h"
-#include "ui_maneger.h"
+#include "ui_manager.h"
 
 class Menu {
 public:
