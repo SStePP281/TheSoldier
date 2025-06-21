@@ -1,0 +1,2556 @@
+{
+  "type": "unidraw",
+  "version": 1,
+  "source": "https://unidraw.io",
+  "elements": [
+    {
+      "id": "udo9TaGI0ww0HyRnolZdX",
+      "position": {
+        "x": 623.1218275713354,
+        "y": -1134.1775050852712
+      },
+      "size": {
+        "width": 867.7500785323251,
+        "height": 1268.7397236242803
+      },
+      "version": 355,
+      "versionNonce": 1329136306,
+      "createdAt": 1744727029935,
+      "updatedAt": 1744727135804,
+      "alpha": 100,
+      "zIndex": -16,
+      "rotation": 0,
+      "groupIds": [
+        "GexED6VsIfF1UF4TlkUMt"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 1830931886,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "1rcff86pQk2SR8CKvHw1V",
+      "position": {
+        "x": 85.0169900955425,
+        "y": -2016.1524379391626
+      },
+      "size": {
+        "width": 1405.8549161312603,
+        "height": 796.5758995093656
+      },
+      "version": 434,
+      "versionNonce": 29852402,
+      "createdAt": 1744726792591,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": -15,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 946432498,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "aB2c-qbAaA6sDS54NmikV",
+      "position": {
+        "x": -2479.680364569419,
+        "y": 423.8619396731311
+      },
+      "size": {
+        "width": 2021.583470308121,
+        "height": 1138.1051979788087
+      },
+      "version": 194,
+      "versionNonce": 965369138,
+      "createdAt": 1744726245572,
+      "updatedAt": 1744726276483,
+      "alpha": 100,
+      "zIndex": -14,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 1160370670,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "_UizYNhJIVZeARyNZpsR0",
+      "position": {
+        "x": -715.7609296780854,
+        "y": -2016.1524380015244
+      },
+      "size": {
+        "width": 564.4566394373276,
+        "height": 913.333629410253
+      },
+      "version": 686,
+      "versionNonce": 260800558,
+      "createdAt": 1744725602996,
+      "updatedAt": 1744727127038,
+      "alpha": 100,
+      "zIndex": -13,
+      "rotation": 0,
+      "groupIds": [
+        "pbA7z5xWURleZ2D1DDHAg"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 1959750190,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "2U_IadObyZBDwD7dOrKF9",
+      "position": {
+        "x": -827.0205797143246,
+        "y": -837.649912880588
+      },
+      "size": {
+        "width": 1227.5909758839807,
+        "height": 917.8553399608099
+      },
+      "version": 496,
+      "versionNonce": 39033458,
+      "createdAt": 1744725405305,
+      "updatedAt": 1744727118722,
+      "alpha": 100,
+      "zIndex": -12,
+      "rotation": 0,
+      "groupIds": [
+        "TkjVw01gINeUGusSVenSy"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 1103618478,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "ThWKrgZVouN4hzDUp1SPQ",
+      "position": {
+        "x": -2479.6803652482245,
+        "y": -2016.1524380868102
+      },
+      "size": {
+        "width": 1527.5981549966532,
+        "height": 1022.1067522520668
+      },
+      "version": 502,
+      "versionNonce": 1977247282,
+      "createdAt": 1744724857316,
+      "updatedAt": 1744727103206,
+      "alpha": 100,
+      "zIndex": -10,
+      "rotation": 0,
+      "groupIds": [
+        "dInxg_W3T1qrX8j3apBDG"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 1678523634,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "chirJgia6QkWeuPVLAYnj",
+      "position": {
+        "x": -2479.6803646722365,
+        "y": -850.458049
+      },
+      "size": {
+        "width": 1430.1083528028917,
+        "height": 1130.7323523120515
+      },
+      "version": 953,
+      "versionNonce": 1280922222,
+      "createdAt": 1744722552810,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": -9,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 2032283890,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "v2IhXDO4M4q32BHgI9zM0",
+      "position": {
+        "x": -305.80264134891536,
+        "y": 219.96125100011432
+      },
+      "size": {
+        "width": 1796.674547743003,
+        "height": 1342.0058866815084
+      },
+      "version": 683,
+      "versionNonce": 1002228274,
+      "createdAt": 1744722552810,
+      "updatedAt": 1744727089106,
+      "alpha": 100,
+      "zIndex": -8,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p></p>",
+      "seed": 2032283890,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#868e96",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "OODTvuXtj9C3A_NVmOFQq",
+      "position": {
+        "x": 223.737685593361,
+        "y": 253.2982910829876
+      },
+      "size": {
+        "width": 546,
+        "height": 186.66666666666669
+      },
+      "version": 1054,
+      "versionNonce": 49392110,
+      "createdAt": 1744720690223,
+      "updatedAt": 1744727089106,
+      "alpha": 100,
+      "zIndex": 2,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Itemble</strong></p><p>public:</p><p> Itemble(std::string name, std::string disc, int cost, int textureId);</p><p> virtual ~Itemble() = default;</p><p> std::string name;</p><p> std::string description;</p><p> int cost;</p><p> int id;</p>",
+      "seed": 262664622,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "4vWXUxfDpKswdjg_64ubm",
+      "position": {
+        "x": -265.4632234066387,
+        "y": 748.2771530829875
+      },
+      "size": {
+        "width": 432,
+        "height": 276
+      },
+      "version": 812,
+      "versionNonce": 1346799214,
+      "createdAt": 1744721215366,
+      "updatedAt": 1744727089106,
+      "alpha": 100,
+      "zIndex": 4,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Item : public Itemble</strong></p><p>public:</p><p> Item(ItemsDef def, int id);</p><p> Item() = default;</p><p> void setFunc(std::function&lt;void(Player*   player)&gt; _useFunc);</p><p> void useItem(Player* player);</p><p> ItemType type;</p><p> int maxUsing;</p><p>private:</p><p> std::function&lt;void(Player* player)&gt; useFunc;</p>",
+      "seed": 1023218862,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "oC1bO0Tt7_JBkrWvHj9WL",
+      "position": {
+        "x": -49.46322340663869,
+        "y": 439.9649577496543
+      },
+      "size": {
+        "width": 546.2009089999997,
+        "height": 308.31219533333325
+      },
+      "version": 1394,
+      "versionNonce": 2127005870,
+      "createdAt": 1744721683898,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 6,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [
+        {
+          "x": 496.32256191888246,
+          "y": 675.6644473075362
+        },
+        {
+          "x": -47.99483001897056,
+          "y": 679.4101048543471
+        }
+      ],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "OODTvuXtj9C3A_NVmOFQq",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": 496.737685593361,
+            "y": 439.9649577496543
+          },
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "4vWXUxfDpKswdjg_64ubm",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": -49.46322340663869,
+            "y": 748.2771530829875
+          },
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "wAYaJoUQIjJ3oTZq6JDuM",
+      "position": {
+        "x": 230.38383531138084,
+        "y": 748.2771531189187
+      },
+      "size": {
+        "width": 533.1095194175217,
+        "height": 210.55586061028163
+      },
+      "version": 591,
+      "versionNonce": 1507139890,
+      "createdAt": 1744721728000,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 7,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Improve : public Itemble</strong></p><p>public:</p><p> Improve(ImproveDef def, int id);</p><p> Improve() = default;</p><p> void setGetFunc(std::function&lt;void(Gun* gun)&gt; setEffect);</p><p> void setDelFunc(std::function&lt;void(Gun* gun)&gt; delEffect);</p><p> ImproveType type;</p><p> std::function&lt;void(Gun* gun)&gt; getImprove;</p><p> std::function&lt;void(Gun* gun)&gt; deleteImprove;</p>",
+      "seed": 1418656494,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "ZR5c7rQnCJVpcuq_9JTpp",
+      "position": {
+        "x": 496.737685593361,
+        "y": 439.9649577496543
+      },
+      "size": {
+        "width": 0.20090942678069723,
+        "height": 308.31219536926443
+      },
+      "version": 1181,
+      "versionNonce": 616442610,
+      "createdAt": 1744721787879,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 8,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "OODTvuXtj9C3A_NVmOFQq",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": 496.737685593361,
+            "y": 439.9649577496543
+          },
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "wAYaJoUQIjJ3oTZq6JDuM",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": 496.9385950201417,
+            "y": 748.2771531189187
+          },
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "ErLMdr-RTdqR6OZbE6nzv",
+      "position": {
+        "x": 870.3007776481834,
+        "y": 748.2771533562759
+      },
+      "size": {
+        "width": 600.2149414304172,
+        "height": 494.375
+      },
+      "version": 637,
+      "versionNonce": 767800622,
+      "createdAt": 1744721799531,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 9,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Gun : public Weapon, public Itemble</strong></p><p>public:</p><p> Gun(GunDef def, bool isReset, int id, int dunId);</p><p> Gun() = default;</p><p> Improve* trySetImprove(Improve* improve);</p><p> Improve* deleteImprove(ImproveType type);</p><p> void update(float dt) override;</p><p> void updateRad(bool isRun, float deltaTime);</p><p> int resetPatron(int count);</p><p> GunData getGunData();</p><p> void ussing(Enemy* sp, float dist) override;</p><p> bool isReset;</p><p> int nowCount;</p><p> int maxCount;</p><p> int damage;</p><p> float nowRad;</p><p> float maxImpRad;</p><p> std::map&lt;ImproveType, Improve*&gt; improvement;</p><p>private:</p><p> int gunId;</p><p> float maxRad;</p><p> float timeBetwenReset, nowTimeBetwenReset;</p>",
+      "seed": 1154429166,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "eaCvo-7ba_xa7pIW8nwEh",
+      "position": {
+        "x": 496.737685593361,
+        "y": 439.9649577496543
+      },
+      "size": {
+        "width": 673.670562770031,
+        "height": 308.31219560662163
+      },
+      "version": 1350,
+      "versionNonce": 627152498,
+      "createdAt": 1744721906723,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 11,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [
+        {
+          "x": 497.4716349443381,
+          "y": 678.755570524917
+        },
+        {
+          "x": 1169.3311067473878,
+          "y": 681.9877738413804
+        }
+      ],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "OODTvuXtj9C3A_NVmOFQq",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": 496.737685593361,
+            "y": 439.9649577496543
+          },
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "ErLMdr-RTdqR6OZbE6nzv",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": 1170.408248363392,
+            "y": 748.2771533562759
+          },
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "8GJTeuFgNLTFJo6o4SHXl",
+      "position": {
+        "x": 910.0628270429372,
+        "y": 253.29829133033172
+      },
+      "size": {
+        "width": 520.6908409346937,
+        "height": 340
+      },
+      "version": 656,
+      "versionNonce": 201245102,
+      "createdAt": 1744721999320,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 12,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Weapon</strong></p><p>public:</p><p> Weapon(float _timeBetewen, float maxDist);</p><p> Weapon() = default;</p><p> virtual void update(float dt);</p><p> virtual void drawWeapon(sf::RenderTarget* window, sf::Vector2f delta);</p><p> virtual bool isCanUsed();</p><p> virtual void setAnimator(Animator&lt;sf::Texture*&gt;&amp;&amp; anim);</p><p> float maxDist;</p><p>protected:</p><p> virtual void startAnimation(int number);</p><p> virtual void ussing(Enemy* sp, float dist) = 0;</p><p> Animator&lt;sf::Texture*&gt; weaponAnimator;</p><p> float timeBetwen, nowTime;</p>",
+      "seed": 1806686190,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "Xt9MmlpdRvh85xnmIjrZp",
+      "position": {
+        "x": 1170.4082475102841,
+        "y": 593.2982913303317
+      },
+      "size": {
+        "width": 8.531078492524102e-7,
+        "height": 154.97886202594418
+      },
+      "version": 1106,
+      "versionNonce": 1716935662,
+      "createdAt": 1744722091198,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 13,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "8GJTeuFgNLTFJo6o4SHXl",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": 1170.4082475102841,
+            "y": 593.2982913303317
+          },
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "ErLMdr-RTdqR6OZbE6nzv",
+          "snappedToEdge": true,
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": 1170.408248363392,
+            "y": 748.2771533562759
+          },
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "WfnZJIAjHi5ooaCWA4VpD",
+      "position": {
+        "x": 60.41968245930525,
+        "y": 1335.2727251372348
+      },
+      "size": {
+        "width": 270.56824471913444,
+        "height": 164.16666666666669
+      },
+      "version": 602,
+      "versionNonce": 364913138,
+      "createdAt": 1744722122037,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 14,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct ItemsDef</strong></p><p> ItemType type;</p><p> std::wstring name;</p><p> int effect;</p><p> int maxUSing;</p><p> int cost;</p><p> std::wstring disc;</p>",
+      "seed": 1339703854,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#4c6ef5",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "d40kUzwjU80I8qYi2eiO6",
+      "position": {
+        "x": -265.4632225002431,
+        "y": 1107.3172210774417
+      },
+      "size": {
+        "width": 270.56824471913444,
+        "height": 142.5
+      },
+      "version": 1009,
+      "versionNonce": 1061203502,
+      "createdAt": 1744722122037,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 15,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct ImproveDef</strong></p><p> ImproveType type;</p><p> std::wstring name;</p><p> float effect;</p><p> int cost;</p><p> std::wstring disc;</p>",
+      "seed": 1339703854,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#4c6ef5",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "9TtSI11X8kSCX8Wf1yDuW",
+      "position": {
+        "x": 60.41968308945502,
+        "y": 1129.400554730375
+      },
+      "size": {
+        "width": 270.56824471913444,
+        "height": 98.33333333333334
+      },
+      "version": 812,
+      "versionNonce": 1426789298,
+      "createdAt": 1744722122037,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 16,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct GunData</strong></p><p> int id;</p><p> int nowCount;</p><p> std::vector&lt;int&gt; improveId;</p>",
+      "seed": 1339703854,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#4c6ef5",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "Icv_aM3PJclBQkFeq4fzl",
+      "position": {
+        "x": -265.4632226267215,
+        "y": 1302.3560576686102
+      },
+      "size": {
+        "width": 270.56824471913444,
+        "height": 230
+      },
+      "version": 611,
+      "versionNonce": 598128750,
+      "createdAt": 1744722122037,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 17,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct GunDef</strong></p><p> int damage;</p><p> int maxCount;</p><p> int nowCount;</p><p> float shutTime;</p><p> float maxDist;</p><p> float resetTime;</p><p> int cost;</p><p> std::wstring name;</p><p> std::wstring disc;</p>",
+      "seed": 1339703854,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#4c6ef5",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "UElN3FhIeloiuYPeSixia",
+      "position": {
+        "x": 419.87391107244366,
+        "y": 1198.8102390563245
+      },
+      "size": {
+        "width": 361.5408843116188,
+        "height": 62.833026213093945
+      },
+      "version": 722,
+      "versionNonce": 1502727538,
+      "createdAt": 1744722431894,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 18,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>enum ImproveType</strong></p><p> Damage, Spread, Magazin</p>",
+      "seed": 925450546,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#82c91e",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "xaI-3_Del6ESjFGzMSPY0",
+      "position": {
+        "x": 419.8739113119591,
+        "y": 1285.9018777116166
+      },
+      "size": {
+        "width": 359.98817436824385,
+        "height": 120
+      },
+      "version": 726,
+      "versionNonce": 458324654,
+      "createdAt": 1744722431894,
+      "updatedAt": 1744727089107,
+      "alpha": 100,
+      "zIndex": 20,
+      "rotation": 0,
+      "groupIds": [
+        "3NWYbkr7U9E0extUtOL_S"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>enum ItemType</strong></p><p>\tMaxEnergy, MaxHeal, Heal, Armor, Patrons</p>",
+      "seed": 925450546,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#82c91e",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "zo-aLtrHGEMmyogZMVaxA",
+      "position": {
+        "x": -2072.456675367791,
+        "y": -781.2220448289282
+      },
+      "size": {
+        "width": 637,
+        "height": 296.6666666666667
+      },
+      "version": 575,
+      "versionNonce": 1047384946,
+      "createdAt": 1744723848144,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 21,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Sprite</strong></p><p>public:</p><p> Sprite(SpriteDef spDef, MapSprite spMap, int _id);</p><p> virtual ~Sprite() = default;</p><p> virtual std::pair&lt;int, bool&gt; getTextData();</p><p> int id;</p><p> int textSize;</p><p> SpriteDef spDef;</p><p> MapSprite spMap;</p><p> sf::Texture* texture;</p><p>private:</p><p> std::set&lt;std::tuple&lt;int, int&gt;&gt; blockmap_coords;</p>",
+      "seed": 830516530,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "qLevq3vI4oHkMeAZMGlZo",
+      "position": {
+        "x": -2441.912279367791,
+        "y": -403.51098216226103
+      },
+      "size": {
+        "width": 637,
+        "height": 472.5
+      },
+      "version": 764,
+      "versionNonce": 155061998,
+      "createdAt": 1744723848144,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 22,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Enemy : public Sprite</strong></p><p>public:</p><p> Enemy(SpriteDef spDef, MapSprite spMap, EnemyDef enemyDef, int id);</p><p> ~Enemy() = default;</p><p> std::pair&lt;int, bool&gt; getTextData() override;</p><p> void update(float deltaTime);</p><p> void move(Map* map, sf::Vector2f move);</p><p> void takeDamage(float damage);</p><p> bool canChangeState();</p><p> void changeState(EnemyState newState);</p><p> EnemyDef enemyDef;</p><p> bool isCanAttack = false;</p><p> bool isAtack = false;</p><p> Animator&lt;int&gt; animr;</p><p>private:</p><p> float timeAtecked, nowTimeAtack;</p><p> bool isDamaged;</p><p> EnemyState state;</p><p> void updateTimeSinceLastAttack(float deltaTime);</p><p> void updateTimeSinceDamaged(float deltaTime);</p><p> bool checkCollision(Map* map, sf::Vector2f newPos, bool xAxis);</p>",
+      "seed": 830516530,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "Pwud-DIhHYRb4bQpRRx2h",
+      "position": {
+        "x": -1714.2233359602549,
+        "y": -403.51098182068574
+      },
+      "size": {
+        "width": 637,
+        "height": 186.66666666666669
+      },
+      "version": 709,
+      "versionNonce": 1355051186,
+      "createdAt": 1744723848144,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 23,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Npc : public Sprite</strong></p><p>public:</p><p> Npc(SpriteDef spDef, MapSprite spMap, int _id, int npcId, Dialog* dialog);</p><p> Npc() = default;</p><p> void use();</p><p> NpcDef npcDefData;</p><p>private:</p><p> Dialog* dialog;</p>",
+      "seed": 830516530,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "k0FXCBBbe20lG1SwuHkDr",
+      "position": {
+        "x": -2123.412279367791,
+        "y": -484.55537816226155
+      },
+      "size": {
+        "width": 369.4556040000002,
+        "height": 81.04439600000052
+      },
+      "version": 1256,
+      "versionNonce": 817496366,
+      "createdAt": 1744724134465,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 24,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "zo-aLtrHGEMmyogZMVaxA",
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": -1753.956675367791,
+            "y": -484.55537816226155
+          },
+          "snappedToEdge": true,
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "qLevq3vI4oHkMeAZMGlZo",
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": -2123.412279367791,
+            "y": -403.51098216226103
+          },
+          "snappedToEdge": true,
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "G0qAYG1XuorTj4enyDo8K",
+      "position": {
+        "x": -1753.956675367791,
+        "y": -484.55537816226155
+      },
+      "size": {
+        "width": 358.23333940753605,
+        "height": 81.0443963415758
+      },
+      "version": 1178,
+      "versionNonce": 1618848622,
+      "createdAt": 1744724143516,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 25,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "line",
+      "schema": 2,
+      "points": [],
+      "style": {
+        "ss": "s",
+        "sc": "#000000",
+        "sw": 4,
+        "fc": "transparent",
+        "fs": "s",
+        "let": 1,
+        "lst": 0,
+        "lt": "a"
+      },
+      "tipPoints": {
+        "start": {
+          "boundToId": "zo-aLtrHGEMmyogZMVaxA",
+          "position": {
+            "x": 0.5,
+            "y": 1
+          },
+          "absolutePosition": {
+            "x": -1753.956675367791,
+            "y": -484.55537816226155
+          },
+          "snappedToEdge": true,
+          "normal": {
+            "x": 0,
+            "y": 1
+          }
+        },
+        "end": {
+          "boundToId": "Pwud-DIhHYRb4bQpRRx2h",
+          "position": {
+            "x": 0.5,
+            "y": 0
+          },
+          "absolutePosition": {
+            "x": -1395.7233359602549,
+            "y": -403.51098182068574
+          },
+          "snappedToEdge": true,
+          "normal": {
+            "x": 0,
+            "y": -1
+          }
+        }
+      }
+    },
+    {
+      "id": "qGbD_-fVG-B1vU-Rn891F",
+      "position": {
+        "x": -1640.204175771149,
+        "y": -167.26098227101886
+      },
+      "size": {
+        "width": 206.56333858784387,
+        "height": 120
+      },
+      "version": 561,
+      "versionNonce": 806849138,
+      "createdAt": 1744724155031,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 26,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct MapSprite</strong></p><p> int spriteDefId;</p><p> sf::Vector2f position;</p><p> float angle;</p><p> float nowHealPoint;</p>",
+      "seed": 1847296430,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "THEPMf6cFW50E0QfrXnr9",
+      "position": {
+        "x": -1357.8058351703403,
+        "y": 20.375690422094863
+      },
+      "size": {
+        "width": 206.56333858784387,
+        "height": 142.5
+      },
+      "version": 802,
+      "versionNonce": 651300270,
+      "createdAt": 1744724155031,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 27,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct SpriteDef</strong></p><p> std::wstring name;</p><p> SpriteType type;</p><p> float size;</p><p> int texture;</p><p> bool isDirectional;</p>",
+      "seed": 1847296430,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "U36Dvs_kFSsr2Ad-FvSGr",
+      "position": {
+        "x": -1640.204175846454,
+        "y": -1.7076433932917325
+      },
+      "size": {
+        "width": 257.6488954429021,
+        "height": 186.66666666666669
+      },
+      "version": 732,
+      "versionNonce": 1902210098,
+      "createdAt": 1744724155031,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 28,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct EnemyDef</strong></p><p> bool isCanRun;</p><p> float atackDist;</p><p> float damage;</p><p> int midleDrop;</p><p> float timeBettwenAtack;</p><p> float speed;</p><p> float maxHealpoint;</p>",
+      "seed": 1847296430,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "lH3fOOlYdHnxMHzjPAUKI",
+      "position": {
+        "x": -1357.805834582497,
+        "y": -134.3443155779047
+      },
+      "size": {
+        "width": 206.56333858784387,
+        "height": 54.16666666666667
+      },
+      "version": 890,
+      "versionNonce": 1625303022,
+      "createdAt": 1744724155031,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 29,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct NpcDef</strong></p><p>\tint startKey;</p>",
+      "seed": 1847296430,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "i4IWCYUqkC42tFOJus4Vi",
+      "position": {
+        "x": -2072.456674926577,
+        "y": 160.44015387066509
+      },
+      "size": {
+        "width": 299.85000762751537,
+        "height": 57.74889035789192
+      },
+      "version": 665,
+      "versionNonce": 982062578,
+      "createdAt": 1744724370564,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 30,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>enum EnemyState</strong></p><p> Stay, Run, Attack, Killes, Dead</p>",
+      "seed": 1058947694,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#82c91e",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "jzAiKiGJricUicFPpTi3_",
+      "position": {
+        "x": -2441.9122788059326,
+        "y": 160.44015446417632
+      },
+      "size": {
+        "width": 299.8500076275154,
+        "height": 54.16666666666667
+      },
+      "version": 750,
+      "versionNonce": 1588656686,
+      "createdAt": 1744724370564,
+      "updatedAt": 1744727098624,
+      "alpha": 100,
+      "zIndex": 31,
+      "rotation": 0,
+      "groupIds": [
+        "lXqVHfgQrzs12GnKI0RPY"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>enum class SpriteType</strong></p><p>\tEnemy, PlayerT, NPC</p>",
+      "seed": 1058947694,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#82c91e",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "LSvz0kmbZhyG0kklGKaDZ",
+      "position": {
+        "x": -2417.5283608213526,
+        "y": -1949.735126986606
+      },
+      "size": {
+        "width": 591.7111013830315,
+        "height": 912.5
+      },
+      "version": 849,
+      "versionNonce": 940297710,
+      "createdAt": 1744724574091,
+      "updatedAt": 1744727103206,
+      "alpha": 100,
+      "zIndex": 32,
+      "rotation": 0,
+      "groupIds": [
+        "dInxg_W3T1qrX8j3apBDG"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Player</strong></p><p>public:</p><p> Player(Enemy* sprite, PlayerDef def, Map* _nowMap);</p><p> void setInventory(Inventory* invent);</p><p> void updateMouseData(sf::Vector2f mousePos, float deltaTime);</p><p> void checkBoost(bool isPressed, float deltaTime);</p><p> void move(sf::Vector2f deltaPos, float deltaTime);</p><p> void jump();</p><p> Sprite* dialog();</p><p> void takeDamage(float damage);</p><p> void fire(int gun = -1);</p><p> void swapGun(bool flag);</p><p> void reloadingGun();</p><p> Gun* setGun(Gun* gun, int pos);</p><p> Gun* getGun(int pos);</p><p> float getMoveSpeed();</p><p> void takeItem(Itemble*, int cnt = 1);</p><p> void heal();</p><p> Gun* getNowGun();</p><p> sf::Vector2f getDeltaShake();</p><p> PlayerDef getPlayerDef();</p><p> void setNemMap(Map* map);</p><p> Enemy* enemy;</p><p> Gun* kick;</p><p> float pitch, posZ, maxEnergy, nowEnergy;</p><p> float defence, nowStrenght, maxStrenght;</p><p> int patrons;</p><p> int money;</p><p> int details;</p><p> Item* nowHeal;</p><p>private:</p><p> Inventory* invent;</p><p> bool isJump, jumpFlag;</p><p> Map* nowMap;</p><p> sf::Vector2f shakeDelta;</p><p> int nowGun;</p><p> Gun* guns[3]{};</p><p> float nowSpeed, boostSpeed, shakeTime;</p><p> void shakeCamera(float deltaTime, bool isRun);</p><p> void gravity(float deltaTime);</p>",
+      "seed": 419663150,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "RQJjQoFsCfSaUtW6X2_Q7",
+      "position": {
+        "x": -1512.7166133258863,
+        "y": -1949.7351272642784
+      },
+      "size": {
+        "width": 280.5012023453096,
+        "height": 274.1666666666667
+      },
+      "version": 537,
+      "versionNonce": 2043858930,
+      "createdAt": 1744724683286,
+      "updatedAt": 1744727103206,
+      "alpha": 100,
+      "zIndex": 33,
+      "rotation": 0,
+      "groupIds": [
+        "dInxg_W3T1qrX8j3apBDG"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct PlayerDef</strong></p><p> float maxHp;</p><p> float nowHp;</p><p> float maxEnergy;</p><p> float nowEnergy;</p><p> float defence;</p><p> float maxStrenght;</p><p> float nowStrenght;</p><p> int countpantrons;</p><p> int money;</p><p> int details;</p><p> std::vector&lt;int&gt; gunsData;</p>",
+      "seed": 340401198,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "Jd8AaFMNqnUl3gA8yRQMc",
+      "position": {
+        "x": -1758.720657212376,
+        "y": -1599.6475823864137
+      },
+      "size": {
+        "width": 772.5092899255037,
+        "height": 560
+      },
+      "version": 490,
+      "versionNonce": 1568137262,
+      "createdAt": 1744724754058,
+      "updatedAt": 1744727103206,
+      "alpha": 100,
+      "zIndex": 34,
+      "rotation": 0,
+      "groupIds": [
+        "dInxg_W3T1qrX8j3apBDG"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Inventory</strong></p><p>public:</p><p> Inventory(sf::RenderWindow* _window, Player* _player, UIManager* _uiManager);</p><p> Item* takeMaxHeal();</p><p> void takeItem(Itemble*, int cnt = 1);</p><p> void useItem(Itemble*, int cnt = 1);</p><p> std::vector &lt; std::pair&lt;int, int&gt;&gt; getInventToSave();</p><p> void useInvent();</p><p> void update();</p><p> void drawInvent();</p><p> bool isOpen;</p><p> Player* player;</p><p>private:</p><p> void initInv();</p><p> void checkChose();</p><p> void selectedItem();</p><p> void selectItemById();</p><p> void useSelectedItem(Item* item);</p><p> void useSelectedGun(Gun* gun);</p><p> void useSelectedImprove(Improve* improve);</p><p> int nowKey;</p><p> Itemble* choose;</p><p> std::map&lt;Itemble*, int&gt; items;</p><p> UIManager* uiManager;</p><p> sf::RenderWindow* window;</p>",
+      "seed": 959425970,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "gZM_am_kkAlChgrIpwHGh",
+      "position": {
+        "x": -478.85413770682646,
+        "y": -819.4037522429152
+      },
+      "size": {
+        "width": 549.096268448867,
+        "height": 450
+      },
+      "version": 908,
+      "versionNonce": 840891822,
+      "createdAt": 1744724937094,
+      "updatedAt": 1744727118722,
+      "alpha": 100,
+      "zIndex": 52,
+      "rotation": 0,
+      "groupIds": [
+        "TkjVw01gINeUGusSVenSy"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Map</strong></p><p>public:</p><p> void SetNewOnGrid(int x, int y, int layerNumber, int value);</p><p> int GetOnGrid(int x, int y, int layerNumber);</p><p> bool isCellEmpty(sf::Vector2i pos);</p><p> void setupBlockmap(Sprite* sp);</p><p> void deleteInBlockMap(Sprite* sp);</p><p> std::set&lt;Sprite*&gt; getBlockMap(sf::Vector2i pos);</p><p> void rotateSprite(sf::Vector2i pos, float angle);</p><p> void setMapSprite(MapSprite sp);</p><p> void deleteMapSprite(sf::Vector2i pos);</p><p> std::vector&lt;MapSprite&gt;&amp; getMapSprites();</p><p> std::vector&lt;std::vector&lt;std::array&lt;int, LAYER_COUNT&gt;&gt;&gt; grid;</p><p> std::vector&lt;std::vector&lt;std::set&lt;Sprite*&gt;&gt;&gt; blockMap;</p><p> std::vector&lt;MapSprite&gt; sprites;</p><p>private:</p><p> bool isValidGridPos(int x, int y);</p><p> bool isValidBlockmapPos(int x, int y);</p><p> bool insertInBlockMap(sf::Vector2i pos, Sprite* sprite);</p><p> void removeInBlockMap(sf::Vector2i pos, Sprite* sprite);</p>",
+      "seed": 904433330,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "_2uModFOdTPYjXul4-bYz",
+      "position": {
+        "x": -809.6911080981056,
+        "y": -335.7649950283484
+      },
+      "size": {
+        "width": 549.096268448867,
+        "height": 384.1666666666667
+      },
+      "version": 1117,
+      "versionNonce": 1100708914,
+      "createdAt": 1744724937094,
+      "updatedAt": 1744727118722,
+      "alpha": 100,
+      "zIndex": 53,
+      "rotation": 0,
+      "groupIds": [
+        "TkjVw01gINeUGusSVenSy"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class MapManager</strong></p><p>public:</p><p> MapManager(sf::RenderWindow* _window);</p><p> ~MapManager();</p><p> void save();</p><p> void load();</p><p> std::pair&lt;sf::Vector2f, sf::Vector2f&gt; generate();</p><p> void rewriteSprites(std::vector&lt;std::shared_ptr&lt;Sprite&gt;&gt;* sprs);</p><p> void drawMap(int layer);</p><p> Map* getNowMap();</p><p>private:</p><p> Map* nowMap;</p><p> sf::RenderWindow* window;</p><p> std::pair&lt;sf::Vector2f, sf::Vector2f&gt; findStEnd(std::vector&lt;Leaf*&gt; leafs);</p><p> void writeRoom(sf::IntRect rect, int layer, int value);</p><p> void writeEnemy(std::vector&lt;sf::IntRect&gt; rooms);</p>",
+      "seed": 904433330,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "zI6iRdhwk0ekt3SKxpEMv",
+      "position": {
+        "x": -213.22509222196106,
+        "y": -347.0149949711375
+      },
+      "size": {
+        "width": 596.7681362289367,
+        "height": 406.6666666666667
+      },
+      "version": 651,
+      "versionNonce": 245930862,
+      "createdAt": 1744725219989,
+      "updatedAt": 1744727118722,
+      "alpha": 100,
+      "zIndex": 54,
+      "rotation": 0,
+      "groupIds": [
+        "TkjVw01gINeUGusSVenSy"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Leaf</strong></p><p>public:</p><p> Leaf(sf::Vector2i, sf::Vector2i);</p><p> ~Leaf() = default;</p><p> sf::IntRect leafData;</p><p> bool isRoom;</p><p> bool isHorRez;</p><p> std::vector&lt;sf::IntRect&gt; halls;</p><p> Leaf* leftChild;</p><p> Leaf* rightChild;</p><p> bool split();</p><p> void creatRooms();</p><p> std::vector&lt;Leaf*&gt; getAllChild();</p><p> Leaf* getRoom();</p><p> void createHall(sf::Vector2i point);</p><p>private:</p><p> bool chooseRoom(Leaf*, Leaf*);</p><p> std::vector&lt;Leaf*&gt; allChild;</p>",
+      "seed": 1977338414,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "Z9cLKDA-saFvlfbAhi2dO",
+      "position": {
+        "x": -697.053502269391,
+        "y": -1995.539445557276
+      },
+      "size": {
+        "width": 525.0505207538649,
+        "height": 472.5
+      },
+      "version": 689,
+      "versionNonce": 60108786,
+      "createdAt": 1744725450824,
+      "updatedAt": 1744727127038,
+      "alpha": 100,
+      "zIndex": 55,
+      "rotation": 0,
+      "groupIds": [
+        "pbA7z5xWURleZ2D1DDHAg"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Resources</strong></p><p>private:</p><p> static void loadGun(std::string baseName, int index);</p><p>public:</p><p> static sf::Texture dialogBackround;</p><p> static sf::Texture textures;</p><p> static sf::Texture skyTextures;</p><p> static sf::Image textureImage;</p><p> static sf::Texture spriteIcon;</p><p> static std::vector&lt;sf::Texture&gt; spritesTextures;</p><p> static sf::SoundBuffer takeDamage;</p><p> static sf::SoundBuffer buttonClick;</p><p> static sf::Texture itembleIcon;</p><p> static sf::SoundBuffer gunCantShoutSound;</p><p> static std::vector&lt;std::vector&lt;sf::Texture&gt;&gt; gunsResetAnim;</p><p> static std::vector&lt;std::vector&lt;sf::Texture&gt;&gt; gunsFireAnim;</p><p> static std::vector&lt;sf::Texture&gt; gunsBaseText;</p><p> static std::vector&lt;sf::SoundBuffer&gt; gunsShutSound;</p><p> static std::vector&lt;sf::SoundBuffer&gt; gunsResetSound;</p><p> static sf::Font UIFont;</p><p> static void initResources();</p>",
+      "seed": 404686574,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "u6bxl7s6OiPlVMtCo_5Mg",
+      "position": {
+        "x": -700.3000994530914,
+        "y": -1499.4195376533162
+      },
+      "size": {
+        "width": 531.543715854976,
+        "height": 384.1666666666667
+      },
+      "version": 815,
+      "versionNonce": 554590642,
+      "createdAt": 1744725538584,
+      "updatedAt": 1744727127038,
+      "alpha": 100,
+      "zIndex": 56,
+      "rotation": 0,
+      "groupIds": [
+        "pbA7z5xWURleZ2D1DDHAg"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Data</strong></p><p>public:</p><p> Data();</p><p> ~Data();</p><p> PlayerDef getPlayerData();</p><p> void savePlayerData(Player* player);</p><p> std::vector&lt;GunData&gt; getGunData();</p><p> void saveGunData(std::vector&lt;GunData&gt; guns);</p><p> std::vector&lt;std::pair&lt;int, int&gt;&gt; getInvent();</p><p> void saveInvent(std::vector&lt;std::pair&lt;int, int&gt;&gt; inv);</p><p> std::vector&lt;int&gt; getKeys(int key);</p><p> std::pair&lt;std::wstring, int&gt; getText(int key);</p><p>private:</p><p> std::vector&lt;std::pair&lt;int, std::vector&lt;int&gt;&gt;&gt;* key2key;</p><p> std::vector&lt;std::tuple&lt;int, std::wstring, int&gt;&gt;* key2text;</p><p> void loadKeyData();</p><p> void loadTextData();</p>",
+      "seed": 1877042734,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "JUvxwJytURzjGFQR1GSz2",
+      "position": {
+        "x": -2457.7754279863716,
+        "y": 450.4035511354535
+      },
+      "size": {
+        "width": 595.0069929166096,
+        "height": 450
+      },
+      "version": 427,
+      "versionNonce": 1085982446,
+      "createdAt": 1744725662199,
+      "updatedAt": 1744726276483,
+      "alpha": 100,
+      "zIndex": 57,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class UIManager</strong></p><p>public:</p><p> UIManager(sf::RenderWindow* _window);</p><p> void drawPlayerUI(Player* player);</p><p> void initDialog(std::map&lt;int, std::wstring, std::greater&lt;int&gt;&gt; variants,</p><p>\t\tstd::wstring npcName);</p><p> void initTrade(std::map&lt;int, Itemble*&gt; variants, Player* player);</p><p> void initInvent(std::map&lt;Itemble*, int&gt; items, Itemble* chose);</p><p> void deleteNow();</p><p> void drawNow();</p><p> int checkButton(sf::Vector2i mousePos);</p><p>private:</p><p> void initPlayer();</p><p> std::wstring splitText(std::wstring text, int maxLen, int textSize);</p><p> std::wstring toMax(std::wstring str, float maxW, float textSize);</p><p> sf::RenderWindow* window;</p><p> Button* choseBut;</p><p> std::vector&lt;Button&gt; buttons;</p><p> int keyButton;</p><p> std::function&lt;void(Player* player)&gt; playerUI;</p>",
+      "seed": 2082289006,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "f1RIdFvU9K5s7ppIY-R2_",
+      "position": {
+        "x": -2457.7754279771275,
+        "y": 932.0934320487047
+      },
+      "size": {
+        "width": 597.6200111987139,
+        "height": 604.1666666666667
+      },
+      "version": 340,
+      "versionNonce": 1382803186,
+      "createdAt": 1744725724796,
+      "updatedAt": 1744726276418,
+      "alpha": 100,
+      "zIndex": 58,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class SpriteManager</strong></p><p>public:</p><p> SpriteManager(Map* _nowMap, Data* _data, Dialog* _dialogSys);</p><p> ~SpriteManager();</p><p> void update(float deltaTime);</p><p> Player* resetMap(Map* newMap, std::pair&lt;sf::Vector2f, sf::Vector2f&gt; mapPos);</p><p> Player* getPlayer();</p><p> Npc* getNpc(int id);</p><p> std::vector&lt;std::shared_ptr&lt;Sprite&gt;&gt;* getDeteachSprite();</p><p>private:</p><p> int id;</p><p> void killEnemy(Enemy* enem);</p><p> EnemyState determineNewState(Enemy* enemy, float distance);</p><p> void createSpriteFromMapSprite(MapSprite mapSprite);</p><p> void createEnemy(MapSprite mapSprite, SpriteDef def);</p><p> void createNpc(MapSprite mapSprite, SpriteDef );</p><p> void createDefaultPlayer();</p><p> void aiControler(float deltaTime);</p><p> bool isEnemyHit(Enemy* enemy);</p><p> void init();</p><p> Dialog* dialogSys;</p><p> Data* data;</p><p> std::vector&lt;std::shared_ptr&lt;Sprite&gt;&gt;* allSprites;</p><p> std::vector&lt;Enemy*&gt; enemys;</p><p> std::unique_ptr&lt;Player&gt; player;</p><p> Map* nowMap;</p>",
+      "seed": 313571694,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "2MT-Z72YFkWQiWYiWT9hT",
+      "position": {
+        "x": -1818.8875060087298,
+        "y": 450.40355077596774
+      },
+      "size": {
+        "width": 638.6686584325647,
+        "height": 252.5
+      },
+      "version": 283,
+      "versionNonce": 1205844270,
+      "createdAt": 1744725809334,
+      "updatedAt": 1744726276483,
+      "alpha": 100,
+      "zIndex": 59,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class SoundManager</strong></p><p>public:</p><p> SoundManager();</p><p> static void playSound(sf::SoundBuffer&amp; buffer, float volume = 100, bool isLoop = false);</p><p> static void playerMusic(MusicType type);</p><p> static void stopAllSound();</p><p> static void update();\t</p><p>private:</p><p> static std::vector&lt;std::unique_ptr&lt;sf::Sound&gt;&gt; sounds;</p><p> static sf::Music music;</p>",
+      "seed": 1009864946,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "k2Lo2IO-U2EpAfCX2fRUO",
+      "position": {
+        "x": -1818.887506161488,
+        "y": 725.8979273412594
+      },
+      "size": {
+        "width": 290.96247009876765,
+        "height": 54.16666666666667
+      },
+      "version": 211,
+      "versionNonce": 1911961778,
+      "createdAt": 1744725854091,
+      "updatedAt": 1744726276418,
+      "alpha": 100,
+      "zIndex": 60,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>enum MusicType</strong></p><p> Menu, Base, Level</p>",
+      "seed": 1856113394,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#82c91e",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "2Mo2z2yMHa2BEhjknEd1g",
+      "position": {
+        "x": -1818.8875062355107,
+        "y": 803.0589701239048
+      },
+      "size": {
+        "width": 598.8273243526505,
+        "height": 538.3333333333334
+      },
+      "version": 485,
+      "versionNonce": 2049729390,
+      "createdAt": 1744725938057,
+      "updatedAt": 1744726276418,
+      "alpha": 100,
+      "zIndex": 62,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class ItemManager</strong></p><p>public:</p><p> ItemManager(Data* data);</p><p> ~ItemManager() = default;</p><p> Gun* getGunByIndex(int index);</p><p> Gun* getGunById(int id);</p><p> Itemble* getItem(int id);</p><p> std::vector&lt;Gun*&gt; getGuns();</p><p> std::vector&lt;Improve*&gt; getImprovs();</p><p> std::vector&lt;Item*&gt; getItems();</p><p> void saveGun();</p><p> int id = 0;</p><p>private:</p><p> std::map&lt;int, Itemble*&gt; itemble;</p><p> std::vector&lt;std::unique_ptr&lt;Improve&gt;&gt; improvements;</p><p> std::vector&lt;std::unique_ptr&lt;Item&gt;&gt; items;</p><p> std::vector&lt;std::unique_ptr&lt;Gun&gt;&gt; guns;</p><p> Data* data;</p><p> void createImprovements();</p><p> void createGuns();</p><p> void createItems();</p><p> Animator&lt;sf::Texture*&gt; createAnimator(int gunIndex);</p><p> Animation&lt;sf::Texture*&gt; createAnimation(std::vector&lt;sf::Texture&gt;* frames, float duration);</p>",
+      "seed": 914661042,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "cROzi32loED6lGemVE7D1",
+      "position": {
+        "x": -1136.3379193399571,
+        "y": 675.4035512424923
+      },
+      "size": {
+        "width": 649.5344768179957,
+        "height": 670
+      },
+      "version": 359,
+      "versionNonce": 1473270386,
+      "createdAt": 1744726049243,
+      "updatedAt": 1744726276418,
+      "alpha": 100,
+      "zIndex": 63,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class DialogSystem</strong></p><p>public:</p><p> DialogSystem(sf::RenderWindow* _window, Data* _data, UIManager* _uiManager, </p><p>\t\tWeaponManager* _weaponManager);</p><p> void setPlayer(Player* _player);</p><p> void start(int key, std::wstring name = L&quot;&quot;);</p><p> void update();</p><p> void draw();</p><p> bool isActive;</p><p>private:</p><p> bool isTrade;</p><p> std::wstring name;</p><p> Data* data;</p><p> Player* player;</p><p> int nowKey;</p><p> int startKey;</p><p> UIManager* uiManager;</p><p> WeaponManager* weaponManager;</p><p> sf::RenderWindow* window;</p><p> Itemble* choose;</p><p> std::map&lt;int, Itemble*&gt; title;</p><p> void buy();</p><p> void check();</p><p> void checkTrade();</p><p> void checkDialog();</p><p> void init();</p><p> void initTrade();</p><p> void initDialog();</p><p> void stop();</p>",
+      "seed": 1402740910,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "ijC2T49FuJowL5_vIjGkb",
+      "position": {
+        "x": -1818.887505721854,
+        "y": 1404.7948815234777
+      },
+      "size": {
+        "width": 740.0829633632555,
+        "height": 132.80444693304753
+      },
+      "version": 436,
+      "versionNonce": 166315438,
+      "createdAt": 1744726163624,
+      "updatedAt": 1744726276419,
+      "alpha": 100,
+      "zIndex": 64,
+      "rotation": 0,
+      "groupIds": [
+        "VRVtSNG7AXX5Js_7vBZr1"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Random</strong></p><p>public:</p><p> static float bitRandom();</p><p> static int intRandom(int, int);</p><p> static std::set&lt;sf::Vector2i, Vector2iCompare&gt; uniquePoints(sf::IntRect zone, int count);</p>",
+      "seed": 627818414,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "vKzj67zEJ8KciNQ9Mlwun",
+      "position": {
+        "x": 94.976855782435,
+        "y": -2002.8691621182365
+      },
+      "size": {
+        "width": 614.761385760578,
+        "height": 450
+      },
+      "version": 544,
+      "versionNonce": 43769134,
+      "createdAt": 1744726285419,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": 65,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Button : public sf::Drawable</strong></p><p>public:</p><p> Button(sf::RectangleShape _shape, sf::Text&amp; _text);</p><p> Button(Group _group);</p><p> Button() = default;</p><p> void setFillColor(sf::Color color);</p><p> void setPosition(sf::Vector2f);</p><p> sf::Vector2f getPosition();</p><p> sf::Vector2f getSize();</p><p> void setString(std::wstring data);</p><p> void setTexture(sf::Texture* text);</p><p> void setTextureRect(sf::IntRect rect);</p><p> void setFunc(std::function&lt;void()&gt;&amp;&amp; _fn);</p><p> bool isClicked(sf::Vector2i&amp; mousePos);</p><p> void use();</p><p>private:</p><p> std::function&lt;void()&gt; fn;</p><p> Group group; </p><p> void draw(sf::RenderTarget&amp; target, sf::RenderStates states) const override;</p>",
+      "seed": 918631474,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "qDdxFMoutUyxvp_uKc68k",
+      "position": {
+        "x": 94.97685643026216,
+        "y": -1532.611710970014
+      },
+      "size": {
+        "width": 428.58062368497934,
+        "height": 296.6666666666667
+      },
+      "version": 581,
+      "versionNonce": 1803441330,
+      "createdAt": 1744726358828,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": 66,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct Group</strong></p><p>public:</p><p> Group(sf::RectangleShape _shape, sf::Text _text);</p><p> void setString(std::wstring data);</p><p> void setPosition(sf::Vector2f position);</p><p> void setSize(sf::Vector2f size);</p><p> void move(sf::Vector2f pos);</p><p> sf::Vector2f getSize();</p><p> sf::Vector2f getPosition();</p><p>private:</p><p> sf::RectangleShape shape;</p><p> sf::Text text;</p><p> void centrlized();</p>",
+      "seed": 1162078702,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "D2uP-wklBnUWDpqHenobI",
+      "position": {
+        "x": 749.6693187858492,
+        "y": -2002.8691617043983
+      },
+      "size": {
+        "width": 729.5604109339977,
+        "height": 450
+      },
+      "version": 837,
+      "versionNonce": 1371801454,
+      "createdAt": 1744726589534,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": 69,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Renderer</strong></p><p>public:</p><p> Renderer(sf::RenderWindow* window);</p><p> ~Renderer();</p><p> void Init();</p><p> void Draw3DView(Player* player, Map* map, std::vector&lt;std::shared_ptr&lt;Sprite&gt;&gt;* sprites);</p><p>private:</p><p> sf::RenderWindow* window;</p><p> sf::Texture floorTexture;</p><p> sf::Sprite floorSprite;</p><p> uint8_t* screenPixels;</p><p> sf::VertexArray walls{ sf::Lines };</p><p> sf::VertexArray spriteColumns{ sf::Lines };</p><p> float* distanceBuffer;</p><p> std::vector&lt;std::thread&gt; threads;</p><p> void DrawFloor(sf::Vector2f&amp; rayDirLeft, sf::Vector2f&amp; rayDirRight, sf::Vector2f&amp; rayPos, </p><p>\t\tPlayer* player, Map* map, int startH, int endH);</p><p> void DrawSprite(sf::Vector2f&amp; pDirection, sf::Vector2f&amp; cameraPlane, Player* player,</p><p>\t\tstd::vector&lt;std::shared_ptr&lt;Sprite&gt;&gt;* sprites);</p>",
+      "seed": 407414062,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "aCtNNRWBVaI3cT0HIr08w",
+      "position": {
+        "x": 749.669319252887,
+        "y": -1434.4598042734065
+      },
+      "size": {
+        "width": 195.69583032066498,
+        "height": 142.5
+      },
+      "version": 608,
+      "versionNonce": 569699954,
+      "createdAt": 1744726693276,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": 70,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>struct RayHit</strong></p><p> int cell;</p><p> sf::Vector2i mapPos;</p><p> bool isHitVert;</p><p> float perpWallDist;</p><p> Sprite* sprite;</p>",
+      "seed": 1672684782,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#228be6",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "KSJmXeLnJp465XQ2rBMif",
+      "position": {
+        "x": 749.669319099986,
+        "y": -1520.7478163917249
+      },
+      "size": {
+        "width": 731.9989712544343,
+        "height": 54.16666666666667
+      },
+      "version": 623,
+      "versionNonce": 153840366,
+      "createdAt": 1744726738216,
+      "updatedAt": 1744727131555,
+      "alpha": 100,
+      "zIndex": 71,
+      "rotation": 0,
+      "groupIds": [
+        "tyhTlMkAA04Od1B5lGZQX"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p>RayHit raycast(Map* map, sf::Vector2f pos, sf::Vector2f dir,</p><p>\tbool checkSprite = false, Sprite* ignore = nullptr, int maxDist = 64, float pitch = 0.0f);</p>",
+      "seed": 200220210,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "8DbJ_qZ3hRq68elnWxYnu",
+      "position": {
+        "x": 780.7351541151498,
+        "y": -1106.2438134018694
+      },
+      "size": {
+        "width": 553.3837174067203,
+        "height": 560
+      },
+      "version": 496,
+      "versionNonce": 517159278,
+      "createdAt": 1744726863985,
+      "updatedAt": 1744727135804,
+      "alpha": 100,
+      "zIndex": 72,
+      "rotation": 0,
+      "groupIds": [
+        "GexED6VsIfF1UF4TlkUMt"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Game</strong></p><p>public:</p><p> Game(sf::RenderWindow* window, MapManager* mapManager);</p><p> ~Game();</p><p> void getInput(sf::Event event, float deltaTime);</p><p> void makeCycle(float deltaTime);</p><p> void save();</p><p> void editor();</p><p>private:</p><p> void getInput(float deltaTime);</p><p> void update(float deltaT);</p><p> void render();</p><p> void initPlayer();</p><p> void generate();</p><p> Data* data;</p><p> Inventory* invent;</p><p> Dialog* dialogSys;</p><p> sf::Vector2i screenMidlePos;</p><p> SpriteManager* spManager;</p><p> UIManager* uiManager;</p><p> WeaponManager* weaponManager;</p><p> Player* player;</p><p> Renderer* renderer;</p><p> MapManager* mapManager;</p><p> sf::RenderWindow* window;</p>",
+      "seed": 1301032626,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    },
+    {
+      "id": "UrzoalcypeBfmG3WgQYxs",
+      "position": {
+        "x": 646.8899957610831,
+        "y": -499.4552497441532
+      },
+      "size": {
+        "width": 821.0740351882887,
+        "height": 604.1666666666667
+      },
+      "version": 461,
+      "versionNonce": 2116636462,
+      "createdAt": 1744726963956,
+      "updatedAt": 1744727135804,
+      "alpha": 100,
+      "zIndex": 73,
+      "rotation": 0,
+      "groupIds": [
+        "GexED6VsIfF1UF4TlkUMt"
+      ],
+      "isLocked": false,
+      "isDeleted": false,
+      "isDTO": true,
+      "type": "shape",
+      "shape": "1",
+      "schema": 2,
+      "text": "<p><strong>class Editor</strong></p><p>public:</p><p> void init(sf::RenderWindow* window, sf::RenderWindow* editorWindow, MapManager* mapMn);</p><p> void takeWindowInput(sf::Event event);</p><p> void takeEditInput(sf::Event event);</p><p> void drawEditor();</p><p> int drawerLayer();</p><p>private:</p><p> sf::RenderWindow* window;</p><p> sf::RenderWindow* editorWindow;</p><p> bool isFirstMouse;</p><p> int nowValue;</p><p> int nowLayer;</p><p> SpriteDef nowSpriteDef;</p><p> sf::Vector2i lastMousePos;</p><p> sf::Vector2i windowMousePos, editorMousePos;</p><p> sf::View windowView, editorView;</p><p> MapManager* mapManager;</p><p> std::vector&lt;std::shared_ptr&lt;Button&gt;&gt; buttons;</p><p> void createTextureButton();</p><p> void createSpriteButton();</p><p> void windowStateRightClick();</p><p> void scrollAndCntr(float delta);</p><p> void windowStateNoRightClick();</p><p> void windowStateLeftClick();</p><p> void editorWindowStateLeftClick();</p><p> sf::Vector2i getMapPos(sf::Vector2f worldPos);</p>",
+      "seed": 417515950,
+      "roughness": 0,
+      "style": {
+        "tc": "#000000",
+        "tff": "T-Bank Sans, Segoe UI Emoji",
+        "tfs": 20,
+        "ta": "s",
+        "tva": "m",
+        "fc": "#12b886",
+        "fs": "s",
+        "sc": "#000000",
+        "sw": 1,
+        "ss": "s"
+      }
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
