@@ -1,4 +1,4 @@
-# Soldier - Игровой проект
+# The Soldier - Игровой проект
 
 ![Soldier Logo](Project/Texture/gameIcon.png)
 
